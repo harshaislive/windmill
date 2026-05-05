@@ -1,0 +1,25 @@
+summary: 04C Action - webinar Zoom/Pipedrive + confirmation
+description: Internal worker for the webinar booking flow. Reads the Calendly
+  payload, detects the collective, finds or creates the matching Pipedrive
+  person/deal by invitee email, registers the invitee into the matching Zoom
+  webinar, writes Zoom join/reference fields, creates or updates the webinar
+  activity, enforces the `Scheduled Webinar - Pending` label, sends the webinar
+  confirmation WhatsApp, and schedules one-off WhatsApp reminder jobs for 3d,
+  24h, and 1h before the webinar.
+lock: '!inline f/sales/create_webinar_activity_from_calendly.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    calendly_payload:
+      type: object
+      description: Calendly webhook payload. Usually passed from the HTTP trigger body.
+      default: null
+    dry_run:
+      type: boolean
+      description: Resolve the matching person/deal and planned activity without
+        writing to Pipedrive or registering the invitee in Zoom.
+      default: false
+  required:
+    - calendly_payload

@@ -1,0 +1,27 @@
+summary: 02A Trigger - Pipedrive 1on1 TBC webhook
+description: Public HTTP endpoint called by the Pipedrive deal-change webhook.
+  It watches for eligible `1on1 - TBC` deals and then runs `02 Guard - 1on1 TBC
+  deal to calendar prebook`.
+authentication_method: none
+authentication_resource_path: null
+http_method: post
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: async
+retry:
+  constant:
+    attempts: 0
+    seconds: 0
+  exponential:
+    attempts: 0
+    multiplier: 1
+    random_factor: null
+    seconds: 0
+route_path: pipedrive/1on1/tbc/prebook
+route_path_key: pipedrive/1on1/tbc/prebook
+script_path: f/sales/pipedrive_1on1_tbc_to_calendar_prebook
+static_asset_config: null
+workspaced_route: false
+wrap_body: true

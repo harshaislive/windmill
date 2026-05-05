@@ -1,0 +1,50 @@
+summary: 07A Worker - ask owner if 1on1 was attended
+description: Polls open Pipedrive deals labelled 1on1 - Pending after the booked
+  meeting window has passed, then sends the owner the approved Interakt
+  attendance-check template with Attended and Not Attended buttons. Each sent
+  check is logged as a done Pipedrive activity for dedupe.
+lock: '!inline f/sales/send_owner_attendance_checks.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    deal_id:
+      type: number
+      description: Optional deal id for targeted dry runs.
+      default: null
+    dry_run:
+      type: boolean
+      description: Preview owner attendance checks without sending WhatsApp messages
+        or logging activities.
+      default: true
+    grace_minutes:
+      type: integer
+      description: Minutes to wait after the meeting duration before asking the owner.
+      default: 30
+    include_already_logged:
+      type: boolean
+      description: Include checks that already have a matching Pipedrive activity.
+      default: false
+    max_deals:
+      type: integer
+      description: Maximum number of open Pipedrive deals to scan per run.
+      default: 500
+    max_late_hours:
+      type: integer
+      description: Only send checks within this many hours after the eligible time.
+      default: 72
+    meeting_duration_minutes:
+      type: integer
+      description: Expected 1on1 call duration.
+      default: 30
+    now_iso:
+      type: string
+      description: Optional ISO timestamp override for dry-run testing.
+      default: ''
+      originalType: string
+    timezone:
+      type: string
+      description: Timezone used for WhatsApp date/time variables.
+      default: null
+  required: []

@@ -1,0 +1,27 @@
+summary: 01A Trigger - Typeform to Pipedrive intake webhook
+description: Public HTTP endpoint called by the four active Typeform collective
+  forms. Starts the sales funnel by running `01B Action - Typeform to Pipedrive
+  intake`.
+authentication_method: none
+authentication_resource_path: null
+http_method: post
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: async
+retry:
+  constant:
+    attempts: 0
+    seconds: 0
+  exponential:
+    attempts: 0
+    multiplier: 1
+    random_factor: null
+    seconds: 0
+route_path: typeform/pipedrive/intake
+route_path_key: typeform/pipedrive/intake
+script_path: f/sales/typeform_to_pipedrive_intake
+static_asset_config: null
+workspaced_route: false
+wrap_body: true

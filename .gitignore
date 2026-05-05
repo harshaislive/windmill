@@ -1,0 +1,20 @@
+.env
+.env.*
+!.env.example
+
+.git/
+node_modules/
+dist/
+build/
+.DS_Store
+Thumbs.db
+NUL
+
+# Local reference exports can contain API credentials, signed URLs, or PII.
+n8n_workflows/
+snapshots/
+typeform_webhook_payload/
+
+# Windmill/GitHub local state
+.wmill/
+.windmill/

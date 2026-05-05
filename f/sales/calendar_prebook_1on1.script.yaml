@@ -1,0 +1,42 @@
+summary: 03A Action - prebook 1on1 in owner calendar
+description: Internal calendar booking action. Fetches the Pipedrive deal owner,
+  uses Vivek's Calendly availability for Vivek-owned deals or Google Calendar
+  free/busy for Rakesh-owned deals, creates a 30-minute Google Calendar event,
+  writes the meeting date/time and URL back to Pipedrive, then sends the
+  Interakt prebooked-call WhatsApp template with reschedule and attendance
+  buttons. If no slot is found, it moves the deal to 1on1 - Awaiting, notes the
+  fallback in Pipedrive, sends the lead an owner booking-link template when a
+  link is configured, and alerts the owner on WhatsApp. This should be called
+  through the 1on1 TBC guard, not directly from public webhooks.
+lock: '!inline f/sales/calendar_prebook_1on1.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    create_google_meet:
+      type: boolean
+      description: ''
+      default: true
+    deal_id:
+      type: number
+      description: ''
+      default: null
+    dry_run:
+      type: boolean
+      description: ''
+      default: true
+    force_no_slot:
+      type: boolean
+      description: ''
+      default: false
+    search_days:
+      type: integer
+      description: ''
+      default: 14
+    send_whatsapp:
+      type: boolean
+      description: ''
+      default: true
+  required:
+    - deal_id

@@ -1,0 +1,129 @@
+summary: 05B Flow - Interakt WhatsApp inbound router
+description: Single public Interakt webhook entrypoint. It parses inbound
+  WhatsApp button/message payloads, routes known 1on1 actions by message text or
+  callback data, and keeps unknown events safely ignored.
+value:
+  modules:
+    - id: parse_interakt_payload
+      value:
+        type: script
+        input_transforms:
+          body:
+            type: javascript
+            expr: flow_input.body ?? flow_input
+          dry_run:
+            type: javascript
+            expr: flow_input.dry_run === true || flow_input.body?.dry_run === true
+          headers:
+            type: javascript
+            expr: flow_input.headers ?? {}
+          query:
+            type: javascript
+            expr: flow_input.query ?? {}
+        path: f/sales/interakt_whatsapp_inbound_router
+    - id: route_by_action
+      value:
+        type: branchone
+        branches:
+          - summary: Reschedule Call button
+            modules:
+              - id: handle_reschedule_request
+                value:
+                  type: script
+                  input_transforms:
+                    dry_run:
+                      type: javascript
+                      expr: flow_input.dry_run === true || flow_input.body?.dry_run === true
+                    route:
+                      type: javascript
+                      expr: results.parse_interakt_payload
+                  path: f/sales/interakt_reschedule_requested_worker
+            expr: results.parse_interakt_payload.action === "reschedule_requested"
+            parallel: true
+            skip_failure: true
+          - summary: Confirm Attendance button
+            modules:
+              - id: handle_attendance_confirmation
+                value:
+                  type: script
+                  input_transforms:
+                    dry_run:
+                      type: javascript
+                      expr: flow_input.dry_run === true || flow_input.body?.dry_run === true
+                    route:
+                      type: javascript
+                      expr: results.parse_interakt_payload
+                  path: f/sales/interakt_attendance_confirmed_worker
+            expr: results.parse_interakt_payload.action === "attendance_confirmed"
+            parallel: true
+            skip_failure: true
+          - summary: Owner marked attended
+            modules:
+              - id: handle_owner_attended
+                value:
+                  type: script
+                  input_transforms:
+                    dry_run:
+                      type: javascript
+                      expr: flow_input.dry_run === true || flow_input.body?.dry_run === true
+                    route:
+                      type: javascript
+                      expr: results.parse_interakt_payload
+                  path: f/sales/interakt_owner_attended_worker
+            expr: results.parse_interakt_payload.action === "owner_attended"
+            parallel: true
+            skip_failure: true
+          - summary: Owner marked not attended
+            modules:
+              - id: handle_owner_no_show
+                value:
+                  type: script
+                  input_transforms:
+                    dry_run:
+                      type: javascript
+                      expr: flow_input.dry_run === true || flow_input.body?.dry_run === true
+                    route:
+                      type: javascript
+                      expr: results.parse_interakt_payload
+                  path: f/sales/interakt_owner_no_show_worker
+            expr: results.parse_interakt_payload.action === "owner_not_attended"
+            parallel: true
+            skip_failure: true
+        default:
+          - id: handle_ignored_message
+            value:
+              type: script
+              input_transforms:
+                dry_run:
+                  type: javascript
+                  expr: flow_input.dry_run === true || flow_input.body?.dry_run === true
+                route:
+                  type: javascript
+                  expr: results.parse_interakt_payload
+              path: f/sales/interakt_ignored_message_worker
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  order:
+    - body
+    - headers
+    - query
+    - dry_run
+  properties:
+    body:
+      type: object
+      description: Interakt webhook body. HTTP trigger requests are wrapped into this input.
+      default: null
+    dry_run:
+      type: boolean
+      description: Route without side effects.
+      default: false
+    headers:
+      type: object
+      description: Optional HTTP headers.
+      default: {}
+    query:
+      type: object
+      description: Optional HTTP query params.
+      default: {}
+  required: []

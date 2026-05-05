@@ -1,0 +1,18 @@
+summary: 09B Schedule - Zoom intro registrant sync every 3h
+description: Runs `09A Scheduled - Zoom intro registrants to Pipedrive` every
+  3 hours in IST. Scans connect@beforest.co collective introduction meetings and
+  creates/updates Pipedrive follow-up records incrementally.
+args: {}
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+retry:
+  constant:
+    attempts: 2
+    seconds: 60
+schedule: 0 0 */3 * * *
+script_path: f/collectives/zoom_collective_to_pipedrive
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

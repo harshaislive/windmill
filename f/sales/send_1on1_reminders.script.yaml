@@ -1,0 +1,45 @@
+summary: 06A Worker - send 1on1 WhatsApp reminders
+description: Polls open Pipedrive deals labelled 1on1 - Pending with a booked
+  1on1 meeting datetime, then sends approved Interakt WhatsApp reminders 3 days,
+  24 hours, and 1 hour before the call. Each successful send is logged as a done
+  Pipedrive activity keyed by deal, reminder window, and meeting time so the
+  scheduler does not duplicate messages.
+lock: '!inline f/sales/send_1on1_reminders.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    deal_id:
+      type: number
+      description: Optional deal id for targeted dry runs.
+      default: null
+    dry_run:
+      type: boolean
+      description: Preview reminders without sending WhatsApp messages or logging
+        activities.
+      default: true
+    include_already_logged:
+      type: boolean
+      description: Include reminders that already have a matching Pipedrive activity
+        in dry-run output.
+      default: false
+    max_deals:
+      type: integer
+      description: Maximum number of open Pipedrive deals to scan per run.
+      default: 500
+    max_late_minutes:
+      type: integer
+      description: Send only if the scheduled reminder time is within this many
+        minutes in the past.
+      default: 60
+    now_iso:
+      type: string
+      description: Optional ISO timestamp override for dry-run testing.
+      default: ''
+      originalType: string
+    timezone:
+      type: string
+      description: Timezone used for WhatsApp date/time variables.
+      default: null
+  required: []

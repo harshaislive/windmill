@@ -1,0 +1,18 @@
+summary: 05A Trigger - Interakt WhatsApp inbound webhook
+description: Public HTTP endpoint to configure once in Interakt. Runs `05B Flow -
+  Interakt WhatsApp inbound router`, which routes button replies and future
+  inbound WhatsApp messages to the right sales automation worker.
+authentication_method: signature
+authentication_resource_path: f/sales/interakt_whatsapp_inbound_signature_auth
+http_method: post
+is_flow: true
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: async
+route_path: interakt/whatsapp/inbound
+route_path_key: interakt/whatsapp/inbound
+script_path: f/sales/interakt_whatsapp_inbound
+static_asset_config: null
+workspaced_route: false
+wrap_body: true

@@ -1,0 +1,3 @@
+value: ""
+is_secret: true
+description: "Base64 client credentials used to mint Zoom Server-to-Server OAuth access tokens."

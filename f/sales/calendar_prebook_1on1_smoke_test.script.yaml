@@ -1,0 +1,11 @@
+summary: QA Helper - Google Calendar access smoke test
+description: Manual QA helper. Verifies that the Google service-account
+  delegation can read free/busy data from Vivek and Rakesh/Sai calendars. Not a
+  production automation.
+lock: '!inline f/sales/calendar_prebook_1on1_smoke_test.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

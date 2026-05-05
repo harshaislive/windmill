@@ -1,0 +1,30 @@
+summary: 05C Parser - classify Interakt WhatsApp response
+description: Parses the single Interakt webhook payload, extracts button/message
+  intent and callback data, then classifies the message into a downstream route.
+  This is intentionally side-effect free so the first real Interakt payloads can
+  be inspected safely.
+lock: '!inline f/sales/interakt_whatsapp_inbound_router.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    body:
+      type: object
+      description: Interakt webhook payload.
+      default: null
+    dry_run:
+      type: boolean
+      description: Keep routing side-effect free.
+      default: false
+    headers:
+      type: object
+      description: HTTP headers passed by the trigger if available.
+      default: {}
+      format: resource-record
+    query:
+      type: object
+      description: HTTP query params passed by the trigger if available.
+      default: {}
+      format: resource-record
+  required: []

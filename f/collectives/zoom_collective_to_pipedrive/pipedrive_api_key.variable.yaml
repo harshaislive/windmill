@@ -1,0 +1,3 @@
+value: ""
+is_secret: true
+description: "Pipedrive API token for the Beforest collective sync automation."

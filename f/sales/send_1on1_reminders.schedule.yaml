@@ -1,0 +1,19 @@
+summary: 06B Schedule - send 1on1 WhatsApp reminders
+description: Runs the 1on1 reminder dispatcher every 15 minutes. The script only
+  sends reminders when the deal is still labelled 1on1 - Pending, has a future
+  booked meeting datetime, and the 3d/24h/1h reminder window is currently due.
+schedule: 0 */15 * * * *
+timezone: Asia/Kolkata
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+script_path: f/sales/send_1on1_reminders
+is_flow: false
+args:
+  dry_run: false
+  timezone: Asia/Kolkata
+  max_late_minutes: 60
+  max_deals: 500
+permissioned_as: u/harsha
+no_flow_overlap: true
+ws_error_handler_muted: false

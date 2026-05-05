@@ -1,0 +1,3 @@
+value: ""
+is_secret: true
+description: "Main Calendly API token for Team Beforest webinar/event administration. Used for webhook, event type, and scheduled event checks; not required for receiving webhooks."

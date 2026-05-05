@@ -1,0 +1,21 @@
+summary: 05F Worker - owner marked 1on1 attended
+description: Handles the Attended button from the owner attendance-check
+  WhatsApp template. It marks the deal with 1on1 - Attended, moves it to the
+  Event Attended stage for its pipeline when known, and writes a Pipedrive note.
+lock: '!inline f/sales/interakt_owner_attended_worker.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Preview the Pipedrive update and note without side effects.
+      default: false
+    route:
+      type: object
+      description: Parsed Interakt route object from the inbound router.
+      default: null
+      format: resource-record
+  required:
+    - route

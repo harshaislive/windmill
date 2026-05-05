@@ -1,0 +1,20 @@
+summary: 05Z Worker - ignored / failed WhatsApp event
+description: Handles Interakt inbound messages that are not mapped to a known
+  automation action. If Interakt reports a failed outbound WhatsApp delivery, it
+  creates a short open Pipedrive activity for the deal owner/admin to review.
+lock: '!inline f/sales/interakt_ignored_message_worker.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: false
+    route:
+      type: object
+      description: Parsed router output.
+      default: null
+      format: resource-record
+  required:
+    - route

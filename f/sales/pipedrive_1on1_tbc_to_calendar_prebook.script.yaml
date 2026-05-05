@@ -1,0 +1,22 @@
+summary: 02B Guard - 1on1 TBC deal to calendar prebook
+description: Receives Pipedrive deal-change webhooks after intake or manual CRM
+  updates. If the deal has label `1on1 - TBC`, is in an Initial Event Scheduled
+  stage, and has no meeting date or meeting URL, it invokes the calendar
+  prebooking script. Otherwise it safely returns ignored.
+lock: '!inline f/sales/pipedrive_1on1_tbc_to_calendar_prebook.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    body:
+      type: object
+      description: Pipedrive webhook payload.
+      default: null
+      format: resource-pipedrive_webhook_body
+    dry_run:
+      type: boolean
+      description: Check eligibility and preview calendar slot without creating an event.
+      default: false
+  required:
+    - body

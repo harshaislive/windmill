@@ -1,0 +1,21 @@
+summary: 07B Schedule - ask owner if 1on1 was attended
+description: Runs every 30 minutes and sends owner-side attendance checks only
+  for confirmed 1on1 deals whose booked meeting time has passed. Dedupe is based
+  on a done Pipedrive activity keyed by deal and meeting datetime.
+schedule: 0 */30 * * * *
+timezone: Asia/Kolkata
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+script_path: f/sales/send_owner_attendance_checks
+is_flow: false
+args:
+  dry_run: false
+  timezone: Asia/Kolkata
+  meeting_duration_minutes: 30
+  grace_minutes: 30
+  max_late_hours: 72
+  max_deals: 500
+permissioned_as: u/harsha
+no_flow_overlap: true
+ws_error_handler_muted: false

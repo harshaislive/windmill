@@ -1,0 +1,14 @@
+{
+  "resource_type": "signature_auth",
+  "description": "Verifies Interakt inbound WhatsApp webhook payloads using the Interakt-Signature HMAC-SHA256 header.",
+  "value": {
+    "secret_key": "$var:f/sales/interakt_whatsapp_inbound_webhook_secret",
+    "signature_provider": "Custom",
+    "authentication_config": {
+      "signature_header_name": "Interakt-Signature",
+      "algorithm": "sha256",
+      "encoding": "hex",
+      "signature_prefix": "sha256="
+    }
+  }
+}

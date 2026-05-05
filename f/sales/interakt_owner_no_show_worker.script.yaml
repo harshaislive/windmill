@@ -1,0 +1,22 @@
+summary: 05G Worker - owner marked 1on1 no-show
+description: Handles the Not Attended button from the owner attendance-check
+  WhatsApp template. It marks the deal with 1on1 - No-Show, sends the approved
+  lead rebook WhatsApp template with the owner booking link, and writes a
+  Pipedrive note.
+lock: '!inline f/sales/interakt_owner_no_show_worker.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Preview the Pipedrive update and WhatsApp payload without side effects.
+      default: false
+    route:
+      type: object
+      description: Parsed Interakt route object from the inbound router.
+      default: null
+      format: resource-record
+  required:
+    - route

@@ -1,0 +1,6 @@
+summary: Sales automations
+display_name: sales
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

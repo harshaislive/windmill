@@ -1,0 +1,20 @@
+summary: 09A Scheduled - Zoom intro registrants to Pipedrive
+description: Scheduled Zoom sync. Reads future collective introduction meeting
+  registrants from connect@beforest.co, skips already-processed or existing
+  Pipedrive deals, and creates the required Pipedrive people, deals, and meeting
+  activities.
+lock: '!inline f/collectives/zoom_collective_to_pipedrive.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: ''
+      default: false
+    reset_state:
+      type: boolean
+      description: ''
+      default: false
+  required: []

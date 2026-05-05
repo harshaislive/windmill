@@ -1,0 +1,20 @@
+summary: 05E Worker - lead confirmed 1on1 attendance
+description: Handles a lead clicking the WhatsApp `Confirm Attendance` button.
+  Current version acknowledges and records routing only; future behavior can add
+  a Pipedrive note or owner notification.
+lock: '!inline f/sales/interakt_attendance_confirmed_worker.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: false
+    route:
+      type: object
+      description: Parsed router output.
+      default: null
+      format: resource-record
+  required:
+    - route

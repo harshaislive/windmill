@@ -1,0 +1,17 @@
+summary: 04A Trigger - Calendly webinar booking received
+description: Public HTTP endpoint called by Calendly webinar booking webhooks.
+  Runs `04B Flow - Calendly webinar booking to Zoom/Pipedrive`.
+authentication_method: none
+authentication_resource_path: null
+http_method: post
+is_flow: true
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: async
+route_path: calendly/webinar/pipedrive/activity
+route_path_key: calendly/webinar/pipedrive/activity
+script_path: f/sales/calendly_webinar_to_pipedrive_activity
+static_asset_config: null
+workspaced_route: false
+wrap_body: true

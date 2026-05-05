@@ -1,0 +1,21 @@
+summary: 05D Worker - 1on1 reschedule request
+description: Handles a lead clicking the WhatsApp `Reschedule Call` button.
+  Current version acknowledges and records routing only; the next version will
+  cancel the owner calendar event, update the deal label to `1on1 - Awaiting`,
+  and send the booking-link acknowledgement.
+lock: '!inline f/sales/interakt_reschedule_requested_worker.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: false
+    route:
+      type: object
+      description: Parsed router output.
+      default: null
+      format: resource-record
+  required:
+    - route

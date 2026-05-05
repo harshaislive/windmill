@@ -1,0 +1,43 @@
+summary: 04B Flow - Calendly webinar booking to Zoom/Pipedrive
+description: Webinar booking branch. Receives Calendly invitee-created webhooks,
+  waits briefly for Typeform intake to finish, then finds or creates the linked
+  Pipedrive person/deal, registers the invitee into the matching Zoom webinar,
+  creates or updates the webinar activity, sends webinar confirmation, and
+  schedules one-off webinar reminder jobs.
+value:
+  modules:
+    - id: wait_for_typeform_intake
+      value:
+        type: rawscript
+        content: '!inline wait_for_typeform_intake.ts'
+        input_transforms: {}
+        lock: '!inline wait_for_typeform_intake.lock'
+        language: bun
+    - id: create_pipedrive_activity
+      value:
+        type: script
+        input_transforms:
+          calendly_payload:
+            type: javascript
+            expr: flow_input.body ?? flow_input.calendly_payload ?? flow_input
+          dry_run:
+            type: javascript
+            expr: flow_input.dry_run === true || flow_input.body?.dry_run === true
+        path: f/sales/create_webinar_activity_from_calendly
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  order:
+    - body
+    - dry_run
+  properties:
+    body:
+      type: object
+      description: Calendly webhook body. HTTP trigger requests are wrapped into this input.
+      default: null
+    dry_run:
+      type: boolean
+      description: Resolve the matching person/deal and planned activity without
+        writing to Pipedrive or registering the invitee in Zoom.
+      default: false
+  required: []

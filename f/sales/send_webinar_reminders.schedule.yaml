@@ -1,0 +1,20 @@
+summary: 08Z Disabled fallback - webinar reminder poller
+description: Disabled fallback poller. Webinar reminders are now scheduled as
+  one-off jobs by f/sales/create_webinar_activity_from_calendly when a Calendly
+  invitee is registered into Zoom and the Pipedrive webinar activity is created
+  or updated.
+schedule: 0 */15 * * * *
+timezone: Asia/Kolkata
+cron_version: v2
+email: harsha@beforest.co
+enabled: false
+script_path: f/sales/send_webinar_reminders
+is_flow: false
+args:
+  dry_run: false
+  timezone: Asia/Kolkata
+  max_late_minutes: 60
+  max_deals: 500
+permissioned_as: u/harsha
+no_flow_overlap: true
+ws_error_handler_muted: false
