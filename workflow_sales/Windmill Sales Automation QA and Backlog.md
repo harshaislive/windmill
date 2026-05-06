@@ -1,6 +1,6 @@
 # Windmill Sales Automation QA and Backlog
 
-Last verified: 2026-05-05, Asia/Kolkata
+Last verified: 2026-05-06, Asia/Kolkata
 
 This is the working control sheet for Beforest sales automations in Windmill. Keep this file current whenever a script, trigger, schedule, or flow is added.
 
@@ -20,8 +20,9 @@ Reminder activity subjects were kept backward-compatible to preserve dedupe agai
 
 | Area | Windmill item | Trigger/source | Covered now | Status |
 | --- | --- | --- | --- | --- |
-| Typeform intake | `f/sales/typeform_to_pipedrive_intake` | Typeform HTTP webhook | Creates/updates Pipedrive person/deal, maps custom fields, routes webinar vs 1on1, runs 1on1 fit/unfit, applies labels/stages, logs admin audit activity; Azure fallback creates open admin manual-review activity | Live |
-| 1on1 calendar prebook guard | `f/sales/pipedrive_1on1_tbc_to_calendar_prebook` | Pipedrive deal `change` webhook | Checks label `115`, Initial Event Scheduled stage, no meeting fields, then calls calendar prebook | Live |
+| Typeform intake | `f/sales/typeform_to_pipedrive_intake` | Typeform HTTP webhook | Creates/updates Pipedrive person/deal, maps custom fields, routes webinar vs 1on1, runs 1on1 fit/unfit, applies labels/stages, calls product mapping, logs admin audit activity; Azure fallback creates open admin manual-review activity | Live |
+| Product mapping | `f/sales/map_deal_product_from_collective` | Called by Typeform intake or manual backfill | Ensures the matching Bhopal/Mumbai/Hammiyala/Poomaale product exists in Pipedrive and attaches it to the deal so deal value is not 0 INR | Live |
+| 1on1 / webinar label guard | `f/sales/pipedrive_1on1_tbc_to_calendar_prebook` | Pipedrive deal `change` webhook | Checks label `115`, Initial Event Scheduled stage, no meeting fields, then calls calendar prebook; checks label `110` and calls webinar registration CTA | Live |
 | 1on1 calendar prebook | `f/sales/calendar_prebook_1on1` | Internal script call | Uses Calendly availability for Vivek, Google Calendar for other owners, creates owner calendar event, writes meeting fields plus Google event reference, creates owner-owned open call activity, logs admin audit activities, sends Interakt prebooked-call WhatsApp, or falls back to Awaiting if no slot exists | Live internal |
 | 1on1 WhatsApp inbound | `f/sales/interakt_whatsapp_inbound` | Interakt HTTP webhook | Routes `Reschedule Call` and `Confirm Attendance` button/text responses to dedicated workers | Live |
 | 1on1 reschedule worker | `f/sales/interakt_reschedule_requested_worker` | Called by Interakt inbound flow | Resolves deal, cancels owner calendar event when found, clears meeting fields, labels `105`, sends booking-link acknowledgement, logs admin audit activities | Live internal |
@@ -33,6 +34,7 @@ Reminder activity subjects were kept backward-compatible to preserve dedupe agai
 | Webinar activity | `f/sales/calendly_webinar_to_pipedrive_activity` | Calendly HTTP webhook | Waits 5s, finds/creates Pipedrive person/deal, registers invitee to Zoom webinar, creates/updates webinar activity, sends confirmation, enforces label `111` | Live |
 | Webinar activity worker | `f/sales/create_webinar_activity_from_calendly` | Called by webinar flow | `04C Action - webinar Zoom/Pipedrive + confirmation`; creates/updates deal-owner webinar activity, sends webinar confirmation with admin-owned audit activity, then schedules one-off 3d/24h/1h webinar reminder jobs for that deal | Live internal |
 | Webinar reminder worker | `f/sales/send_webinar_reminders` | One-off jobs scheduled by `create_webinar_activity_from_calendly` | Sends approved Interakt 3d, 24h, and 1h webinar reminders from the target deal's webinar activity; logs each send as a done admin-owned Pipedrive activity for dedupe | Live worker |
+| Webinar registration CTA | `f/sales/send_webinar_registration_cta` | Pipedrive label guard for `Scheduled Webinar Awaiting` | Sends approved Interakt template `collective_unfit_webinar_cta` with the collective-specific Calendly registration link and logs a short activity for dedupe | Live |
 | Zoom intro sync | `f/collectives/zoom_collective_to_pipedrive` | `09B Schedule - Zoom intro registrant sync every 3h` | Reads Zoom collective introduction registrants and syncs to Pipedrive | Live |
 | Calendar access check | `f/sales/calendar_prebook_1on1_smoke_test` | Manual only | Verifies Google Calendar service-account free/busy access | Helper |
 
@@ -79,6 +81,24 @@ wmill script run f/sales/typeform_to_pipedrive_intake -d '{"body": <payload>, "d
 | `typeform_webhook_payload/hammiyala.json` | `webinar` | Hammiyala | `1` | `10` | `111` | `28` | Pass, owner Rakesh |
 | `typeform_webhook_payload/mumbai.json` | `1on1` | Mumbai | `2` | `14` | `115` | `25` | Pass, owner Vivekanand |
 | `typeform_webhook_payload/poomaale2.json` | `webinar` | Poomaale 2.0 | `3` | `20` | `111` | `27` | Pass, owner Rakesh |
+
+### Typeform Product Mapping
+
+| Collective | Typeform product answer | Pipedrive product |
+| --- | --- | --- |
+| Bhopal | `1acre undivided share including a 500 sqyd plot on housing zone at *75.6L*` | `Bhopal #1AC`, `BHPL_1AC`, INR `75,60,000` |
+| Hammiyala | `2acre undivided share including a 500/1000 sqyd plot in housing zone @ *2.05cr*` | `Hammiyala #2 AC`, `HAMM_2AC`, INR `2,05,00,000` |
+| Mumbai | `An *Earth Home* set in *1000 sqyd* in a *105 acre collective* starting at *3.88cr* all inclusive including maintenance` | `Mumbai #Earth Home`, `Mum_Earth_Home`, INR `3,88,00,000` |
+| Poomaale 2.0 | `Yes` on the product participation question | `Poomaale 2.0 #2.5AC`, `POO_2.0_2.5AC`, INR `1,45,00,000` |
+
+The product worker first searches Pipedrive by code/name, creates the product if missing, then attaches one product row to the deal if the same product is not already attached.
+
+Backfill on 2026-05-06:
+
+| Scope | Result |
+| --- | --- |
+| Recent deals `12782` through `12811` | `29` product rows attached; deal `12810` skipped as already attached |
+| Spot checks | Deals `12811`, `12808`, `12807`, and `12782` returned `already_attached` with exactly `1` deal product |
 
 ### 1on1 Prebook Dry Runs
 
@@ -230,6 +250,7 @@ Result on 2026-05-05:
 
 | Automation | Trigger | Outcome | Status |
 | --- | --- | --- | --- |
+| Unfit 1on1 webinar CTA | Deal label changes to `Scheduled Webinar Awaiting` (`110`) | Send `collective_unfit_webinar_cta` with Bhopal/Mumbai/Hammiyala/Poomaale Calendly webinar link; log short done activity | Live; backfilled deals `12810`, `12801`, `12800`, `12799`, `12798`, `12797`, `12796` |
 | Webinar confirmation | Calendly-to-Zoom/Pipedrive worker succeeds | Send `collective_webinar_confirmation`; log done activity for dedupe | Live |
 | Webinar reminder sequence | Calendly-to-Zoom/Pipedrive worker schedules one-off jobs | Send 3d, 24h, and 1h reminders; log done activities for dedupe | Live |
 | Webinar attendance sync | Zoom meeting attendance | Move attended leads to Event Attended, update labels | Pending |
@@ -243,5 +264,5 @@ Result on 2026-05-05:
 | Add HTTP auth/signature to Interakt inbound trigger | Done: `authentication_method=signature`, `Interakt-Signature`, `sha256=` |
 | Remove obsolete Pipedrive webhook if confirmed | Done: deleted `Windmill owner-wise deal summary` |
 | Remove obsolete Bhopal n8n webhook if confirmed | Done: disabled in Typeform |
-| Initialize private git repo and commit Windmill export | Pending |
+| Initialize private git repo and commit Windmill export | Done: connected to `https://github.com/harshaislive/windmill` |
 | Add repeatable local test runner script | Pending |

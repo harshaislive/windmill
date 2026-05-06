@@ -3,8 +3,10 @@ import * as wmill from "windmill-client";
 const PIPEDRIVE_VARIABLE_PATH = "f/collectives/zoom_collective_to_pipedrive/pipedrive_api_key";
 const DEFAULT_PIPEDRIVE_DOMAIN = "beforest";
 const CALENDAR_PREBOOK_SCRIPT_PATH = "f/sales/calendar_prebook_1on1";
+const WEBINAR_REGISTRATION_CTA_SCRIPT_PATH = "f/sales/send_webinar_registration_cta";
 
 const ONE_ON_ONE_TBC_LABEL_ID = 115;
+const SCHEDULED_WEBINAR_AWAITING_LABEL_ID = 110;
 const INITIAL_EVENT_SCHEDULED_STAGE_IDS = new Set([1, 14, 21, 30]);
 
 const DEAL_FIELDS = {
@@ -127,6 +129,20 @@ export async function main(body: PipedriveWebhookBody, dry_run = false) {
 
   const deal = await getDeal(dealId);
   const eligibility = prebookEligibility(deal);
+
+  if (eligibility.label_ids.includes(SCHEDULED_WEBINAR_AWAITING_LABEL_ID)) {
+    const webinarResult = await wmill.runScriptByPath(WEBINAR_REGISTRATION_CTA_SCRIPT_PATH, {
+      deal_id: dealId,
+      dry_run,
+    });
+    return {
+      status: dry_run ? "dry_run_webinar_registration_cta" : "webinar_registration_cta_checked",
+      deal_id: dealId,
+      deal_title: deal.title || null,
+      ...eligibility,
+      webinar_result: webinarResult,
+    };
+  }
 
   if (!eligibility.eligible) {
     return {

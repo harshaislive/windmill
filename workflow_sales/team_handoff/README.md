@@ -27,7 +27,9 @@ Live:
 
 - Typeform intake for Bhopal, Mumbai, Hammiyala, and Poomaale 2.0.
 - Pipedrive deal/person creation and update.
+- Pipedrive product mapping from collective intake, so current Bhopal, Mumbai, Hammiyala, and Poomaale deals carry the correct product/value.
 - AI fit routing for 1on1 requests, with manual-review fallback.
+- Webinar registration CTA for unfit 1on1 leads marked `Scheduled Webinar Awaiting`.
 - 1on1 prebooking into owner calendar.
 - Vivek slot lookup through Calendly availability, then booking into Google Calendar.
 - Rakesh/Sai slot lookup through Google Calendar free/busy, then booking into Google Calendar.

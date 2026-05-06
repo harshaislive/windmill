@@ -1,8 +1,9 @@
-summary: 02B Guard - 1on1 TBC deal to calendar prebook
+summary: 02B Guard - label-triggered 1on1/webinar next step
 description: Receives Pipedrive deal-change webhooks after intake or manual CRM
   updates. If the deal has label `1on1 - TBC`, is in an Initial Event Scheduled
   stage, and has no meeting date or meeting URL, it invokes the calendar
-  prebooking script. Otherwise it safely returns ignored.
+  prebooking script. If the deal has label `Scheduled Webinar Awaiting`, it sends
+  the webinar registration CTA. Otherwise it safely returns ignored.
 lock: '!inline f/sales/pipedrive_1on1_tbc_to_calendar_prebook.script.lock'
 kind: script
 schema:

@@ -1,0 +1,23 @@
+summary: 01C Worker - map collective product to deal
+description: Ensures each active collective intake deal has the matching
+  Pipedrive product attached, creating the product first if it is missing, so
+  deal value does not remain at 0 INR.
+lock: '!inline f/sales/map_deal_product_from_collective.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    deal_id:
+      type: number
+      description: Pipedrive deal ID.
+    dry_run:
+      type: boolean
+      description: Preview product lookup/attachment without writing to Pipedrive.
+      default: false
+    product_answer:
+      type: string
+      description: Optional raw Typeform product answer for Pipedrive product comments.
+      default: ""
+  required:
+    - deal_id

@@ -1,0 +1,19 @@
+summary: 10A Worker - send webinar registration CTA
+description: Sends the approved Interakt webinar registration message for deals
+  labeled Scheduled Webinar Awaiting, using the collective-specific Calendly
+  webinar link, and logs a short Pipedrive activity for dedupe.
+lock: '!inline f/sales/send_webinar_registration_cta.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    deal_id:
+      type: number
+      description: Pipedrive deal ID.
+    dry_run:
+      type: boolean
+      description: Preview the Interakt payload without sending WhatsApp or writing Pipedrive activity.
+      default: false
+  required:
+    - deal_id

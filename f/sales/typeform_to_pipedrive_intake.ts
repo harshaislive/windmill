@@ -56,6 +56,8 @@ type CollectiveConfig = {
   ownerName: string;
   oneOnOneRef: string;
   webinarCalendlyRef: string;
+  productAnswerRef: string;
+  productName: string;
 };
 
 type Intake = {
@@ -74,6 +76,7 @@ type Intake = {
     email: string;
     phone: string;
   };
+  productAnswer: string;
   oneOnOneReason: string;
   calendlyUrl: string;
   hidden: Record<string, unknown>;
@@ -94,6 +97,7 @@ type FitDecision = {
 
 const PIPEDRIVE_RESOURCE_PATH = "f/sales/typeform_to_pipedrive_intake/pipedrive";
 const PIPEDRIVE_VARIABLE_PATH = "f/collectives/zoom_collective_to_pipedrive/pipedrive_api_key";
+const PRODUCT_MAPPING_SCRIPT_PATH = "f/sales/map_deal_product_from_collective";
 const AZURE_OPENAI_VARIABLE_PATHS = {
   endpoint: "f/sales/typeform_to_pipedrive_intake/azure_openai_endpoint",
   apiKey: "f/sales/typeform_to_pipedrive_intake/azure_openai_api_key",
@@ -193,6 +197,8 @@ const COLLECTIVES: Record<string, CollectiveConfig> = {
     ownerName: OWNERS.Vivekanand.name,
     oneOnOneRef: "113a9ad4-4d43-4165-9bf7-62f82b1352ab",
     webinarCalendlyRef: "a2ff21bd-fc13-4d10-a3ab-f92a46e1864c",
+    productAnswerRef: "863981d1-87cf-4418-991e-c1ca40a3c51f",
+    productName: "Bhopal #1AC",
   },
   hbDB2ybS: {
     collective: "Hammiyala",
@@ -204,6 +210,8 @@ const COLLECTIVES: Record<string, CollectiveConfig> = {
     ownerName: OWNERS.Rakesh.name,
     oneOnOneRef: "f8e95240-2bd9-4522-8eac-53860c400950",
     webinarCalendlyRef: "a2ff21bd-fc13-4d10-a3ab-f92a46e1864c",
+    productAnswerRef: "863981d1-87cf-4418-991e-c1ca40a3c51f",
+    productName: "Hammiyala #2 AC",
   },
   kfcjiXxR: {
     collective: "Mumbai",
@@ -215,6 +223,8 @@ const COLLECTIVES: Record<string, CollectiveConfig> = {
     ownerName: OWNERS.Vivekanand.name,
     oneOnOneRef: "1292d853-e1d7-438a-8f82-70fbad90e914",
     webinarCalendlyRef: "fb9d0477-730b-486c-8e9b-59b07ded1583",
+    productAnswerRef: "4e85fbe4-42f8-4db9-b462-9c4c61f56922",
+    productName: "Mumbai #Earth Home",
   },
   i8eBLQkz: {
     collective: "Poomaale 2.0",
@@ -226,6 +236,8 @@ const COLLECTIVES: Record<string, CollectiveConfig> = {
     ownerName: OWNERS.Rakesh.name,
     oneOnOneRef: "4c30971d-c15d-42f8-90d1-94c19a475c4d",
     webinarCalendlyRef: "717327eb-16b7-42ec-bee1-cdbb5cbea73d",
+    productAnswerRef: "4e85fbe4-42f8-4db9-b462-9c4c61f56922",
+    productName: "Poomaale 2.0 #2.5AC",
   },
 };
 
@@ -306,6 +318,7 @@ function parseIntake(body: unknown): Intake {
   const lastName = answerValue(findAnswer(answers, REFS.lastName));
   const oneOnOneReason = answerValue(findAnswer(answers, collective.oneOnOneRef));
   const calendlyUrl = answerValue(findAnswer(answers, collective.webinarCalendlyRef));
+  const productAnswer = answerValue(findAnswer(answers, collective.productAnswerRef));
   const route: Route = calendlyUrl ? "webinar" : oneOnOneReason ? "1on1" : "unknown";
 
   if (!email && !phone) {
@@ -334,6 +347,7 @@ function parseIntake(body: unknown): Intake {
       email,
       phone,
     },
+    productAnswer,
     oneOnOneReason,
     calendlyUrl,
     hidden: response.hidden || {},
@@ -849,6 +863,10 @@ export async function main(body: unknown, dry_run = false) {
     pipeline_id: intake.collective.pipelineId,
     stage_id: stageAndLabel(intake).stageId,
     label_ids: stageAndLabel(intake).labelIds,
+    product: {
+      name: intake.collective.productName,
+      answer: intake.productAnswer,
+    },
     meeting_url: intake.calendlyUrl,
     custom_field_count: Object.keys(dealCustomFieldsPayload(intake)).length,
   };
@@ -885,6 +903,19 @@ export async function main(body: unknown, dry_run = false) {
     ? await updateDeal(config, Number(existingDeal.id), personId, intake)
     : await createDeal(config, personId, intake);
   const deal = await enforceDealRouting(config, Number(writtenDeal.id), intake);
+  let productMapping: any = null;
+  try {
+    productMapping = await wmill.runScriptByPath(PRODUCT_MAPPING_SCRIPT_PATH, {
+      deal_id: Number(deal.id),
+      dry_run: false,
+      product_answer: intake.productAnswer,
+    });
+  } catch (error) {
+    productMapping = {
+      status: "failed",
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
   const note = await createNote(config, Number(deal.id), personId, intake);
   const intakeAudit = await createPipedriveActivity(
     config,
@@ -912,6 +943,20 @@ export async function main(body: unknown, dry_run = false) {
         { personId, done: 0 },
       )
     : null;
+  const productReviewActivity =
+    productMapping?.status === "failed"
+      ? await createPipedriveActivity(
+          config,
+          Number(deal.id),
+          "Review product mapping",
+          [
+            "Could not map the collective product automatically.",
+            `Expected product: ${intake.collective.productName}`,
+            `Failure reason: ${productMapping.error || "unknown"}`,
+          ].join("<br>"),
+          { personId, done: 0 },
+        )
+      : null;
 
   return {
     dry_run: false,
@@ -922,6 +967,8 @@ export async function main(body: unknown, dry_run = false) {
     note_id: Number(note.id),
     audit_activity_id: Number(intakeAudit?.id) || null,
     manual_review_activity_id: Number(manualReviewActivity?.id) || null,
+    product_review_activity_id: Number(productReviewActivity?.id) || null,
+    product_mapping: productMapping,
     created_person: createdPerson,
     created_deal: !existingDeal,
     updated_deal: Boolean(existingDeal),

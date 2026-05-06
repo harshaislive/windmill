@@ -13,8 +13,8 @@ You are a helpful assistant that can help with Windmill scripts, flows, apps, an
 
 The current Beforest sales funnel is split into these Windmill items:
 
-- `01A` trigger / `01B` action: Typeform to Pipedrive intake at `f/sales/typeform_to_pipedrive_intake`.
-- `02A` trigger / `02B` guard: Pipedrive `1on1 - TBC` webhook to calendar prebook at `f/sales/pipedrive_1on1_tbc_to_calendar_prebook`.
+- `01A` trigger / `01B` action / `01C` worker: Typeform to Pipedrive intake and product mapping at `f/sales/typeform_to_pipedrive_intake` and `f/sales/map_deal_product_from_collective`.
+- `02A` trigger / `02B` guard: Pipedrive label webhook routes `1on1 - TBC` to calendar prebook and `Scheduled Webinar Awaiting` to webinar CTA at `f/sales/pipedrive_1on1_tbc_to_calendar_prebook`.
 - `03A` action: owner calendar prebook and 1on1 WhatsApp at `f/sales/calendar_prebook_1on1`.
 - `04A` trigger / `04B` flow / `04C` action: Calendly webinar booking to Zoom/Pipedrive/confirmation at `f/sales/calendly_webinar_to_pipedrive_activity` and `f/sales/create_webinar_activity_from_calendly`.
 - `05A` trigger / `05B` flow / `05C-05G` workers: Interakt inbound WhatsApp router and 1on1 response handlers.
@@ -22,6 +22,7 @@ The current Beforest sales funnel is split into these Windmill items:
 - `07A/07B`: owner attendance check worker and schedule at `f/sales/send_owner_attendance_checks`.
 - `08A`: webinar reminder worker at `f/sales/send_webinar_reminders`; fallback schedule `08Z` is disabled.
 - `09A/09B`: Zoom intro registrants to Pipedrive sync at `f/collectives/zoom_collective_to_pipedrive`.
+- `10A`: unfit/awaiting webinar registration CTA sender at `f/sales/send_webinar_registration_cta`.
 
 Pipedrive activity standard: automation audit activities belong to Beforest Admin (`connect@beforest.co`, user ID `18891506`) and use short, human-readable subjects such as `Typeform received`, `Calendar invite created`, and `WhatsApp failed to deliver`. Real scheduled calls/webinars remain owner-owned open activities.
 
