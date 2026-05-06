@@ -32,7 +32,7 @@ Reminder activity subjects were kept backward-compatible to preserve dedupe agai
 | 1on1 owner attended worker | `f/sales/interakt_owner_attended_worker` | Called by Interakt inbound flow | Labels the deal `107`, moves it to the pipeline's Event Attended stage, logs admin audit activity | Live internal |
 | 1on1 owner no-show worker | `f/sales/interakt_owner_no_show_worker` | Called by Interakt inbound flow | Labels the deal `108`, sends the lead the no-show rebook template with owner booking link, writes a note, logs admin audit activities | Live internal |
 | Webinar activity | `f/sales/calendly_webinar_to_pipedrive_activity` | Calendly HTTP webhook | Waits 5s, finds/creates Pipedrive person/deal, registers invitee to Zoom webinar, creates/updates webinar activity, sends confirmation, enforces label `111` | Live |
-| Webinar activity worker | `f/sales/create_webinar_activity_from_calendly` | Called by webinar flow | `04C Action - webinar Zoom/Pipedrive + confirmation`; creates/updates deal-owner webinar activity, sends webinar confirmation with admin-owned audit activity, then schedules one-off 3d/24h/1h webinar reminder jobs for that deal | Live internal |
+| Webinar activity worker | `f/sales/create_webinar_activity_from_calendly` | Called by webinar flow | `04C Action - webinar Zoom/Pipedrive + confirmation`; fallback-created deals use invitee name as title and collective owner, creates/updates deal-owner webinar activity, sends webinar confirmation with admin-owned audit activity, then schedules one-off 3d/24h/1h webinar reminder jobs for that deal | Live internal |
 | Webinar reminder worker | `f/sales/send_webinar_reminders` | One-off jobs scheduled by `create_webinar_activity_from_calendly` | Sends approved Interakt 3d, 24h, and 1h webinar reminders from the target deal's webinar activity; logs each send as a done admin-owned Pipedrive activity for dedupe | Live worker |
 | Webinar registration CTA | `f/sales/send_webinar_registration_cta` | Pipedrive label guard for `Scheduled Webinar Awaiting` | Sends approved Interakt template `collective_unfit_webinar_cta` with the collective-specific Calendly registration link and logs a short activity for dedupe | Live |
 | Zoom intro sync | `f/collectives/zoom_collective_to_pipedrive` | `09B Schedule - Zoom intro registrant sync every 3h` | Reads Zoom collective introduction registrants and syncs to Pipedrive | Live |
@@ -182,6 +182,8 @@ Zoom layer added on 2026-05-05:
 | Deployed worker dry-run after confirmation wiring | Pass: builds `collective_webinar_confirmation` / `1652138732429446` with values `Windmill`, `Mumbai Collective`, `22 May 2026`, `8:00 PM IST`, then plans reminder jobs |
 
 Runtime behavior: non-dry runs register the invitee into the matching Zoom webinar, write Zoom `join_url` to Pipedrive Meeting URL, write Zoom registrant id to Meeting Reference ID, use the Zoom join URL in the activity note, send `collective_webinar_confirmation`, and log that confirmation as a done Pipedrive activity for dedupe.
+
+Correction on 2026-05-06: Calendly fallback-created webinar deals now use only the invitee name as the deal title and assign the collective owner. Fixed existing deal `12808` from `Rashhmi - Poomaale Collective Webinar` / Beforest Admin to `Rashhmi` / Rakesh, and moved its webinar activity `53030` to Rakesh.
 
 ### Webinar Reminder Dispatcher Dry Runs
 

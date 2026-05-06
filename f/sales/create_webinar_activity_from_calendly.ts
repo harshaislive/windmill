@@ -34,6 +34,7 @@ type CollectiveConfig = {
   label: string;
   subject: string;
   pipelineId: number;
+  ownerId: number;
 };
 
 type ZoomMeeting = {
@@ -54,10 +55,10 @@ type ZoomRegistration = {
 };
 
 const COLLECTIVES: CollectiveConfig[] = [
-  { label: "Mumbai", subject: "Mumbai Collective Webinar", pipelineId: 2 },
-  { label: "Bhopal", subject: "Bhopal Collective Webinar", pipelineId: 4 },
-  { label: "Hammiyala", subject: "Hammiyala Collective Webinar", pipelineId: 1 },
-  { label: "Poomaale", subject: "Poomaale Collective Webinar", pipelineId: 3 },
+  { label: "Mumbai", subject: "Mumbai Collective Webinar", pipelineId: 2, ownerId: 22251956 },
+  { label: "Bhopal", subject: "Bhopal Collective Webinar", pipelineId: 4, ownerId: 22251956 },
+  { label: "Hammiyala", subject: "Hammiyala Collective Webinar", pipelineId: 1, ownerId: 13490118 },
+  { label: "Poomaale", subject: "Poomaale Collective Webinar", pipelineId: 3, ownerId: 13490118 },
 ];
 
 class WebinarActivityError extends Error {
@@ -314,9 +315,14 @@ async function findCandidatePersons(config: PipedriveConfig, calendly: ReturnTyp
   });
 }
 
-async function createPerson(config: PipedriveConfig, calendly: ReturnType<typeof extractCalendlyDetails>): Promise<any> {
+async function createPerson(
+  config: PipedriveConfig,
+  calendly: ReturnType<typeof extractCalendlyDetails>,
+  collective: CollectiveConfig,
+): Promise<any> {
   const body: Record<string, unknown> = {
     name: calendly.name || calendly.email,
+    owner_id: collective.ownerId,
     emails: [{ value: calendly.email, primary: true, label: "work" }],
   };
   if (calendly.phone) {
@@ -343,6 +349,7 @@ async function findCandidatePersonsWithRetry(
 async function ensurePerson(
   config: PipedriveConfig,
   calendly: ReturnType<typeof extractCalendlyDetails>,
+  collective: CollectiveConfig,
   dryRun: boolean,
 ): Promise<{ person: any; created: boolean; plannedCreate: boolean }> {
   const people = await findCandidatePersonsWithRetry(config, calendly);
@@ -361,7 +368,7 @@ async function ensurePerson(
     };
   }
 
-  return { person: await createPerson(config, calendly), created: true, plannedCreate: false };
+  return { person: await createPerson(config, calendly, collective), created: true, plannedCreate: false };
 }
 
 async function getPersonDeals(config: PipedriveConfig, personId: number): Promise<any[]> {
@@ -505,7 +512,7 @@ function isMissingDealError(error: unknown): boolean {
 }
 
 function dealTitle(calendly: ReturnType<typeof extractCalendlyDetails>, collective: CollectiveConfig): string {
-  return `${calendly.name || calendly.email} - ${collective.label} Collective Webinar`;
+  return calendly.name || calendly.email;
 }
 
 async function createDeal(
@@ -519,6 +526,7 @@ async function createDeal(
     body: {
       title: dealTitle(calendly, collective),
       person_id: personId,
+      owner_id: collective.ownerId,
       pipeline_id: collective.pipelineId,
       status: "open",
       label_ids: [SCHEDULED_WEBINAR_PENDING_LABEL_ID],
@@ -558,6 +566,7 @@ async function ensureDeal(
         id: null,
         title: dealTitle(calendly, collective),
         person_id: personId || null,
+        owner_id: collective.ownerId,
         pipeline_id: collective.pipelineId,
         label_ids: [SCHEDULED_WEBINAR_PENDING_LABEL_ID],
         [DEAL_MEETING_URL_FIELD]: calendly.inviteeUri || calendly.eventUri,
@@ -1071,11 +1080,21 @@ async function updateDealMeetingFields(
   return payload.data;
 }
 
-async function enforcePendingLabel(config: PipedriveConfig, deal: any) {
+async function enforceDealBasics(
+  config: PipedriveConfig,
+  deal: any,
+  collective: CollectiveConfig,
+  calendly: ReturnType<typeof extractCalendlyDetails>,
+) {
   const existingLabels = labelIds(deal);
   const nextLabels = Array.from(new Set([...existingLabels, SCHEDULED_WEBINAR_PENDING_LABEL_ID]));
   const payload = await pipedriveRequest(config, "PATCH", `deals/${deal.id}`, {
-    body: { label_ids: nextLabels },
+    body: {
+      title: dealTitle(calendly, collective),
+      owner_id: collective.ownerId,
+      pipeline_id: collective.pipelineId,
+      label_ids: nextLabels,
+    },
   });
   return payload.data;
 }
@@ -1128,7 +1147,7 @@ export async function main(calendly_payload: unknown, dry_run = false) {
   const collective = detectCollective(calendly.eventName);
   const { dueDate, dueTime } = pipedriveDueDateTimeParts(calendly.start);
   const config = await loadPipedriveConfig();
-  const ensuredPerson = await ensurePerson(config, calendly, dry_run);
+  const ensuredPerson = await ensurePerson(config, calendly, collective, dry_run);
   const person = ensuredPerson.person;
   const leadPhone = primaryPhoneFromPerson(person);
   const personId = idNumber(person.id);
@@ -1156,7 +1175,7 @@ export async function main(calendly_payload: unknown, dry_run = false) {
     due_time: dueTime,
     person_id: personId,
     deal_id: idNumber(deal.id),
-    deal_owner_id: dealOwnerId(deal, dealSummary),
+    deal_owner_id: dry_run ? collective.ownerId : dealOwnerId(deal, dealSummary) || collective.ownerId,
     existing_activity_id: existingActivity?.id ? Number(existingActivity.id) : null,
     created_person: ensuredPerson.created,
     planned_create_person: ensuredPerson.plannedCreate,
@@ -1203,7 +1222,7 @@ export async function main(calendly_payload: unknown, dry_run = false) {
       zoomRegistration,
     );
     const dealWithMeetingFields = await updateDealMeetingFields(config, deal, zoomRegistration);
-    const updatedDeal = await enforcePendingLabel(config, dealWithMeetingFields);
+    const updatedDeal = await enforceDealBasics(config, dealWithMeetingFields, collective, calendly);
     const webinarConfirmation = await sendWebinarConfirmationIfNeeded(
       config,
       updatedDeal,
@@ -1227,7 +1246,7 @@ export async function main(calendly_payload: unknown, dry_run = false) {
 
   const activity = await createActivity(config, deal, dealSummary, personId, collective.subject, dueDate, dueTime, calendly, zoomRegistration);
   const dealWithMeetingFields = await updateDealMeetingFields(config, deal, zoomRegistration);
-  const updatedDeal = await enforcePendingLabel(config, dealWithMeetingFields);
+  const updatedDeal = await enforceDealBasics(config, dealWithMeetingFields, collective, calendly);
   const webinarConfirmation = await sendWebinarConfirmationIfNeeded(
     config,
     updatedDeal,
