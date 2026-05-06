@@ -635,6 +635,18 @@ function secondsFromDuration(value: string): number | undefined {
   return Number.isFinite(seconds) ? seconds : undefined;
 }
 
+function typeformFillDuration(intake: Intake): string {
+  const landedAt = Date.parse(intake.landedAt);
+  const submittedAt = Date.parse(intake.submittedAt);
+  if (!Number.isFinite(landedAt) || !Number.isFinite(submittedAt) || submittedAt < landedAt) return "";
+
+  const totalSeconds = Math.round((submittedAt - landedAt) / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  if (minutes <= 0) return `${seconds}s`;
+  return seconds ? `${minutes}m ${seconds}s` : `${minutes}m`;
+}
+
 function hiddenDate(intake: Intake, key: string): string {
   const value = hiddenValue(intake, key);
   const match = value.match(/^\d{4}-\d{2}-\d{2}/);
@@ -663,7 +675,7 @@ function dealCustomFieldsPayload(intake: Intake): Record<string, unknown> {
     [DEAL_FIELDS.utmMedium]: hiddenValue(intake, "utm_medium"),
     [DEAL_FIELDS.utmContent]: hiddenValue(intake, "utm_content"),
     [DEAL_FIELDS.dwellTime]: secondsFromDuration(hiddenValue(intake, "utm_time_spent")),
-    [DEAL_FIELDS.timeTakenToFillTypeform]: hiddenValue(intake, "utm_time_spent"),
+    [DEAL_FIELDS.timeTakenToFillTypeform]: typeformFillDuration(intake),
     [DEAL_FIELDS.distractionScore]: hiddenNumber(intake, "distraction_score"),
     [DEAL_FIELDS.currentPage]: hiddenValue(intake, "current_page"),
     [DEAL_FIELDS.behavioralJourney]: hiddenValue(intake, "behavioral_journey"),
@@ -741,7 +753,8 @@ function buildNoteContent(intake: Intake): string {
     `Phone: ${intake.contact.phone}`,
     `Current page: ${hiddenValue(intake, "current_page")}`,
     `Device: ${hiddenValue(intake, "device")}`,
-    `Time spent: ${hiddenValue(intake, "utm_time_spent")}`,
+    `Website engagement time: ${hiddenValue(intake, "utm_time_spent")}`,
+    `Typeform fill time: ${typeformFillDuration(intake)}`,
     `Distraction score: ${hiddenValue(intake, "distraction_score")}`,
   ];
   if (intake.calendlyUrl) lines.push(`Calendly URL: ${intake.calendlyUrl}`);
