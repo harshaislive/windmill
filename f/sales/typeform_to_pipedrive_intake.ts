@@ -388,12 +388,17 @@ async function loadAzureOpenAIConfig(): Promise<AzureOpenAIConfig | null> {
   return config;
 }
 
-function azureChatCompletionsRequest(config: AzureOpenAIConfig): { url: URL; bodyBase: Record<string, unknown> } {
+function azureChatCompletionsRequest(config: AzureOpenAIConfig): {
+  url: URL;
+  bodyBase: Record<string, unknown>;
+  tokenLimitParam: "max_tokens" | "max_completion_tokens";
+} {
   const endpoint = config.endpoint.replace(/\/+$/, "");
   if (endpoint.endsWith("/openai/v1")) {
     return {
       url: new URL(`${endpoint}/chat/completions`),
       bodyBase: { model: config.deployment },
+      tokenLimitParam: "max_completion_tokens",
     };
   }
 
@@ -401,7 +406,7 @@ function azureChatCompletionsRequest(config: AzureOpenAIConfig): { url: URL; bod
     `${endpoint}/openai/deployments/${encodeURIComponent(config.deployment)}/chat/completions`,
   );
   url.searchParams.set("api-version", config.apiVersion);
-  return { url, bodyBase: {} };
+  return { url, bodyBase: {}, tokenLimitParam: "max_tokens" };
 }
 
 function fallbackFitDecision(reason: string): FitDecision {
@@ -467,7 +472,7 @@ async function classifyOneOnOneFit(intake: Intake): Promise<FitDecision> {
   const config = await loadAzureOpenAIConfig();
   if (!config) return fallbackFitDecision("Azure OpenAI config missing or still set to dummy values.");
 
-  const { url, bodyBase } = azureChatCompletionsRequest(config);
+  const { url, bodyBase, tokenLimitParam } = azureChatCompletionsRequest(config);
 
   const response = await fetch(url, {
     method: "POST",
@@ -486,13 +491,15 @@ async function classifyOneOnOneFit(intake: Intake): Promise<FitDecision> {
         { role: "user", content: fitPrompt(intake) },
       ],
       temperature: 0,
-      max_tokens: 180,
+      [tokenLimitParam]: 180,
     }),
   });
 
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    return fallbackFitDecision(`Azure OpenAI request failed: ${response.status}`);
+    const providerMessage =
+      asString(payload?.error?.message) || asString(payload?.message) || response.statusText;
+    return fallbackFitDecision(`Azure OpenAI request failed: ${response.status} ${providerMessage}`);
   }
 
   return parseFitDecision(asString(payload?.choices?.[0]?.message?.content));
