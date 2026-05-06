@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beforest Sales Automation Flow</title>
+  <style>
+    :root {
+      --ink: #111111;
+      --muted: #5a5a5a;
+      --line: #222222;
+      --paper: #ffffff;
+      --panel: #fbfaf6;
+      --grid: rgba(0, 0, 0, 0.045);
+      --typeform: #eaf4ff;
+      --windmill: #eef8e8;
+      --pipedrive: #fff4d8;
+      --azure: #efeaff;
+      --calendar: #e8f7f4;
+      --calendly: #eaf0ff;
+      --zoom: #e7f0ff;
+      --interakt: #ffecef;
+      --human: #f3f0e8;
+      --danger: #ffe5df;
+      --ok: #e7f7df;
+      --shadow: 8px 8px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "IBM Plex Mono", "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+        var(--paper);
+      background-size: 22px 22px;
+    }
+
+    main {
+      width: min(1420px, calc(100vw - 36px));
+      margin: 28px auto 72px;
+    }
+
+    .shell {
+      border: 2px solid var(--line);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 2px solid var(--line);
+      padding: 10px 14px;
+      background: #f5f2e8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .prompt {
+      padding: 22px 24px 10px;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .prompt code {
+      display: inline-block;
+      padding: 3px 8px;
+      background: #111;
+      color: #fff;
+      border-radius: 2px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 58px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      margin: 14px 0 12px;
+      max-width: 980px;
+    }
+
+    .sub {
+      max-width: 980px;
+      color: var(--muted);
+      font-size: 16px;
+      margin: 0 0 14px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 16px 24px 22px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-weight: 800;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .typeform { background: var(--typeform); }
+    .windmill { background: var(--windmill); }
+    .pipedrive { background: var(--pipedrive); }
+    .azure { background: var(--azure); }
+    .calendar { background: var(--calendar); }
+    .calendly { background: var(--calendly); }
+    .zoom { background: var(--zoom); }
+    .interakt { background: var(--interakt); }
+    .human { background: var(--human); }
+    .danger { background: var(--danger); }
+    .ok { background: var(--ok); }
+
+    section {
+      margin: 28px 0;
+      border: 2px solid var(--line);
+      background: rgba(255,255,255,0.94);
+      box-shadow: 5px 5px 0 rgba(0,0,0,0.06);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 14px 18px;
+      border-bottom: 2px solid var(--line);
+      background: var(--panel);
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 19px;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head .path {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+      max-width: 420px;
+    }
+
+    .content {
+      padding: 18px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .node {
+      position: relative;
+      min-height: 92px;
+      border: 2px solid var(--line);
+      padding: 12px;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .node::after {
+      content: ">";
+      position: absolute;
+      right: -14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 900;
+      color: var(--ink);
+      z-index: 2;
+    }
+
+    .node.end::after,
+    .node.break::after { content: ""; }
+
+    .n2 { grid-column: span 2; }
+    .n3 { grid-column: span 3; }
+    .n4 { grid-column: span 4; }
+    .n5 { grid-column: span 5; }
+    .n6 { grid-column: span 6; }
+    .n12 { grid-column: span 12; }
+
+    .node .sys {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+      color: #333;
+    }
+
+    .node .title {
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: -0.035em;
+      line-height: 1.16;
+    }
+
+    .node .meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .split {
+      margin: 14px 0;
+      padding: 12px;
+      border: 1px dashed var(--line);
+      background: #fffdf5;
+      font-weight: 800;
+    }
+
+    .lanes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .lane {
+      border: 2px solid var(--line);
+      background: #fff;
+      padding: 12px;
+      min-height: 160px;
+    }
+
+    .lane h3 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      letter-spacing: -0.03em;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+    }
+
+    .steps {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .steps li { margin: 7px 0; }
+
+    .explain {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 13px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .card p {
+      margin: 0 0 8px;
+      color: #242424;
+    }
+
+    .table {
+      display: grid;
+      border: 2px solid var(--line);
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1.2fr 1.1fr 1.2fr 1.5fr;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .row:last-child { border-bottom: 0; }
+
+    .cell {
+      padding: 10px;
+      border-right: 1px solid var(--line);
+    }
+
+    .cell:last-child { border-right: 0; }
+    .head { font-weight: 900; background: #f5f2e8; }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .mini {
+      border: 1px solid var(--line);
+      padding: 10px;
+      min-height: 96px;
+      background: #fff;
+    }
+
+    .mini strong { display: block; margin-bottom: 4px; }
+
+    .footer {
+      padding: 16px 24px 22px;
+      border-top: 2px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 960px) {
+      .flow, .lanes, .explain, .mini-grid { grid-template-columns: 1fr; }
+      .node, .n2, .n3, .n4, .n5, .n6, .n12 { grid-column: 1 / -1; }
+      .node::after {
+        content: "v";
+        right: 12px;
+        top: auto;
+        bottom: -18px;
+        transform: none;
+      }
+      .row { grid-template-columns: 1fr; }
+      .cell { border-right: 0; border-bottom: 1px solid var(--line); }
+      .cell:last-child { border-bottom: 0; }
+      .section-head { flex-direction: column; }
+      .section-head .path { text-align: left; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      main { width: 100%; margin: 0; }
+      section, .shell { box-shadow: none; break-inside: avoid; }
+      .node { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="shell">
+      <div class="topbar">
+        <span>Beforest Sales Automation Map</span>
+        <span>Windmill / Pipedrive / WhatsApp / Calendar</span>
+      </div>
+      <div class="prompt">
+        <code>$ explain sales_flow --team=sales --mode=plain-english</code>
+        <h1>How a lead moves from Typeform to webinar, 1-on-1, reminders, and follow-up.</h1>
+        <p class="sub">This is the operational map for the current Beforest sales funnel. Boxes show the system doing the work. Notes explain what your sales team needs to look for inside Pipedrive.</p>
+      </div>
+      <div class="legend">
+        <span class="tag typeform">Typeform = lead source</span>
+        <span class="tag windmill">Windmill = automation brain</span>
+        <span class="tag pipedrive">Pipedrive = CRM truth</span>
+        <span class="tag azure">Azure AI = fit check</span>
+        <span class="tag calendar">Google Calendar = final 1-on-1 booking</span>
+        <span class="tag calendly">Calendly = webinar + Vivek slots</span>
+        <span class="tag zoom">Zoom = webinar registration</span>
+        <span class="tag interakt">Interakt = WhatsApp</span>
+        <span class="tag human">Human = sales/admin action</span>
+      </div>
+    </div>
+
+    <section>
+      <div class="section-head">
+        <h2>00 / Owner Routing Rules</h2>
+        <div class="path">Who owns the deal and where 1-on-1 availability comes from.</div>
+      </div>
+      <div class="content">
+        <div class="table">
+          <div class="row head">
+            <div class="cell">Collective</div>
+            <div class="cell">Deal Owner</div>
+            <div class="cell">1-on-1 Slot Source</div>
+            <div class="cell">Final Booking Calendar</div>
+          </div>
+          <div class="row">
+            <div class="cell">Mumbai</div>
+            <div class="cell">Vivekanand</div>
+            <div class="cell">Vivek Calendly availability</div>
+            <div class="cell">Vivekanand@beforest.co</div>
+          </div>
+          <div class="row">
+            <div class="cell">Bhopal</div>
+            <div class="cell">Vivekanand</div>
+            <div class="cell">Vivek Calendly availability</div>
+            <div class="cell">Vivekanand@beforest.co</div>
+          </div>
+          <div class="row">
+            <div class="cell">Hammiyala</div>
+            <div class="cell">Sai Rakesh</div>
+            <div class="cell">Google Calendar free/busy</div>
+            <div class="cell">sai@beforest.co</div>
+          </div>
+          <div class="row">
+            <div class="cell">Poomaale 2.0</div>
+            <div class="cell">Sai Rakesh</div>
+            <div class="cell">Google Calendar free/busy</div>
+            <div class="cell">sai@beforest.co</div>
+          </div>
+        </div>
+        <div class="explain">
+          <div class="card">
+            <h3>What sales should know</h3>
+            <p>Owner routing is automatic from the collective selected in the Typeform. A Mumbai or Bhopal lead should land with Vivekanand. A Hammiyala or Poomaale lead should land with Sai Rakesh.</p>
+          </div>
+          <div class="card">
+            <h3>Important subtlety</h3>
+            <p>Vivek availability is read from Calendly, but the final 1-on-1 is still created in Google Calendar. Calendly is not the final booking system for these automated 1-on-1 calls.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>01 / Typeform Intake To Pipedrive</h2>
+        <div class="path">01A trigger -> 01B script: f/sales/typeform_to_pipedrive_intake</div>
+      </div>
+      <div class="content">
+        <div class="flow">
+          <div class="node typeform n2">
+            <div class="sys">Typeform</div>
+            <div class="title">Lead submits active collective form</div>
+            <div class="meta">Chooses webinar or 1-on-1 route.</div>
+          </div>
+          <div class="node windmill n2">
+            <div class="sys">Windmill</div>
+            <div class="title">Receives webhook</div>
+            <div class="meta">Parses answer refs and hidden fields.</div>
+          </div>
+          <div class="node pipedrive n2">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Finds or creates person</div>
+            <div class="meta">Matches by email, then phone.</div>
+          </div>
+          <div class="node pipedrive n2">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Creates or updates deal</div>
+            <div class="meta">Maps Typeform answers to fields.</div>
+          </div>
+          <div class="node azure n2">
+            <div class="sys">Azure AI</div>
+            <div class="title">Classifies 1-on-1 fit</div>
+            <div class="meta">Only for leads who asked for 1-on-1.</div>
+          </div>
+          <div class="node pipedrive n2 end">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Sets stage, label, owner, activity</div>
+            <div class="meta">This determines the next automation.</div>
+          </div>
+        </div>
+        <div class="split">Route decision:</div>
+        <div class="lanes">
+          <div class="lane pipedrive">
+            <h3>Webinar selected</h3>
+            <ol class="steps">
+              <li>Deal goes to Lead_In.</li>
+              <li>Label becomes Scheduled Webinar Pending.</li>
+              <li>Webinar reminder path takes over after Calendly booking.</li>
+            </ol>
+          </div>
+          <div class="lane ok">
+            <h3>1-on-1 selected and fit</h3>
+            <ol class="steps">
+              <li>Deal stays in Initial Event Scheduled.</li>
+              <li>Label becomes 1on1 TBC.</li>
+              <li>Pipedrive webhook triggers the calendar prebook flow.</li>
+            </ol>
+          </div>
+          <div class="lane danger">
+            <h3>Unfit or AI failed</h3>
+            <ol class="steps">
+              <li>Unfit goes to webinar-awaiting route.</li>
+              <li>If AI fails, Windmill creates Review fit manually.</li>
+              <li>Sales/Admin reviews and sets the right label/stage.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="explain">
+          <div class="card">
+            <h3>Pipedrive activity style</h3>
+            <p>Intake logs are intentionally short: <strong>Typeform received</strong>, with notes like collective, fit result, and whether the deal was created or updated.</p>
+          </div>
+          <div class="card">
+            <h3>Sales action when stuck</h3>
+            <p>If you see <strong>Review fit manually</strong>, read the Typeform answers. If fit, move to Initial Event Scheduled and apply 1on1 TBC. If not fit, keep the webinar route.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>02 / Fit 1-on-1 To Calendar Prebook</h2>
+        <div class="path">02A trigger -> 02B guard -> 03A calendar_prebook_1on1</div>
+      </div>
+      <div class="content">
+        <div class="flow">
+          <div class="node pipedrive n2">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Deal has 1on1 TBC</div>
+            <div class="meta">Stage must be Initial Event Scheduled.</div>
+          </div>
+          <div class="node windmill n2">
+            <div class="sys">Windmill</div>
+            <div class="title">Eligibility guard checks deal</div>
+            <div class="meta">No duplicate meeting fields allowed.</div>
+          </div>
+          <div class="node calendly n2">
+            <div class="sys">Calendly or Google</div>
+            <div class="title">Finds next available slot</div>
+            <div class="meta">Vivek via Calendly; Sai via Calendar.</div>
+          </div>
+          <div class="node calendar n2">
+            <div class="sys">Google Calendar</div>
+            <div class="title">Creates owner calendar event</div>
+            <div class="meta">30 min, IST, Meet link.</div>
+          </div>
+          <div class="node pipedrive n2">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Writes meeting fields</div>
+            <div class="meta">Date, URL, calendar reference.</div>
+          </div>
+          <div class="node interakt n2 end">
+            <div class="sys">Interakt</div>
+            <div class="title">Sends prebooked call WhatsApp</div>
+            <div class="meta">Includes Reschedule and Confirm buttons.</div>
+          </div>
+        </div>
+        <div class="explain">
+          <div class="card">
+            <h3>What appears in Pipedrive</h3>
+            <p>The open owner-owned meeting activity uses the subject format <strong>1-on-1 call with {{deal name}}</strong>. The note says who it was prebooked with, when, and the meeting link.</p>
+          </div>
+          <div class="card">
+            <h3>If no slot exists</h3>
+            <p>The deal moves to <strong>1on1 Awaiting</strong>, the lead gets the owner's booking link, and the owner can be alerted that no automatic prebook slot was available.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>03 / WhatsApp Replies And Delivery Status</h2>
+        <div class="path">05A signed Interakt webhook -> 05B router -> 05C-05Z workers</div>
+      </div>
+      <div class="content">
+        <div class="flow">
+          <div class="node interakt n3">
+            <div class="sys">Interakt</div>
+            <div class="title">WhatsApp button or status event arrives</div>
+            <div class="meta">All events enter one webhook.</div>
+          </div>
+          <div class="node windmill n3">
+            <div class="sys">Windmill Router</div>
+            <div class="title">Classifies event safely</div>
+            <div class="meta">Button click vs delivery status.</div>
+          </div>
+          <div class="node pipedrive n3">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Resolves deal</div>
+            <div class="meta">Mostly from callback data.</div>
+          </div>
+          <div class="node pipedrive n3 end">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Updates label/activity</div>
+            <div class="meta">Only real button clicks change workflow state.</div>
+          </div>
+        </div>
+        <div class="lanes">
+          <div class="lane interakt">
+            <h3>Lead clicks Reschedule Call</h3>
+            <ol class="steps">
+              <li>Windmill finds the existing calendar event.</li>
+              <li>Calendar event is cancelled.</li>
+              <li>Meeting fields are cleared.</li>
+              <li>Deal moves to 1on1 Awaiting.</li>
+              <li>Lead receives owner booking link.</li>
+            </ol>
+          </div>
+          <div class="lane ok">
+            <h3>Lead clicks Confirm Attendance</h3>
+            <ol class="steps">
+              <li>Deal moves into 1on1 Pending.</li>
+              <li>Lead gets a short confirmation WhatsApp.</li>
+              <li>Reminder and owner-check loops can pick it up.</li>
+            </ol>
+          </div>
+          <div class="lane danger">
+            <h3>WhatsApp delivery failed</h3>
+            <ol class="steps">
+              <li>Status events never trigger reschedule.</li>
+              <li>Failure creates open task WhatsApp failed to deliver.</li>
+              <li>Error code and reason are shown for sales/admin.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="explain">
+          <div class="card">
+            <h3>Why this matters</h3>
+            <p>Interakt sends both user actions and delivery status updates. Status events may contain the words Reschedule Call inside the template body, but Windmill now ignores those as actions unless they are actual button replies.</p>
+          </div>
+          <div class="card">
+            <h3>Sales view</h3>
+            <p>Look for simple activity subjects: <strong>Booking link sent on WhatsApp</strong>, <strong>Attendance confirmed on WhatsApp</strong>, <strong>WhatsApp failed to deliver</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>04 / 1-on-1 Reminders And Attendance Outcome</h2>
+        <div class="path">06B schedule + 07B schedule + owner WhatsApp buttons</div>
+      </div>
+      <div class="content">
+        <div class="flow">
+          <div class="node pipedrive n2">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Deal has 1on1 Pending</div>
+            <div class="meta">Meeting datetime is present.</div>
+          </div>
+          <div class="node interakt n2">
+            <div class="sys">Interakt</div>
+            <div class="title">3d / 24h / 1h reminders</div>
+            <div class="meta">Windmill checks every 15 minutes.</div>
+          </div>
+          <div class="node pipedrive n2">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Reminder activity logged</div>
+            <div class="meta">Used to avoid duplicate sends.</div>
+          </div>
+          <div class="node interakt n2">
+            <div class="sys">Interakt</div>
+            <div class="title">Owner attendance check</div>
+            <div class="meta">After call window passes.</div>
+          </div>
+          <div class="node pipedrive n2">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Owner marks attended or not</div>
+            <div class="meta">WhatsApp button reply.</div>
+          </div>
+          <div class="node pipedrive n2 end">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Deal outcome updated</div>
+            <div class="meta">Attended or No Show.</div>
+          </div>
+        </div>
+        <div class="lanes">
+          <div class="lane ok">
+            <h3>Attended</h3>
+            <ol class="steps">
+              <li>Label becomes 1on1 Attended.</li>
+              <li>Deal moves to Event Attended stage where mapped.</li>
+              <li>Activity says Owner marked attended.</li>
+            </ol>
+          </div>
+          <div class="lane danger">
+            <h3>Not attended</h3>
+            <ol class="steps">
+              <li>Label becomes 1on1 No Show.</li>
+              <li>Lead receives rebooking WhatsApp.</li>
+              <li>Activity says Rebooking message sent.</li>
+            </ol>
+          </div>
+          <div class="lane human">
+            <h3>If owner updates manually</h3>
+            <ol class="steps">
+              <li>Manual movement is not treated as an error.</li>
+              <li>Use Pipedrive as truth.</li>
+              <li>Check latest activity before rerunning anything.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>05 / Webinar Booking To Zoom, Pipedrive, WhatsApp</h2>
+        <div class="path">04A Calendly trigger -> 04B flow -> 04C webinar worker -> 08A reminders</div>
+      </div>
+      <div class="content">
+        <div class="flow">
+          <div class="node calendly n2">
+            <div class="sys">Calendly</div>
+            <div class="title">Lead books webinar</div>
+            <div class="meta">Main Calendly account sends webhook.</div>
+          </div>
+          <div class="node windmill n2">
+            <div class="sys">Windmill</div>
+            <div class="title">Waits 5 seconds</div>
+            <div class="meta">Gives Typeform intake time to create deal.</div>
+          </div>
+          <div class="node pipedrive n2">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Finds or creates deal</div>
+            <div class="meta">By email/phone and collective.</div>
+          </div>
+          <div class="node zoom n2">
+            <div class="sys">Zoom</div>
+            <div class="title">Registers invitee</div>
+            <div class="meta">Avoids random webinar names.</div>
+          </div>
+          <div class="node pipedrive n2">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Creates webinar activity</div>
+            <div class="meta">Owner-owned, open.</div>
+          </div>
+          <div class="node interakt n2 end">
+            <div class="sys">Interakt</div>
+            <div class="title">Confirmation + reminders</div>
+            <div class="meta">3d, 24h, 1h one-off jobs.</div>
+          </div>
+        </div>
+        <div class="explain">
+          <div class="card">
+            <h3>Why Zoom is included</h3>
+            <p>People are manually registered into Zoom from Calendly data so attendance tracking is cleaner. Otherwise attendees may join with random names or emails.</p>
+          </div>
+          <div class="card">
+            <h3>Sales view</h3>
+            <p>The owner should see a webinar activity in Pipedrive with the correct meeting URL. Confirmation and reminder sends are logged as short Beforest Admin activities.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>06 / Periodic Zoom Intro Sync</h2>
+        <div class="path">09B schedule -> 09A zoom_collective_to_pipedrive</div>
+      </div>
+      <div class="content">
+        <div class="flow">
+          <div class="node zoom n3">
+            <div class="sys">Zoom</div>
+            <div class="title">Collective intro registrants</div>
+            <div class="meta">Checked every 3 hours.</div>
+          </div>
+          <div class="node windmill n3">
+            <div class="sys">Windmill</div>
+            <div class="title">Sync worker reads registrants</div>
+            <div class="meta">Filters and dedupes.</div>
+          </div>
+          <div class="node pipedrive n3">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Creates or updates deals</div>
+            <div class="meta">Uses connect@beforest.co scope rules.</div>
+          </div>
+          <div class="node pipedrive n3 end">
+            <div class="sys">Pipedrive</div>
+            <div class="title">Scheduled Webinar Pending</div>
+            <div class="meta">Ready for sales follow-up and reminders.</div>
+          </div>
+        </div>
+        <div class="explain">
+          <div class="card">
+            <h3>Purpose</h3>
+            <p>This is a safety net for Zoom collective introductions. It keeps Zoom registrations visible in Pipedrive even when the main Typeform/Calendly path is not the source.</p>
+          </div>
+          <div class="card">
+            <h3>Sales caveat</h3>
+            <p>Duplicate deals can be acceptable when the same person signs up for different collectives. The key check is that the deal is in the right collective pipeline and owner.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>07 / Pipedrive Labels And What They Mean</h2>
+        <div class="path">Use labels to understand what automation is waiting for.</div>
+      </div>
+      <div class="content">
+        <div class="mini-grid">
+          <div class="mini human"><strong>105 / 1on1 Awaiting</strong>Lead needs to book or rebook. Usually after no slot or reschedule.</div>
+          <div class="mini ok"><strong>106 / 1on1 Pending</strong>Call is booked and lead confirmed attendance. Reminder loop watches this.</div>
+          <div class="mini ok"><strong>107 / 1on1 Attended</strong>Owner confirmed the 1-on-1 happened.</div>
+          <div class="mini danger"><strong>108 / 1on1 No Show</strong>Owner marked not attended; rebooking message can go out.</div>
+          <div class="mini human"><strong>110 / Webinar Awaiting</strong>Unfit or manual webinar route, waiting for webinar booking/action.</div>
+          <div class="mini calendly"><strong>111 / Webinar Pending</strong>Webinar booked or pending reminders.</div>
+          <div class="mini ok"><strong>115 / 1on1 TBC</strong>Fit lead ready for calendar prebook.</div>
+          <div class="mini danger"><strong>No clear label</strong>Check latest activity. It may need manual review.</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>08 / What Sales Should Watch In Pipedrive</h2>
+        <div class="path">Short activity subjects are the operational language.</div>
+      </div>
+      <div class="content">
+        <div class="mini-grid">
+          <div class="mini pipedrive"><strong>Typeform received</strong>New enquiry entered Pipedrive from Typeform.</div>
+          <div class="mini human"><strong>Review fit manually</strong>AI fit check failed; human must decide fit/unfit.</div>
+          <div class="mini calendar"><strong>1-on-1 call with {{name}}</strong>Real owner-owned open meeting activity.</div>
+          <div class="mini calendar"><strong>Calendar invite created</strong>Automation created the owner calendar event.</div>
+          <div class="mini interakt"><strong>Prebooked call message sent</strong>WhatsApp was accepted by Interakt.</div>
+          <div class="mini danger"><strong>WhatsApp failed to deliver</strong>Interakt reported delivery failure, with code and reason.</div>
+          <div class="mini interakt"><strong>Booking link sent on WhatsApp</strong>Lead received link after reschedule/no-slot fallback.</div>
+          <div class="mini ok"><strong>Owner marked attended</strong>Owner confirmed attendance from WhatsApp.</div>
+        </div>
+        <div class="explain">
+          <div class="card">
+            <h3>Golden rule</h3>
+            <p>Pipedrive should answer: what happened, what the lead received, what the owner needs to do, and what the next automation is waiting on.</p>
+          </div>
+          <div class="card">
+            <h3>When unsure</h3>
+            <p>Look at the latest open activity first. Open activities usually mean a human needs to act. Done activities usually explain what the system already did.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="shell footer">
+      Last updated: 6 May 2026. Source: Windmill sales automation docs and live deployed flow structure.
+    </div>
+  </main>
+</body>
+</html>
