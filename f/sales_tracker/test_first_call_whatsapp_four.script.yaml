@@ -1,0 +1,16 @@
+summary: Four authorized first-call WhatsApp tests with durable send audit
+description: Preview-only allowlisted test of template 1. Defaults to dry-run. No retries, prospect sends, schedules, CRM or Sheet writes. Readback mode only reads the durable journal.
+kind: script
+schema:
+  type: object
+  properties:
+    execute:
+      type: boolean
+      default: false
+    approval_batch:
+      type: string
+      default: ''
+    readback_only:
+      type: boolean
+      default: false
+  required: []

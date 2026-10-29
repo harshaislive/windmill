@@ -1,0 +1,27 @@
+summary: Build Pipedrive token dashboard cache
+description: Reads committed Pipedrive API usage events and upserts the
+  dashboard cache payload.
+lock: ''
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    database:
+      type: object
+      description: ''
+      format: resource-postgresql
+    end_date:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    start_date:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+  required:
+    - database
+    - start_date
+    - end_date

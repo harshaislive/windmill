@@ -1,0 +1,38 @@
+summary: Invoke Supabase metrics snapshot Edge Function
+description: Scheduled worker that POSTs to the Supabase Edge Function which
+  fetches Layer 3 metrics and stores project_metrics_snapshots rows.
+lock: '!inline f/supabase/invoke_project_metrics_snapshot.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Preview the target URL and header configuration without invoking
+        the Edge Function.
+      default: false
+    edge_function_name:
+      type: string
+      description: Optional Supabase Edge Function name used with f/supabase/project_url.
+      default: ''
+      originalType: string
+    edge_function_url:
+      type: string
+      description: Optional full Edge Function URL. Overrides f/supabase/edge_function_url.
+      default: ''
+      originalType: string
+    fail_on_error:
+      type: boolean
+      description: ''
+      default: true
+    project_key:
+      type: string
+      description: ''
+      default: all
+      originalType: string
+    timeout_seconds:
+      type: integer
+      description: HTTP timeout for the Edge Function invocation.
+      default: 45
+  required: []

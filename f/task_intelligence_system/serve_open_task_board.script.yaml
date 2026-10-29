@@ -1,0 +1,20 @@
+summary: ''
+description: ''
+lock: '!inline f/task_intelligence_system/serve_open_task_board.script.lock'
+has_preprocessor: true
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    passcode:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    query:
+      type: object
+      description: ''
+      default: {}
+      format: resource-query
+  required: []

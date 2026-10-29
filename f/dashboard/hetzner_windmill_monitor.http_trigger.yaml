@@ -1,0 +1,17 @@
+summary: Hetzner Windmill monitor webhook
+description: Authenticated HTTP endpoint used by the Hetzner server collector to
+  send host, Docker, security, and disk-health snapshots into Windmill.
+authentication_method: api_key
+authentication_resource_path: f/dashboard/hetzner_windmill_monitor_auth
+http_method: post
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+route_path: hetzner/windmill-monitor
+route_path_key: hetzner/windmill-monitor
+script_path: f/dashboard/hetzner_windmill_monitor
+static_asset_config: null
+workspaced_route: false
+wrap_body: true

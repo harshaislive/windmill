@@ -1,0 +1,9 @@
+summary: ''
+description: ''
+lock: '!inline f/sales_intelligence/classify_long_histories.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

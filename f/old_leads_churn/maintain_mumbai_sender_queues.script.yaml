@@ -1,0 +1,8 @@
+summary: maintain mumbai sender queues
+kind: script
+schema:
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true

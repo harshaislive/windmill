@@ -1,0 +1,12 @@
+summary: Enroll the full approved Mumbai Sheet campaign outside Zoho
+description: Uses Harsha's full Sheet authorization and verified Gmail reply QA. No email or CRM write. Preserves identity holds, source changes, stops and existing send history.
+kind: script
+schema:
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true
+    resume_unattempted_send_id:
+      type: integer
+      default: 0

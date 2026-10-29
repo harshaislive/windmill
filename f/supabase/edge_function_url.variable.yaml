@@ -1,0 +1,4 @@
+description: Optional full Supabase Edge Function URL. Use this instead of
+  edge_function_name when the full path is known.
+value: ''
+is_secret: false

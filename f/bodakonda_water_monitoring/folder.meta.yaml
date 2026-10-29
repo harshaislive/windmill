@@ -1,0 +1,6 @@
+summary: Bodakonda water monitoring dashboard and data tables
+display_name: bodakonda_water_monitoring
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

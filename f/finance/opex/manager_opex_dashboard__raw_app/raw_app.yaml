@@ -1,0 +1,10 @@
+summary: Manager-restricted OPEX dashboard
+data:
+  datatable: main
+  tables:
+    - main/opex_dashboard_snapshots
+    - main/opex_sync_runs
+    - main/opex_sync_items
+    - main/opex_budget_cache
+    - main/opex_collectives_cache
+public: true

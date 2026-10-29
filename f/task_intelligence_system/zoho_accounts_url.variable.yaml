@@ -1,0 +1,3 @@
+description: Zoho Accounts OAuth base URL for India region.
+value: https://accounts.zoho.in
+is_secret: false

@@ -1,0 +1,22 @@
+summary: 10A Worker - send Collective Journey CTA
+description: Sends the Interakt Collective Journey CTA for deals labeled GIS
+  Awaiting, using a signed Windmill tracking URL as the WhatsApp button target.
+  The message directs the lead to go through the Collective Journey and request
+  a conversation from the bottom of the same page if the context feels aligned.
+lock: '!inline f/sales/send_gis_story_cta.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    deal_id:
+      type: number
+      description: Pipedrive deal ID to message.
+      default: null
+    dry_run:
+      type: boolean
+      description: Preview the Interakt payload without sending WhatsApp or writing to
+        Pipedrive.
+      default: false
+  required:
+    - deal_id

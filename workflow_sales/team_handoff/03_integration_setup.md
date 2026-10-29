@@ -6,7 +6,9 @@ This document lists the external systems and Windmill configuration needed to ke
 
 Workspace: `beforest-automations`
 
-Base URL: `https://windmill.devsharsha.live`
+Canonical public URL: `https://flows.ops.beforest.co`
+
+The legacy `https://windmill.devsharsha.live` hostname remains in service during the external-webhook migration. Do not remove it until every caller below has been moved and delivery-tested.
 
 Local export root: `D:\AI Apps\windmill`
 
@@ -14,10 +16,12 @@ Local export root: `D:\AI Apps\windmill`
 
 | System | Configure this URL | Notes |
 | --- | --- | --- |
-| Typeform | `https://windmill.devsharsha.live/api/r/typeform/pipedrive/intake` | Active on the four in-use collective forms. |
-| Pipedrive | `https://windmill.devsharsha.live/api/r/pipedrive/1on1/tbc/prebook` | Deal-change webhook for label/stage changes. |
+| Typeform | `https://flows.ops.beforest.co/api/r/typeform/pipedrive/intake` | Active and read-back verified on nine forms. Hyderabad primary uses the legacy Windmill job route on the same new hostname. |
+| Pipedrive | `https://flows.ops.beforest.co/api/r/pipedrive/1on1/tbc/prebook` | Deal-change webhook for label/stage changes; replacement webhook `1788421` read back on 2026-08-31. |
 | Calendly main account | `https://windmill.devsharsha.live/api/r/calendly/webinar/pipedrive/activity` | Organization-scope `invitee.created` webhook. |
-| Interakt | `https://windmill.devsharsha.live/api/r/interakt/whatsapp/inbound` | Single signed webhook for all inbound WhatsApp responses. |
+| Interakt | `https://flows.ops.beforest.co/api/r/interakt/whatsapp/inbound` | Single signed webhook for all inbound WhatsApp responses; changed by Harsha during the hostname migration. |
+
+Migration status on 2026-08-31: Typeform, Interakt, and Pipedrive use the new hostname. Calendly remains disabled on the legacy hostname and must be migrated before re-enabling.
 
 ## Windmill Variables
 
@@ -33,12 +37,14 @@ Local export root: `D:\AI Apps\windmill`
 | `f/sales/calendar_prebook_1on1/owner_booking_link_map` | Yes | Owner booking links used in fallback/reschedule messages. |
 | `f/sales/calendar_prebook_1on1/default_duration_minutes` | Yes | Current 1on1 duration, usually `30`. |
 | `f/sales/calendar_prebook_1on1/timezone` | Yes | Usually `Asia/Kolkata`. |
-| `f/sales/calendar_prebook_1on1/calendly_vivek_token` | Yes | Vivek Calendly token for availability lookup only. |
-| `f/sales/calendar_prebook_1on1/calendly_vivek_event_type_uri` | Yes | Vivek 1on1 Calendly event type URI. |
+| `f/sales/calendar_prebook_1on1/calendly_vivek_token` | Yes | Vivek Calendly token used by the live Bhopal/Mumbai booking reconciler; legacy internal prebook tooling can also read it. |
+| `f/sales/calendar_prebook_1on1/calendly_vivek_event_type_uri` | Yes | The only Vivek event type accepted by the Bhopal/Mumbai reconciler. |
 | `f/sales/calendar_prebook_1on1/interakt_api_key` | Yes | Interakt Public API key. |
 | `f/sales/calendar_prebook_1on1/interakt_base_url` | Yes | Interakt API base URL, normally `https://api.interakt.ai`. |
 | `f/sales/interakt_whatsapp_inbound_webhook_secret` | Yes | Secret key used by the Interakt inbound signature auth resource. |
 | `f/sales/calendly_main/api_token` | Yes | Main Calendly token for admin checks/webhook management. Not needed to receive webhooks. |
+| `f/sales/calendly_zoom_registration_enabled` | No | Set to `true` to allow the contained manual/ops Calendly-to-Zoom registration path and its targeted one-off webinar reminders. Keep absent/false to leave it off. |
+| `f/sales/legacy_webinar_enabled` | No | Set to `true` only to revive the older full legacy webinar path. Do not use this for the contained registration/reminder path. |
 | `f/sales/typeform_to_pipedrive_intake/azure_openai_endpoint` | Yes | Azure OpenAI endpoint. |
 | `f/sales/typeform_to_pipedrive_intake/azure_openai_api_key` | Yes | Azure OpenAI API key. |
 | `f/sales/typeform_to_pipedrive_intake/azure_openai_deployment` | Yes | Azure OpenAI deployment name. |
@@ -60,7 +66,10 @@ Google Calendar:
 Calendly:
 
 - Main Calendly token is for admin/API checks and webhook management.
-- Vivek Calendly token is separate and is used only for Vivek availability lookup.
+- Vivek's token is separate and powers the scoped Bhopal/Mumbai scheduled-event reconciler. The reconciler reads both active and canceled bookings from the configured event type.
+- The Bhopal Canva link must carry `utm_campaign=bhopal`; Mumbai must carry `utm_campaign=mumbai`. These values select Pipedrive pipeline `4` or `2` during reconciliation.
+- The reconciler schedule is `0 37 8,11,15,19 * * *` in `Asia/Kolkata`, with overlap disabled.
+- Hammiyala and Poomaale must not point to Vivek Calendly; their brochure CTA remains the Rakesh post-brochure Typeform.
 
 Interakt:
 

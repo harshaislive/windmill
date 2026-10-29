@@ -1,0 +1,6 @@
+summary: Verify Mumbai SMTP authentication and Sent visibility without sending
+description: Logs in to the four exact sender mailboxes. Opens Sent read-only. No send command.
+kind: script
+schema:
+  type: object
+  properties: {}

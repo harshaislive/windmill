@@ -1,0 +1,7 @@
+summary: Bodakonda Water Monitoring Dashboard
+data:
+  tables:
+    - main/water_usage_records
+    - main/rainfall_records
+    - main/water_dashboard_import_log
+public: true

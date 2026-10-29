@@ -1,0 +1,10 @@
+summary: ''
+description: ''
+lock: '!inline
+  f/marketing/manychat/manychat_journey_dashboard__raw_app/global.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

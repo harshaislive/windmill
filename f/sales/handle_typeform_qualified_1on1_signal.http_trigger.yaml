@@ -1,0 +1,25 @@
+summary: Typeform embed qualified 1on1 browser signal
+description: Receives a secret-free browser beacon only when an embedded primary
+  Beforest Typeform reaches its existing qualified 1on1 destination question.
+  The script validates the HTTPS beforest.co Origin plus the exact form/question
+  pair.
+authentication_method: none
+authentication_resource_path: null
+http_method: post
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: true
+request_type: async
+retry:
+  exponential:
+    attempts: 0
+    multiplier: 1
+    random_factor: 0
+    seconds: 1
+route_path: sales/typeform/qualified-1on1-signal
+route_path_key: sales/typeform/qualified-1on1-signal
+script_path: f/sales/handle_typeform_qualified_1on1_signal
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

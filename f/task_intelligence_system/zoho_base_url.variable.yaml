@@ -1,0 +1,4 @@
+description: Zoho Projects REST API base URL. Update if your Zoho account uses a
+  different region.
+value: https://projectsapi.zoho.in/restapi
+is_secret: false

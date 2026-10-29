@@ -1,0 +1,23 @@
+{
+  "path": "f/bewild_lead_magnet/honey_popup",
+  "script_path": "f/bewild_lead_magnet/honey_popup",
+  "route_path": "bewild/honey/popup",
+  "http_method": "post",
+  "request_type": "sync",
+  "authentication_method": "none",
+  "is_flow": false,
+  "is_static_website": false,
+  "workspaced_route": false,
+  "wrap_body": false,
+  "raw_string": true,
+  "permissioned_as": "u/harsha",
+  "mode": "enabled",
+  "summary": "Beforest Coffee Blossom Honey popup",
+  "description": "Isolated public challenge/submit route. No automatic provider retries. Origin/consent/proof/rate/phone campaign guards are server-side.",
+  "retry": {
+    "constant": {
+      "attempts": 0,
+      "seconds": 0
+    }
+  }
+}

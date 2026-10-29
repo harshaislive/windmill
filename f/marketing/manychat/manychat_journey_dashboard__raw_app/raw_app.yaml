@@ -1,0 +1,6 @@
+summary: Interactive ManyChat Instagram DM journey dashboard
+data:
+  datatable: main
+  tables:
+    - main/manychat_button_click_events
+public: true

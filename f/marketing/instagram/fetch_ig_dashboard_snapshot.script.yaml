@@ -1,0 +1,35 @@
+summary: Fetch Instagram dashboard snapshot
+description: Reads an exact cached Instagram dashboard snapshot and can securely
+  fetch and cache a missing valid window after server-side passcode validation.
+lock: '!inline f/marketing/instagram/fetch_ig_dashboard_snapshot.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dashboard_passcode:
+      type: string
+      description: Dashboard passcode required for public app access.
+      default: ''
+      originalType: string
+    end_date:
+      type: string
+      description: Optional requested end date. Must be before today.
+      default: ''
+      originalType: string
+    fetch_if_missing:
+      type: boolean
+      description: Fetch and cache the exact requested window when it is not stored.
+      default: false
+    snapshot_date:
+      type: string
+      description: Optional YYYY-MM-DD snapshot date. Defaults to latest.
+      default: ''
+      originalType: string
+    start_date:
+      type: string
+      description: Optional requested start date. Supports up to 30 days or one
+        complete 31-day calendar month.
+      default: ''
+      originalType: string
+  required: []

@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beforest Brochure and Conversation Request Flow</title>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: "loose",
+      theme: "base",
+      themeVariables: {
+        fontFamily: "Inter, Segoe UI, Arial, sans-serif",
+        primaryColor: "#f5f2ea",
+        primaryTextColor: "#17211b",
+        primaryBorderColor: "#6f7d63",
+        lineColor: "#5f6b5c",
+        secondaryColor: "#edf4f2",
+        tertiaryColor: "#f7f7f3",
+        clusterBkg: "#fbfaf6",
+        clusterBorder: "#d8d1bf",
+        edgeLabelBackground: "#ffffff"
+      },
+      flowchart: {
+        htmlLabels: true,
+        curve: "basis",
+        nodeSpacing: 44,
+        rankSpacing: 58
+      }
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const viewport = document.querySelector("[data-zoom-viewport]");
+      const canvas = document.querySelector("[data-zoom-canvas]");
+      const value = document.querySelector("[data-zoom-value]");
+      if (!viewport || !canvas || !value) return;
+
+      let zoom = 1;
+      const minZoom = 0.45;
+      const maxZoom = 2.25;
+
+      const clamp = (nextZoom) => Math.min(maxZoom, Math.max(minZoom, nextZoom));
+      const updateZoom = (nextZoom) => {
+        zoom = clamp(nextZoom);
+        canvas.style.zoom = String(zoom);
+        value.textContent = `${Math.round(zoom * 100)}%`;
+      };
+
+      const fitToWidth = () => {
+        const diagram = canvas.querySelector("svg") || canvas;
+        const previousZoom = canvas.style.zoom || "1";
+        canvas.style.zoom = "1";
+        const diagramWidth = diagram.getBoundingClientRect().width || diagram.scrollWidth;
+        canvas.style.zoom = previousZoom;
+        if (!diagramWidth) return updateZoom(1);
+        const availableWidth = viewport.clientWidth - 28;
+        updateZoom(availableWidth / diagramWidth);
+        viewport.scrollLeft = 0;
+        viewport.scrollTop = 0;
+      };
+
+      document.querySelector("[data-zoom-in]")?.addEventListener("click", () => updateZoom(zoom + 0.15));
+      document.querySelector("[data-zoom-out]")?.addEventListener("click", () => updateZoom(zoom - 0.15));
+      document.querySelector("[data-zoom-reset]")?.addEventListener("click", () => {
+        updateZoom(1);
+        viewport.scrollLeft = 0;
+        viewport.scrollTop = 0;
+      });
+      document.querySelector("[data-zoom-fit]")?.addEventListener("click", fitToWidth);
+
+      viewport.addEventListener("wheel", (event) => {
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        updateZoom(zoom + (event.deltaY > 0 ? -0.08 : 0.08));
+      }, { passive: false });
+
+      let dragging = false;
+      let startX = 0;
+      let startY = 0;
+      let startScrollLeft = 0;
+      let startScrollTop = 0;
+
+      viewport.addEventListener("pointerdown", (event) => {
+        if (event.button !== 0) return;
+        dragging = true;
+        startX = event.clientX;
+        startY = event.clientY;
+        startScrollLeft = viewport.scrollLeft;
+        startScrollTop = viewport.scrollTop;
+        viewport.classList.add("is-dragging");
+        viewport.setPointerCapture(event.pointerId);
+      });
+
+      viewport.addEventListener("pointermove", (event) => {
+        if (!dragging) return;
+        viewport.scrollLeft = startScrollLeft - (event.clientX - startX);
+        viewport.scrollTop = startScrollTop - (event.clientY - startY);
+      });
+
+      const stopDragging = (event) => {
+        dragging = false;
+        viewport.classList.remove("is-dragging");
+        if (event.pointerId) viewport.releasePointerCapture(event.pointerId);
+      };
+
+      viewport.addEventListener("pointerup", stopDragging);
+      viewport.addEventListener("pointercancel", stopDragging);
+
+      setTimeout(fitToWidth, 500);
+    });
+  </script>
+  <style>
+    :root {
+      --ink: #17211b;
+      --muted: #5f6b5c;
+      --line: #ded8ca;
+      --paper: #fbfaf6;
+      --wash: #f4f1e8;
+      --green: #2f5d50;
+      --green-soft: #e6efeb;
+      --gold: #8a6f31;
+      --gold-soft: #f3ecd2;
+      --blue: #355c73;
+      --blue-soft: #e5eef2;
+      --danger: #8d3e36;
+      --danger-soft: #f5e4e0;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.48;
+    }
+
+    header {
+      padding: 44px 6vw 24px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, var(--paper) 100%);
+    }
+
+    main {
+      padding: 28px 6vw 56px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.05;
+      letter-spacing: 0;
+      max-width: 1000px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      max-width: 980px;
+    }
+
+    code {
+      font-family: "Cascadia Mono", Consolas, monospace;
+      font-size: 0.94em;
+      background: rgba(23, 33, 27, 0.06);
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .section {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section:last-child {
+      border-bottom: 0;
+    }
+
+    .diagram-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 10px;
+    }
+
+    .zoom-buttons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .zoom-button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      border-radius: 6px;
+      min-width: 38px;
+      min-height: 34px;
+      padding: 6px 10px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .zoom-button:hover {
+      border-color: #9b927c;
+      background: var(--wash);
+    }
+
+    .zoom-value {
+      min-width: 52px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .diagram-shell {
+      overflow: auto;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      height: min(76vh, 820px);
+      cursor: grab;
+      overscroll-behavior: contain;
+      touch-action: none;
+    }
+
+    .diagram-shell.is-dragging {
+      cursor: grabbing;
+      user-select: none;
+    }
+
+    .diagram-canvas {
+      display: inline-block;
+      transform-origin: top left;
+      transition: filter 140ms ease;
+    }
+
+    .mermaid {
+      min-width: 1080px;
+      margin: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .card.green {
+      background: var(--green-soft);
+      border-color: #c9ddd5;
+    }
+
+    .card.gold {
+      background: var(--gold-soft);
+      border-color: #e0d198;
+    }
+
+    .card.blue {
+      background: var(--blue-soft);
+      border-color: #c7dae2;
+    }
+
+    .card.danger {
+      background: var(--danger-soft);
+      border-color: #e0b8b0;
+    }
+
+    .copy {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: var(--ink);
+      font-family: "Cascadia Mono", Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.46;
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid rgba(23, 33, 27, 0.12);
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .step {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .step-num {
+      display: inline-flex;
+      width: 26px;
+      height: 26px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--green);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+      padding: 12px;
+    }
+
+    th {
+      background: var(--wash);
+      color: var(--ink);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 960px) {
+      .grid,
+      .grid.two,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      header,
+      main {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Beforest Brochure and Conversation Request Flow</h1>
+    <p>This is the current sales journey after a lead fills a collective Typeform. The rule is simple: the lead reads the brochure first, then requests a conversation from the form at the end of the brochure.</p>
+    <div class="meta">
+      <span class="pill">Last updated: 2026-07-07</span>
+      <span class="pill">WhatsApp number: +91 89779 45351</span>
+      <span class="pill">Primary brochure template: collective_brochure_link_v2</span>
+      <span class="pill">Template status: approved</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Full Flow</h2>
+      <div class="diagram-toolbar" aria-label="Diagram zoom controls">
+        <p class="small">Use the buttons to zoom. Drag inside the flow to pan. Ctrl + mouse wheel also zooms.</p>
+        <div class="zoom-buttons">
+          <button class="zoom-button" type="button" data-zoom-out aria-label="Zoom out">-</button>
+          <span class="zoom-value" data-zoom-value>100%</span>
+          <button class="zoom-button" type="button" data-zoom-in aria-label="Zoom in">+</button>
+          <button class="zoom-button" type="button" data-zoom-reset>Reset</button>
+          <button class="zoom-button" type="button" data-zoom-fit>Fit width</button>
+        </div>
+      </div>
+      <div class="diagram-shell" data-zoom-viewport>
+        <div class="diagram-canvas" data-zoom-canvas>
+          <pre class="mermaid">
+flowchart TD
+  A["Lead fills primary collective Typeform"] --> B["Typeform redirects lead to WhatsApp<br/>wa.me/918977945351"]
+  A --> C["Typeform webhook reaches Windmill<br/>typeform_to_pipedrive_intake"]
+
+  B --> B1{"Which Typeform ending?"}
+  B1 -->|"Fit / direct-conversation ending"| B2["Prefilled WhatsApp text:<br/>Hi Beforest, I just submitted the collective form. I'd like to speak with the team about the next step."]
+  B1 -->|"Brochure-first / unfit ending"| B3["Prefilled WhatsApp text:<br/>Hi Beforest, I just submitted the collective form. Please send me the brochure."]
+  B2 --> B4{"Lead taps Send in WhatsApp?"}
+  B3 --> B4
+
+  C --> C1["Windmill creates or updates Pipedrive person and deal"]
+  C1 --> C2["Windmill logs Pipedrive activity:<br/>Typeform received"]
+  C2 --> C3{"Fit routing result"}
+  C3 -->|"Fit"| C4["Deal moves to 1on1 TBC path<br/>team-managed scheduling notice can be sent"]
+  C3 -->|"Brochure-first / unfit / filler"| C5["Deal moves to GIS Awaiting compatibility path<br/>brochure CTA can be sent"]
+  C2 --> C6["Windmill schedules brochure follow-up check<br/>5 minutes after Typeform"]
+
+  B4 -->|"Yes, inbound WhatsApp received"| D["Interakt inbound webhook reaches Windmill"]
+  D --> D1["Windmill matches latest recent open deal<br/>by phone + collective + time window"]
+  D1 --> D2{"Brochure already sent?"}
+  D2 -->|"No"| D3["Send WhatsApp brochure template<br/>collective_brochure_link_v2"]
+  D2 -->|"Yes"| D4["No duplicate send<br/>inbound is logged only"]
+  D3 --> D5["Pipedrive activity:<br/>Brochure sent after WhatsApp redirect"]
+
+  B4 -->|"No, no inbound WhatsApp"| E["5-minute fallback job runs"]
+  C6 --> E
+  E --> E1{"Any inbound WhatsApp<br/>after Typeform submit time?"}
+  E1 -->|"Yes"| D3
+  E1 -->|"No"| E2["Send WhatsApp brochure template<br/>collective_brochure_link_v2"]
+  E2 --> E3["Pipedrive activity:<br/>Brochure fallback sent after Typeform"]
+
+  C4 --> F["Fit lead also gets team scheduling notice<br/>if eligible and not already sent"]
+  F --> F1["Client-facing text:<br/>Your request for a 1on1 conversation is in review. One of our team members will message you directly to schedule the conversation."]
+  F1 --> F2["Pipedrive activity:<br/>1on1 team scheduling notice sent"]
+
+  D5 --> G["Lead opens brochure"]
+  E3 --> G
+  C5 --> G0["If Pipedrive label path sends brochure CTA,<br/>it also uses collective_brochure_link_v2"]
+  G0 --> G
+  G --> G1["Brochure contains conversation request Typeform at the end"]
+  G1 --> H["Lead fills post-brochure Typeform"]
+  H --> H1["Windmill updates the same Pipedrive deal where possible"]
+  H1 --> H2["Pipedrive activity:<br/>Post-brochure Typeform submitted"]
+  H2 --> H3["Windmill creates owner task:<br/>Review post-brochure conversation request"]
+  H2 --> H4["WhatsApp acknowledgement is sent to lead"]
+  H4 --> H5["Client-facing text:<br/>Thanks {{name}}, we received your follow-up for {{collective}}. {{owner_name}} will reach out soon."]
+  H5 --> H6["Pipedrive activity:<br/>Post-brochure acknowledgement sent"]
+
+  D3 --> I["If WhatsApp send fails"]
+  E2 --> I
+  G0 --> I
+  I --> I1["Create Pipedrive manual task<br/>with exact copy-paste message"]
+  I --> I2["Mailchimp fallback can email brochure<br/>in scheduled batches"]
+  I2 --> I3["Client-facing email:<br/>Read the brochure, then request a conversation from the form at the end."]
+
+  G --> J["Day-wise WhatsApp nurture"]
+  J --> J1["Runs until post-brochure Typeform is submitted"]
+  J1 --> J2["Day 2 / 4 / 6 / 8 / 10 / 12 / 14<br/>all point back to brochure and same next step"]
+          </pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Sales Summary</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Lead fills Typeform</h3>
+          <p>Typeform sends the lead to WhatsApp and sends the submission to Windmill.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Windmill creates Pipedrive trail</h3>
+          <p>Person and deal are created or updated. Sales sees <code>Typeform received</code>.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Brochure is sent</h3>
+          <p>If the lead sends the WhatsApp message, brochure is sent immediately. If not, Windmill waits 5 minutes and sends it.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Conversation happens after brochure</h3>
+          <p>The lead requests a conversation from the form at the end of the brochure. Owner gets a Pipedrive task.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Exact Client-Facing Language</h2>
+      <div class="grid two">
+        <div class="card green">
+          <h3>Typeform ending: fit / direct conversation</h3>
+          <p class="small">This is the prefilled WhatsApp text. The lead must still tap Send.</p>
+          <div class="copy">Hi Beforest, I just submitted the collective form. I'd like to speak with the team about the next step.</div>
+        </div>
+        <div class="card gold">
+          <h3>Typeform ending: brochure-first / unfit</h3>
+          <p class="small">This is the prefilled WhatsApp text. The lead must still tap Send.</p>
+          <div class="copy">Hi Beforest, I just submitted the collective form. Please send me the brochure.</div>
+        </div>
+        <div class="card blue">
+          <h3>Post-brochure Typeform ending</h3>
+          <p class="small">This confirms the lead filled the second form after reading the brochure.</p>
+          <div class="copy">Hi Beforest, I just submitted the follow-up form after reading the brochure.</div>
+        </div>
+        <div class="card green">
+          <h3>Brochure WhatsApp template</h3>
+          <p class="small">Template: <code>collective_brochure_link_v2</code>. Button: <code>Open brochure</code>.</p>
+          <div class="copy">Hi {{1}},
+
+Sharing the brochure for {{2}}. It brings together the place, access, landscape, people, process, and current progress of the collective.
+
+Please go through it. If it feels aligned, you can request a conversation with our team from the form at the end of the brochure.</div>
+        </div>
+        <div class="card blue">
+          <h3>Manual brochure copy</h3>
+          <p class="small">Used inside Pipedrive manual tasks if automated WhatsApp delivery fails.</p>
+          <div class="copy">Hi {{first_name}},
+
+For {{collective}}, the next step is to go through the brochure.
+
+It brings together the place, access, landscape, people, process, and current progress of the collective, so you can understand it with the right context.
+
+{{collective_context_line}}
+
+If the brochure feels aligned, you can request a conversation from the form at the end of the brochure. It helps us understand what you would like to explore before the team speaks with you.
+
+Open the brochure here: {{brochure_url}}</div>
+        </div>
+        <div class="card gold">
+          <h3>1on1 scheduling notice</h3>
+          <p class="small">For fit leads where the team-managed scheduling path is active.</p>
+          <div class="copy">Hi {{first_name}},
+
+Your request for a 1on1 conversation for {{collective}} is in review. One of our team members will message you directly to schedule the conversation.</div>
+        </div>
+        <div class="card green">
+          <h3>Email fallback: WhatsApp failed</h3>
+          <p class="small">For failed WhatsApp delivery from the primary Typeform path.</p>
+          <div class="copy">Hi *|FNAME|*,
+
+Thanks for sharing your interest in {{collective}}.
+
+We tried reaching you on WhatsApp, but the message may not have gone through.
+Here is the brochure, so you can go through the place, access, landscape, people, process, and current progress of the collective.
+
+{{brochure_url}}
+
+Once you have read through it, you can request a conversation with our team from the form at the end of the brochure.
+
+Team Beforest</div>
+        </div>
+        <div class="card blue">
+          <h3>Post-brochure acknowledgement</h3>
+          <p class="small">Sent after the lead submits the second Typeform.</p>
+          <div class="copy">Thanks {{name}}, we received your follow-up for {{collective}}. {{owner_name}} will reach out soon.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What Sales Sees In Pipedrive</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Activity</th>
+            <th>Meaning</th>
+            <th>Sales action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Typeform received</code></td>
+            <td>The first Typeform landed and the deal/person was created or updated.</td>
+            <td>Use this as the start of the automation trail.</td>
+          </tr>
+          <tr>
+            <td><code>Brochure sent after WhatsApp redirect</code></td>
+            <td>The lead sent the prefilled WhatsApp message, Interakt inbound was received, and the brochure was sent.</td>
+            <td>No manual brochure send needed.</td>
+          </tr>
+          <tr>
+            <td><code>Brochure fallback sent after Typeform</code></td>
+            <td>The lead did not send the WhatsApp message within the fallback window, so Windmill sent the brochure anyway.</td>
+            <td>No manual brochure send needed.</td>
+          </tr>
+          <tr>
+            <td><code>GIS story link sent</code></td>
+            <td>Compatibility label activity for the brochure CTA path. It now sends Canva brochure links using <code>collective_brochure_link_v2</code>.</td>
+            <td>Treat this as brochure sent.</td>
+          </tr>
+          <tr>
+            <td><code>Brochure opened</code></td>
+            <td>The lead clicked the tracked brochure button and reached the Canva brochure.</td>
+            <td>Good signal, but wait for the post-brochure Typeform unless the owner wants to intervene.</td>
+          </tr>
+          <tr>
+            <td><code>Post-brochure Typeform submitted</code></td>
+            <td>The lead requested a conversation after going through the brochure.</td>
+            <td>Owner should act on the follow-up task.</td>
+          </tr>
+          <tr>
+            <td><code>Review post-brochure conversation request</code></td>
+            <td>Owner task created from the second form.</td>
+            <td>Message or call the lead. This is the main sales handoff point.</td>
+          </tr>
+          <tr>
+            <td><code>Post-brochure acknowledgement sent</code></td>
+            <td>The lead was told that the owner will reach out soon.</td>
+            <td>Owner should not delay; the customer has already been promised follow-up.</td>
+          </tr>
+          <tr>
+            <td><code>Send brochure manually</code></td>
+            <td>Automatic WhatsApp send failed or phone/template data was missing.</td>
+            <td>Use the copy-paste message in the activity note.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Owner Routing</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Collective</th>
+            <th>Owner</th>
+            <th>What happens after the second form</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mumbai</td>
+            <td>Vivekanand</td>
+            <td>Same Pipedrive deal is updated where possible. Owner task is created.</td>
+          </tr>
+          <tr>
+            <td>Bhopal</td>
+            <td>Vivekanand</td>
+            <td>Same Pipedrive deal is updated where possible. Owner task is created.</td>
+          </tr>
+          <tr>
+            <td>Hyderabad</td>
+            <td>Vivekanand</td>
+            <td>Post-brochure form is wired to Windmill. Owner task is created.</td>
+          </tr>
+          <tr>
+            <td>Hammiyala</td>
+            <td>Rakesh</td>
+            <td>Same Pipedrive deal is updated where possible. Owner task is created.</td>
+          </tr>
+          <tr>
+            <td>Poomaale 2.0</td>
+            <td>Rakesh</td>
+            <td>Same Pipedrive deal is updated where possible. Owner task is created.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>What To Remember</h2>
+      <div class="grid">
+        <div class="card green">
+          <h3>Do not send old GIS links</h3>
+          <p>Customer-facing links are Canva brochure links. Old GIS/StoryMap labels remain only for internal compatibility.</p>
+        </div>
+        <div class="card gold">
+          <h3>Do not ask for a reply as the next step</h3>
+          <p>The current next step is the conversation request form at the end of the brochure.</p>
+        </div>
+        <div class="card blue">
+          <h3>Do not duplicate the brochure</h3>
+          <p>Windmill checks Pipedrive activities before sending. If a brochure was already sent, it skips duplicate sends.</p>
+        </div>
+        <div class="card danger">
+          <h3>Manual tasks mean automation needs help</h3>
+          <p>If Pipedrive shows a manual send task, use the exact copy-paste text inside the note.</p>
+        </div>
+        <div class="card green">
+          <h3>The second form is the clean handoff</h3>
+          <p>Once the lead submits it, sales should treat the lead as ready for a conversation.</p>
+        </div>
+        <div class="card gold">
+          <h3>Approved WhatsApp template</h3>
+          <p><code>collective_brochure_link_v2</code> is the live brochure template wired into both active brochure senders.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

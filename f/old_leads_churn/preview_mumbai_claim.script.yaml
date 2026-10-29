@@ -1,0 +1,10 @@
+summary: Preview atomic Mumbai queue claim without reservation
+description: Reads due steps and pilot capacity. Cannot send or reserve.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    at:
+      type: string
+      default: ''

@@ -1,0 +1,23 @@
+summary: 10B Trigger - GIS StoryMap open tracker
+description: Public GET endpoint used as the WhatsApp GIS CTA button target.
+  Tracks the click in Pipedrive and redirects the lead to the ArcGIS StoryMap.
+authentication_method: none
+authentication_resource_path: null
+http_method: get
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+retry:
+  exponential:
+    attempts: 0
+    multiplier: 1
+    random_factor: 0
+    seconds: 1
+route_path: sales/gis/open
+route_path_key: sales/gis/open
+script_path: f/sales/track_gis_story_open
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

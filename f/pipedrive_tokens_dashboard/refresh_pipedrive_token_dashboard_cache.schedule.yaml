@@ -1,0 +1,16 @@
+summary: Pipedrive token dashboard cache refresh
+description: Rebuilds the Pipedrive API usage dashboard cache from logged usage
+  events for fast dashboard reads.
+args:
+  database: datatable://main
+  end_date: ''
+  start_date: ''
+cron_version: v2
+email: harsha@beforest.co
+enabled: false
+is_flow: false
+no_flow_overlap: true
+schedule: 0 */5 * * * *
+script_path: f/pipedrive_tokens_dashboard/refresh_pipedrive_token_dashboard_cache
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

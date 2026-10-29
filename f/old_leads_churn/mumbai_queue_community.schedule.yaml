@@ -1,0 +1,12 @@
+summary: Mumbai community independent sender queue
+schedule: '20 */3 8-18 * * *'
+timezone: Asia/Kolkata
+cron_version: v2
+enabled: true
+script_path: f/old_leads_churn/run_mumbai_sender_queue
+is_flow: false
+no_flow_overlap: true
+email: harsha@beforest.co
+args:
+  sender: community@beforest.co
+  dry_run: false

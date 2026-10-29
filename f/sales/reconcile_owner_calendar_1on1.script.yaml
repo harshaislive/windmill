@@ -1,0 +1,29 @@
+summary: 11A Worker - reconcile owner 1on1 calendars
+description: 'Polls Vivek and Sravani calendars, finds Beforest 1-on-1 events
+  that clearly reference a Pipedrive deal ID, writes meeting date/link fields
+  back to the deal, and creates the owner-owned "1-on-1 call with {deal title}"
+  activity when missing. Conservative by design: events without a clear deal ID
+  are skipped instead of guessed.'
+lock: '!inline f/sales/reconcile_owner_calendar_1on1.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Preview matched calendar events without writing to Pipedrive.
+      default: true
+    lookahead_days:
+      type: integer
+      description: How many days ahead to check owner calendars.
+      default: 30
+    lookback_days:
+      type: integer
+      description: How many days back to check owner calendars.
+      default: 2
+    max_events_per_calendar:
+      type: integer
+      description: Safety cap per owner calendar.
+      default: 500
+  required: []

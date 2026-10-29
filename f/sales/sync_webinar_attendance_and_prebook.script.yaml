@@ -1,0 +1,13 @@
+summary: Legacy webinar attendance sync and prebook
+description: Legacy Zoom webinar attendance sync. Guarded by
+  f/sales/legacy_webinar_enabled for GIS-only funnel.
+lock: '!inline f/sales/sync_webinar_attendance_and_prebook.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: false
+tag: sales-webhook

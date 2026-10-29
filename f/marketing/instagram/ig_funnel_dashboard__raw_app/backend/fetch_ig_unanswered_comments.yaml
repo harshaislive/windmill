@@ -1,0 +1,3 @@
+type: runnableByPath
+path: f/marketing/instagram/fetch_ig_unanswered_comments
+runType: script

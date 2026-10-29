@@ -1,0 +1,9 @@
+summary: HO Expenses dashboard backed by department expense snapshots
+data:
+  datatable: main
+  schema: public
+  tables:
+    - main/ho_expense_departments
+    - main/ho_expense_snapshots
+    - main/ho_expense_budget_cache
+    - main/ho_expense_ytd_categories

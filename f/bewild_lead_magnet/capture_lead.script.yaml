@@ -1,0 +1,138 @@
+summary: Capture Bewild lead magnet lead
+description: Receives Bewild coupon popup and rice finder submissions plus
+  product-click events, deduplicates by email or WhatsApp, stores campaign
+  attribution in Windmill datatables, and queues pending email/WhatsApp
+  follow-ups.
+lock: '!inline f/bewild_lead_magnet/capture_lead.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    body:
+      type: object
+      description: ''
+      default: null
+      format: resource-lead_payload
+      properties:
+        name:
+          type: string
+          description: ''
+          originalType: string
+        answers:
+          type: object
+          description: ''
+          format: resource-record
+        channels:
+          type: array
+          description: ''
+          items:
+            type: string
+          originalType: string[]
+        consent:
+          type: boolean
+          description: ''
+        consent_text:
+          type: string
+          description: ''
+          originalType: string
+        consentText:
+          type: string
+          description: ''
+          originalType: string
+        coupon:
+          type: string
+          description: ''
+          originalType: string
+        email:
+          type: string
+          description: ''
+          originalType: string
+        email_opt_in:
+          type: boolean
+          description: ''
+        event_type:
+          type: string
+          description: ''
+          originalType: string
+        fbclid:
+          type: string
+          description: ''
+          originalType: string
+        lead_id:
+          type: string
+          description: ''
+          originalType: string
+        lead_magnet_name:
+          type: string
+          description: ''
+          originalType: string
+        page:
+          type: string
+          description: ''
+          originalType: string
+        phone:
+          type: string
+          description: ''
+          originalType: string
+        product_interest:
+          type: string
+          description: ''
+          originalType: string
+        product_link:
+          type: string
+          description: ''
+          originalType: string
+        result_key:
+          type: string
+          description: ''
+          originalType: string
+        result_title:
+          type: string
+          description: ''
+          originalType: string
+        source:
+          type: string
+          description: ''
+          originalType: string
+        timestamp:
+          type: string
+          description: ''
+          originalType: string
+        utm_campaign:
+          type: string
+          description: ''
+          originalType: string
+        utm_content:
+          type: string
+          description: ''
+          originalType: string
+        utm_medium:
+          type: string
+          description: ''
+          originalType: string
+        utm_source:
+          type: string
+          description: ''
+          originalType: string
+        visitor_id:
+          type: string
+          description: ''
+          originalType: string
+        visitorId:
+          type: string
+          description: ''
+          originalType: string
+        whatsapp:
+          type: string
+          description: ''
+          originalType: string
+        whatsapp_opt_in:
+          type: boolean
+          description: ''
+    dry_run:
+      type: boolean
+      description: ''
+      default: false
+  required:
+    - body

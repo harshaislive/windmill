@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "windmill-client": "latest",
+    "nodemailer": "latest"
+  }
+}
+//bun.lock
+{
+  "lockfileVersion": 2,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "dependencies": {
+        "nodemailer": "latest",
+        "windmill-client": "latest",
+      },
+    },
+  },
+  "packages": {
+    "nodemailer": ["nodemailer@10.1.2", "", {}, "sha512-rnQn9Rzh8RAwcp42MVsIvxbsv6YZ2a2/av+uyJ/LPU1+2QSlrRgFsWWZTKenyRUqkIl8urOI0c4+CEcmFdsvQw=="],
+
+    "windmill-client": ["windmill-client@1.837.0", "", {}, "sha512-HuatCIeXPGwAtsOubfB26Geei/oG9BBjFODJ9ZV8r7USD5CzUNktmXBjILUdhhYPAlSVWZkk5nd4bjYsB+hwOw=="],
+  }
+}

@@ -1,0 +1,9 @@
+summary: ''
+description: ''
+lock: '!inline f/old_leads_churn/run_mumbai_nurture_daily.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

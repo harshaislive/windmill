@@ -1,5 +1,32 @@
 import * as wmill from "windmill-client";
 
+
+type PipedriveUsageLogArgs = {
+  method: string;
+  rawEndpoint: string;
+  statusCode?: number;
+  success: boolean;
+  durationMs?: number;
+  rateLimitRemaining?: number;
+  rateLimitReset?: string;
+  retryAfter?: string;
+  errorMessage?: string;
+  requestFingerprint?: string;
+};
+
+async function logPipedriveApiUsage(_args: PipedriveUsageLogArgs) {
+  return;
+}
+
+function pipedriveRateLimitRemaining(response: Response): number | undefined {
+  const value = Number(response.headers.get("x-ratelimit-remaining") || response.headers.get("x-rate-limit-remaining"));
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function pipedriveEndpointForLog(url: URL): string {
+  return url.pathname;
+}
+
 const PIPEDRIVE_VARIABLE_PATH = "f/collectives/zoom_collective_to_pipedrive/pipedrive_api_key";
 const INTERAKT_API_KEY_PATH = "f/sales/calendar_prebook_1on1/interakt_api_key";
 const INTERAKT_BASE_URL_PATH = "f/sales/calendar_prebook_1on1/interakt_base_url";
@@ -143,6 +170,44 @@ function todayInTimezone(timezone: string): string {
   return `${get("year")}-${get("month")}-${get("day")}`;
 }
 
+function escapeHtml(value: string): string {
+  return value.replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
+}
+
+function manualWebinarCtaMessage(firstNameValue: string, collective: string, registrationUrl: string): string {
+  return [
+    `Hi ${firstNameValue || "there"},`,
+    "",
+    `Thanks for your interest in ${collective}. The best next step is to join the collective introduction webinar.`,
+    "",
+    `Please register here: ${registrationUrl}`,
+    "",
+    "If you have any trouble booking, just reply here and we will help.",
+  ].join("\n");
+}
+
+function manualFailureNote(params: {
+  reason: string;
+  phone: string;
+  templateName: string;
+  manualMessage: string;
+}) {
+  return [
+    "WhatsApp delivery failed. Please send this manually from WhatsApp Web.",
+    params.reason ? `Reason: ${escapeHtml(params.reason)}` : "",
+    params.phone ? `Send to: ${escapeHtml(params.phone)}` : "Send to: phone number on the Pipedrive person/deal.",
+    `Template: ${escapeHtml(params.templateName)}`,
+    "",
+    "<strong>Copy-paste message</strong>",
+    `<pre>${escapeHtml(params.manualMessage)}</pre>`,
+    "<strong>Manual steps</strong>",
+    "1. Open the contact in WhatsApp Web.",
+    "2. Paste and send the message above.",
+    "3. Mark this Pipedrive activity as done after sending.",
+    "4. If WhatsApp Web also fails, call the lead or reply from the owner's phone.",
+  ].filter(Boolean).join("<br>");
+}
+
 async function pipedriveRequest(
   method: string,
   path: string,
@@ -156,12 +221,26 @@ async function pipedriveRequest(
     if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, String(value));
   }
 
+  const startedAt = Date.now();
+
   const response = await fetch(url, {
     method,
     headers: options.body ? { "content-type": "application/json" } : undefined,
     body: options.body ? JSON.stringify(options.body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -280,6 +359,7 @@ export async function main(deal_id: number, dry_run = false) {
     callback_data: `pipedrive_deal:${dealId}:webinar_registration_cta`,
     registration_url: config.registrationUrl,
   };
+  const manualMessage = manualWebinarCtaMessage(plan.body_values[0], config.label, config.registrationUrl);
 
   if (dry_run) {
     return {
@@ -289,6 +369,7 @@ export async function main(deal_id: number, dry_run = false) {
       deal_title: deal.title || null,
       collective: config.label,
       plan,
+      manual_message: manualMessage,
     };
   }
 
@@ -307,6 +388,9 @@ export async function main(deal_id: number, dry_run = false) {
         "Sent the webinar registration link on WhatsApp.",
         `Collective: ${config.label}`,
         `Template: ${TEMPLATE_NAME}`,
+        "",
+        "<strong>Message sent</strong>",
+        `<pre>${escapeHtml(manualMessage)}</pre>`,
       ].join("<br>"),
       { personId: pid },
     );
@@ -323,11 +407,12 @@ export async function main(deal_id: number, dry_run = false) {
     const activity = await createPipedriveActivity(
       dealId,
       "WhatsApp failed to deliver",
-      [
-        "Could not send the webinar registration link.",
-        `Reason: ${message}`,
-        `Template: ${TEMPLATE_NAME}`,
-      ].join("<br>"),
+      manualFailureNote({
+        reason: message,
+        phone: rawPhone,
+        templateName: TEMPLATE_NAME,
+        manualMessage,
+      }),
       { personId: pid, done: 0 },
     );
     return {

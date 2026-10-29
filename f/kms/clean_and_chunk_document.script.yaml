@@ -1,0 +1,5 @@
+summary: ''
+description: ''
+lock: '!inline f/kms/clean_and_chunk_document.script.lock'
+kind: script
+schema: null

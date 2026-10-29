@@ -1,0 +1,5 @@
+summary: ''
+description: ''
+lock: '!inline f/kms/index_embedded_chunks_qdrant.script.lock'
+kind: script
+schema: null

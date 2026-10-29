@@ -1,0 +1,10 @@
+summary: Beforest Facebook Ads Growth Dashboard
+data:
+  datatable: main
+  tables:
+    - main/fb_ads_campaign_daily_metrics
+    - main/fb_ads_creative_daily_metrics
+    - main/fb_ads_creative_metadata
+    - main/fb_ads_comment_response_snapshots
+    - main/fb_ads_sync_runs
+public: true

@@ -1,0 +1,12 @@
+summary: Vexa hourly calendar scan
+description: Scans every enabled employee calendar via Maton and queues upcoming meetings with a Meet/Zoom/Teams link. Sends no bots.
+args: {}
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 * * * *
+script_path: f/vexa/scan_calendars
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

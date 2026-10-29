@@ -1,0 +1,23 @@
+summary: Sync Interakt webhook events for dashboard
+description: Reads completed Interakt inbound webhook jobs and upserts
+  event-level WhatsApp status/reply data into dashboard datatables without
+  modifying the sales webhook flow.
+lock: '!inline f/interakt_dashboard/sync_interakt_webhook_events.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    end_date:
+      type: string
+      description: Optional YYYY-MM-DD end date. Defaults to today in Asia/Kolkata.
+      default: ''
+    lookback_days:
+      type: integer
+      description: Number of recent days of inbound webhook jobs to scan.
+      default: 30
+    timezone:
+      type: string
+      description: Timezone used to calculate the scan window.
+      default: Asia/Kolkata
+  required: []

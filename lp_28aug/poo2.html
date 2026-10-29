@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poomaale 2.0 Hero Section</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Hero Container */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        /* HTML5 Video Background */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        /* Dark Overlay */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Slightly darker overlay to ensure white button and text pop against the forest */
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: -1;
+        }
+
+        /* Content Styling */
+        .hero-content {
+            z-index: 1;
+            padding: 20px;
+            animation: fadeIn 1.5s ease-out;
+            max-width: 900px;
+        }
+
+        .title-main {
+            font-size:70px; /* Large and Bold */
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: white;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .title-sub {
+            font-size: 2.8rem;
+            line-height: 0.95;
+            font-weight: 300;
+            margin-bottom: 40px;
+            margin-top: 40px;
+            display: block;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Description Styles (Kept your specific settings) */
+        .description {
+            font-size: 24px;
+            font-weight: 200;
+            line-height: 28px;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Button Styling - Updated to match the "Pill" shape in the image */
+        .cta-button {
+            display: inline-block;
+            padding: 12px 32px;
+            background-color: white; /* Solid White Background */
+            color: #1a1a1a; /* Dark text */
+            text-decoration: none;
+            font-size: 1.35rem;
+            font-weight: 300; /* Slightly lighter weight inside button */
+            border-radius: 50px; /* Fully rounded corners */
+            letter-spacing: 0.5px;
+            transition: transform 0.2s ease, background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05); /* Slight zoom on hover */
+            background-color: #f2f2f2;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .title-main { font-size: 3rem; line-height:1; }
+            .title-sub { font-size: 1.8rem; }
+            .description { font-size: 18px; line-height: 26px; } 
+            .cta-button { padding: 14px 28px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-section">
+        
+        <!-- HTML5 Video Background -->
+        <div class="video-background">
+            <video autoplay muted loop playsinline>
+                <source src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/hammiyalapage/Poomaale%202.0%20First%20Look%20720p60.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Dark Overlay -->
+        <div class="overlay"></div>
+
+        <!-- Text Content -->
+        <div class="hero-content">
+            <h1 class="title-main">Poomaale 2.0</h1>
+            <span class="title-sub">Forest Friendly Living, Coorg</span>
+            
+            <p class="description">
+                Poomaale 1.0 is fully subscribed<br>
+                Poomaale 2.0 is here<br>
+                100 Acres of Rainforests, 33 Members only
+            </p>
+
+            <a href="#" class="cta-button" data-tf-popup="i8eBLQkz" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=Poomaale 2.0" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=poomaale">Become a Member</a>
+        </div>
+
+    </section>
+
+<!-- Beforest application journey modal: BeBuilder-ready, placed before the Typeform scripts. -->
+<style>
+  .bf-app-modal[hidden] { display: none !important; }
+  .bf-app-modal {
+    --bf-ink: #173f35;
+    --bf-paper: #f4f0e6;
+    --bf-line: rgba(23, 63, 53, .18);
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+  .bf-app-modal__backdrop { position: absolute; inset: 0; background: rgba(8, 25, 20, .76); backdrop-filter: blur(10px); }
+  .bf-app-modal__dialog {
+    position: relative;
+    width: min(1080px, 100%);
+    max-height: min(860px, calc(100vh - 48px));
+    overflow: auto;
+    color: var(--bf-ink);
+    background: radial-gradient(circle at 90% 0%, rgba(184, 220, 153, .42), transparent 29%), var(--bf-paper);
+    border: 1px solid rgba(255, 255, 255, .32);
+    border-radius: 3px;
+    box-shadow: 0 32px 100px rgba(0, 0, 0, .38);
+    padding: clamp(28px, 4.5vw, 64px);
+    transform: translateY(18px);
+    opacity: 0;
+    transition: transform .26s ease, opacity .26s ease;
+  }
+  .bf-app-modal.is-open .bf-app-modal__dialog { transform: translateY(0); opacity: 1; }
+  .bf-app-modal__close {
+    position: absolute; top: 18px; right: 18px; width: 42px; height: 42px;
+    border: 1px solid var(--bf-line); border-radius: 50%; color: var(--bf-ink);
+    background: rgba(244, 240, 230, .76); font: 300 27px/1 "Avenir Next", Avenir, sans-serif; cursor: pointer;
+  }
+  .bf-app-modal__eyebrow {
+    margin: 0 0 12px; font: 600 11px/1.2 "Avenir Next", Avenir, sans-serif;
+    letter-spacing: .22em; text-transform: uppercase;
+  }
+  .bf-app-modal__title {
+    max-width: 780px; margin: 0;
+    font: 400 clamp(34px, 5vw, 66px)/.98 "ABC Arizona Flare", "Iowan Old Style", "Palatino Linotype", serif;
+    letter-spacing: -.035em;
+  }
+  .bf-app-modal__intro {
+    max-width: 760px; margin: 20px 0 34px;
+    font: 400 clamp(15px, 1.6vw, 18px)/1.55 "Avenir Next", Avenir, sans-serif;
+  }
+  .bf-app-modal__steps {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0;
+    margin: 0; padding: 0; list-style: none;
+    border-top: 1px solid var(--bf-line); border-bottom: 1px solid var(--bf-line);
+  }
+  .bf-app-modal__step { min-height: 214px; padding: 24px 22px 26px; border-right: 1px solid var(--bf-line); }
+  .bf-app-modal__step:last-child { border-right: 0; }
+  .bf-app-modal__number {
+    display: block; margin-bottom: 30px; color: rgba(23, 63, 53, .6);
+    font: 500 12px/1 "Avenir Next", Avenir, sans-serif; letter-spacing: .14em;
+  }
+  .bf-app-modal__step h3 {
+    margin: 0 0 10px; color: var(--bf-ink);
+    font: 500 20px/1.15 "ABC Arizona Flare", "Iowan Old Style", serif;
+  }
+  .bf-app-modal__step p {
+    margin: 0; color: rgba(23, 63, 53, .82);
+    font: 400 14px/1.5 "Avenir Next", Avenir, sans-serif;
+  }
+  .bf-app-modal__next {
+    display: grid; grid-template-columns: 150px 1fr; gap: 24px;
+    margin: 28px 0; padding: 22px 24px; background: rgba(184, 220, 153, .38);
+  }
+  .bf-app-modal__next strong {
+    font: 600 13px/1.4 "Avenir Next", Avenir, sans-serif; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .bf-app-modal__next p { margin: 0; font: 400 15px/1.55 "Avenir Next", Avenir, sans-serif; }
+  .bf-app-modal__actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .bf-app-modal__begin {
+    min-height: 52px; padding: 0 28px; border: 1px solid var(--bf-ink); border-radius: 999px;
+    color: #fff; background: var(--bf-ink);
+    font: 600 12px/1 "Avenir Next", Avenir, sans-serif; letter-spacing: .12em; text-transform: uppercase;
+    cursor: pointer; transition: transform .18s ease, background .18s ease;
+  }
+  .bf-app-modal__begin:hover { transform: translateY(-2px); background: #0e3028; }
+  .bf-app-modal__later {
+    padding: 10px 2px; border: 0; color: var(--bf-ink); background: transparent;
+    font: 500 13px/1.3 "Avenir Next", Avenir, sans-serif;
+    text-decoration: underline; text-underline-offset: 4px; cursor: pointer;
+  }
+  body.bf-app-modal-open { overflow: hidden !important; }
+  @media (max-width: 820px) {
+    .bf-app-modal { padding: 12px; }
+    .bf-app-modal__dialog { max-height: calc(100vh - 24px); padding: 34px 20px 26px; }
+    .bf-app-modal__title { padding-right: 34px; font-size: clamp(34px, 10vw, 48px); }
+    .bf-app-modal__intro { margin-bottom: 24px; }
+    .bf-app-modal__steps { grid-template-columns: 1fr; }
+    .bf-app-modal__step { min-height: 0; padding: 18px 4px; border-right: 0; border-bottom: 1px solid var(--bf-line); }
+    .bf-app-modal__step:last-child { border-bottom: 0; }
+    .bf-app-modal__number { float: left; width: 42px; margin: 4px 8px 0 0; }
+    .bf-app-modal__step h3, .bf-app-modal__step p { margin-left: 50px; }
+    .bf-app-modal__next { grid-template-columns: 1fr; gap: 8px; padding: 18px; }
+    .bf-app-modal__actions { align-items: stretch; flex-direction: column; }
+    .bf-app-modal__begin { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .bf-app-modal__dialog, .bf-app-modal__begin { transition: none; } }
+</style>
+
+<div class="bf-app-modal" id="bf-application-modal" hidden aria-hidden="true">
+  <div class="bf-app-modal__backdrop" data-bf-modal-close></div>
+  <section class="bf-app-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="bf-application-modal-title" tabindex="-1">
+    <button class="bf-app-modal__close" type="button" data-bf-modal-close aria-label="Close application process">&times;</button>
+    <p class="bf-app-modal__eyebrow">The path to membership</p>
+    <h2 class="bf-app-modal__title" id="bf-application-modal-title">A considered path to joining Poomaale 2.0</h2>
+    <p class="bf-app-modal__intro">Becoming part of a Beforest collective is a considered, mutual decision. Here is what the journey looks like before you begin.</p>
+    <ol class="bf-app-modal__steps">
+      <li class="bf-app-modal__step"><span class="bf-app-modal__number">01</span><h3>Application</h3><p>Tell us what brings you here, what you hope to build, and how you see yourself participating.</p></li>
+      <li class="bf-app-modal__step"><span class="bf-app-modal__number">02</span><h3>Review</h3><p>Our team considers your responses, readiness, and alignment with the collective's values and current offering.</p></li>
+      <li class="bf-app-modal__step"><span class="bf-app-modal__number">03</span><h3>1-on-1 conversation</h3><p>If there is mutual alignment, we contact you to agree on a convenient time and place to meet in person.</p></li>
+      <li class="bf-app-modal__step"><span class="bf-app-modal__number">04</span><h3>Closure &amp; next steps</h3><p>After the conversation, we clearly confirm the outcome and what happens next.</p></li>
+    </ol>
+    <div class="bf-app-modal__next"><strong>What happens next?</strong><p>Once you submit, our team will carefully review your responses. Please answer thoughtfully and as specifically as you can—your responses help us understand the fit. Submitting an application begins the review; it does not confirm membership yet.</p></div>
+    <div class="bf-app-modal__actions">
+      <button class="bf-app-modal__begin" id="bf-application-begin" type="button">Begin my application</button>
+      <button class="bf-app-modal__later" type="button" data-bf-modal-close>Continue exploring</button>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  if (window.BeforestApplicationJourneyModal) return;
+  window.BeforestApplicationJourneyModal = true;
+  var formId = "i8eBLQkz";
+  var collective = "poomaale";
+  var formTitle = "Poomaale 2.0";
+  var modal = document.getElementById("bf-application-modal");
+  var dialog = modal && modal.querySelector(".bf-app-modal__dialog");
+  var beginButton = document.getElementById("bf-application-begin");
+  var lastFocused = null;
+  if (!modal || !dialog || !beginButton) return;
+
+  document.querySelectorAll('[data-tf-popup="' + formId + '"]').forEach(function (trigger) {
+    trigger.removeAttribute("data-tf-popup");
+    trigger.setAttribute("data-bf-application-trigger", "");
+    if (trigger.tagName === "A" && (!trigger.getAttribute("href") || trigger.getAttribute("href") === "#")) trigger.setAttribute("href", "#apply");
+  });
+
+  function focusableElements() {
+    return Array.prototype.slice.call(dialog.querySelectorAll('button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'));
+  }
+  function openModal() {
+    lastFocused = document.activeElement;
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("bf-app-modal-open");
+    requestAnimationFrame(function () {
+      modal.classList.add("is-open");
+      var closeButton = dialog.querySelector(".bf-app-modal__close");
+      if (closeButton) closeButton.focus();
+    });
+  }
+  function closeModal(restoreFocus) {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("bf-app-modal-open");
+    window.setTimeout(function () {
+      modal.hidden = true;
+      if (restoreFocus !== false && lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
+    }, 260);
+  }
+  function attribution() {
+    var params = new URLSearchParams(window.location.search);
+    var hidden = { collective: collective };
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"].forEach(function (key) {
+      var value = params.get(key);
+      if (value) hidden[key] = value;
+    });
+    if (typeof window.timeSpentSeconds === "number") hidden.utm_time_spent = window.timeSpentSeconds + "s";
+    return hidden;
+  }
+  function openTypeform() {
+    var hidden = attribution();
+    closeModal(false);
+    if (window.tf && typeof window.tf.createPopup === "function") {
+      window.tf.createPopup(formId, { hidden: hidden, opacity: 100, size: 100, medium: "snippet", transitiveSearchParams: true, iframeProps: { title: formTitle } }).open();
+      return;
+    }
+    var query = new URLSearchParams(hidden).toString();
+    window.open("https://form.typeform.com/to/" + formId + (query ? "?" + query : ""), "_blank", "noopener");
+  }
+
+  document.addEventListener("click", function (event) {
+    var trigger = event.target.closest("[data-bf-application-trigger]");
+    if (trigger) { event.preventDefault(); openModal(); return; }
+    if (event.target.closest("[data-bf-modal-close]")) { event.preventDefault(); closeModal(true); }
+  });
+  beginButton.addEventListener("click", openTypeform);
+  modal.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") { event.preventDefault(); closeModal(true); return; }
+    if (event.key !== "Tab") return;
+    var items = focusableElements();
+    if (!items.length) return;
+    var first = items[0];
+    var last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+})();
+</script>
+
+<!-- Typeform Embed Script with Time Tracking -->
+<script>
+// Accurate time tracking using setInterval and Page Visibility API
+var timeSpentSeconds = 0;
+var timerInterval = null;
+
+// Start timer when page loads
+function startTimer() {
+    timerInterval = setInterval(function() {
+        if (document.visibilityState === 'visible') {
+            timeSpentSeconds++;
+        }
+    }, 1000);
+}
+
+// Get UTM parameters from current URL
+function getUrlParams() {
+    var params = new URLSearchParams(window.location.search);
+    var utmParams = {};
+    for (var key of params.keys()) {
+        if (key.startsWith('utm_')) {
+            utmParams[key] = params.get(key);
+        }
+    }
+    return utmParams;
+}
+
+// Start timer immediately
+startTimer();
+
+// Intercept clicks on Typeform buttons to add time_spent as UTM parameter
+document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-tf-popup]');
+    if (!btn) return;
+
+    var formId = btn.getAttribute('data-tf-popup');
+    var opacity = btn.getAttribute('data-tf-opacity') || 100;
+    var size = btn.getAttribute('data-tf-size') || 100;
+    var iframePropsStr = btn.getAttribute('data-tf-iframe-props') || '';
+    var medium = btn.getAttribute('data-tf-medium') || 'snippet';
+    var transitiveParams = btn.hasAttribute('data-tf-transitive-search-params');
+
+    // Get existing UTM params from URL (preserves Facebook ads UTMs)
+    var utmParams = getUrlParams();
+
+    // Add time_spent to UTM params
+    utmParams['utm_time_spent'] = timeSpentSeconds + 's';
+
+    console.log('Opening Typeform - Active time spent:', timeSpentSeconds, 'seconds');
+
+    // Open as popup via Typeform SDK with hidden fields
+    if (window.tf && window.tf.createPopup) {
+        var options = {
+            hidden: utmParams,
+            opacity: parseInt(opacity),
+            size: parseInt(size),
+            medium: medium,
+            transitiveSearchParams: transitiveParams
+        };
+
+        // Parse iframe props
+        if (iframePropsStr) {
+            var propsParts = iframePropsStr.split('=');
+            if (propsParts.length >= 2 && propsParts[0].trim() === 'title') {
+                options.iframeProps = { title: propsParts.slice(1).join('=') };
+            }
+        }
+
+        window.tf.createPopup(formId, options).open();
+    }
+});
+</script>
+<script src="https://embed.typeform.com/next/embed.js"></script>
+<!--
+  Beforest qualified 1-on-1 Typeform signal.
+  Add this BeBuilder Code element once per page, ABOVE the first Typeform embed/button.
+  It contains no Meta credential and sends no answers or contact fields.
+-->
+<script>
+(function () {
+  "use strict";
+  if (window.BeforestQualified1on1Signal) return;
+
+  var ENDPOINT = "https://flows.ops.beforest.co/api/r/sales/typeform/qualified-1on1-signal";
+  var SIGNAL_TYPE = "typeform_embed_question_reached";
+  var FORM_CONFIG = {
+    CYae8hmZ: { formId: "CYae8hmZ", ref: "113a9ad4-4d43-4165-9bf7-62f82b1352ab" },
+    kfcjiXxR: { formId: "kfcjiXxR", ref: "1292d853-e1d7-438a-8f82-70fbad90e914" },
+    hbDB2ybS: { formId: "hbDB2ybS", ref: "f8e95240-2bd9-4522-8eac-53860c400950" },
+    i8eBLQkz: { formId: "i8eBLQkz", ref: "4c30971d-c15d-42f8-90d1-94c19a475c4d" },
+    leXyUOuT: { formId: "leXyUOuT", ref: "113a9ad4-4d43-4165-9bf7-62f82b1352ab" },
+    "01KVFCGFDB0S9M80A066Z7XV58": { formId: "leXyUOuT", ref: "113a9ad4-4d43-4165-9bf7-62f82b1352ab" }
+  };
+  var UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+
+  function queryValue(key) {
+    return new URLSearchParams(window.location.search).get(key) || "";
+  }
+
+  function cookieValue(name) {
+    var prefix = name + "=";
+    var parts = document.cookie ? document.cookie.split(";") : [];
+    for (var index = 0; index < parts.length; index++) {
+      var part = parts[index].trim();
+      if (part.indexOf(prefix) === 0) return decodeURIComponent(part.slice(prefix.length));
+    }
+    return "";
+  }
+
+  function attribution() {
+    var values = {
+      fbp: cookieValue("_fbp"),
+      fbc: cookieValue("_fbc"),
+      fbclid: queryValue("fbclid")
+    };
+    UTM_KEYS.forEach(function (key) { values[key] = queryValue(key); });
+    return values;
+  }
+
+  function hiddenWithAttribution(existingHidden) {
+    var merged = Object.assign({}, existingHidden || {});
+    UTM_KEYS.forEach(function (key) {
+      var value = queryValue(key);
+      if (value) merged[key] = value;
+    });
+    return merged;
+  }
+
+  function send(payload) {
+    var serialized = JSON.stringify(payload);
+    if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, serialized)) return;
+    fetch(ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      credentials: "omit",
+      keepalive: true,
+      body: serialized
+    }).catch(function () {});
+  }
+
+  function signalOptions(requestedFormId, existingHidden) {
+    var config = FORM_CONFIG[requestedFormId];
+    var expectedRef = config ? config.ref : "";
+    var responseId = "";
+    var reachedQualifiedQuestion = false;
+    var sent = false;
+
+    function trySend() {
+      if (sent || !config || !responseId || !reachedQualifiedQuestion) return;
+      sent = true;
+      send(Object.assign({
+        signal_type: SIGNAL_TYPE,
+        form_id: config.formId,
+        response_id: responseId,
+        question_ref: expectedRef,
+        event_time: Math.floor(Date.now() / 1000),
+        event_source_url: window.location.href
+      }, attribution()));
+    }
+
+    return {
+      hidden: hiddenWithAttribution(existingHidden),
+      onStarted: function (event) {
+        responseId = event && event.responseId ? String(event.responseId) : "";
+        trySend();
+      },
+      onQuestionChanged: function (event) {
+        if (!event || event.ref !== expectedRef) return;
+        if (event.formId && event.formId !== requestedFormId && event.formId !== config.formId) return;
+        reachedQualifiedQuestion = true;
+        trySend();
+      }
+    };
+  }
+
+  function composeCallbacks(existingCallback, signalCallback) {
+    return function (event) {
+      try {
+        if (typeof existingCallback === "function") existingCallback(event);
+      } finally {
+        signalCallback(event);
+      }
+    };
+  }
+
+  function mergeOptions(formId, existingOptions) {
+    var merged = Object.assign({}, existingOptions || {});
+    if (!FORM_CONFIG[formId]) return merged;
+    var signal = signalOptions(formId, merged.hidden);
+    merged.hidden = signal.hidden;
+    merged.onStarted = composeCallbacks(merged.onStarted, signal.onStarted);
+    merged.onQuestionChanged = composeCallbacks(merged.onQuestionChanged, signal.onQuestionChanged);
+    return merged;
+  }
+
+  function patchTypeform(tf) {
+    if (!tf || typeof tf.createPopup !== "function") return false;
+    if (tf.createPopup.__beforestQualified1on1Patched) return true;
+    var originalCreatePopup = tf.createPopup;
+    function patchedCreatePopup(formId, existingOptions) {
+      return originalCreatePopup.call(this, formId, mergeOptions(formId, existingOptions));
+    }
+    patchedCreatePopup.__beforestQualified1on1Patched = true;
+    tf.createPopup = patchedCreatePopup;
+    return true;
+  }
+
+  function install() {
+    if (patchTypeform(window.tf)) return;
+    var descriptor = Object.getOwnPropertyDescriptor(window, "tf");
+    if (!window.tf && (!descriptor || descriptor.configurable)) {
+      var tfValue;
+      Object.defineProperty(window, "tf", {
+        configurable: true,
+        enumerable: true,
+        get: function () { return tfValue; },
+        set: function (value) {
+          tfValue = value;
+          patchTypeform(value);
+        }
+      });
+    }
+    var attempts = 0;
+    var patchTimer = window.setInterval(function () {
+      attempts++;
+      if (patchTypeform(window.tf) || attempts >= 200) window.clearInterval(patchTimer);
+    }, 50);
+  }
+
+  window.BeforestQualified1on1Signal = {
+    mergeOptions: mergeOptions,
+    install: install,
+    supportedForms: Object.keys(FORM_CONFIG)
+  };
+  install();
+})();
+</script>
+</body>
+</html>

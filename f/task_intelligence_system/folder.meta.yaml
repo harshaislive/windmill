@@ -1,0 +1,6 @@
+summary: AI execution intelligence system for Zoho Projects
+display_name: task_intelligence_system
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

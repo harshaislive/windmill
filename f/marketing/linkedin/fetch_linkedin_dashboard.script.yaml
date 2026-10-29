@@ -1,0 +1,18 @@
+summary: Fetch LinkedIn dashboard snapshot
+description: Reads LinkedIn dashboard metrics from Windmill datatables and
+  returns a dashboard-ready payload. Does not call Maton or LinkedIn.
+lock: '!inline f/marketing/linkedin/fetch_linkedin_dashboard.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    selected_post_id:
+      type: string
+      description: Optional LinkedIn post id for the post inspector.
+      default: ''
+    snapshot_date:
+      type: string
+      description: Optional snapshot date. Defaults to the latest successful sync.
+      default: ''
+  required: []

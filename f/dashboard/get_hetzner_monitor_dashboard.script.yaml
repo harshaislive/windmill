@@ -1,0 +1,19 @@
+summary: Get Hetzner container monitor dashboard
+description: Reads the latest Hetzner monitor snapshot from Windmill datatables
+  and returns project/container metrics for the raw app dashboard.
+lock: '!inline f/dashboard/get_hetzner_monitor_dashboard.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    days:
+      type: integer
+      description: Number of days to include in the compact history view.
+      default: 2
+    project_key:
+      type: string
+      description: Optional project key from the dashboard dropdown. Use all for every
+        project.
+      default: all
+  required: []

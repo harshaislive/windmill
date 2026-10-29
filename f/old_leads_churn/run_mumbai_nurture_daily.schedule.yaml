@@ -1,0 +1,12 @@
+summary: Mumbai daily source and tracker upkeep
+description: Independent queues own dispatch; this coordinator delegates maintenance only.
+schedule: '0 30 6 * * *'
+timezone: Asia/Kolkata
+cron_version: v2
+enabled: true
+script_path: f/old_leads_churn/run_mumbai_nurture_daily
+is_flow: false
+no_flow_overlap: true
+email: harsha@beforest.co
+args:
+  dry_run: false

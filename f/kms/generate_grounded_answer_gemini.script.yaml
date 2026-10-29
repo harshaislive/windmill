@@ -1,0 +1,5 @@
+summary: ''
+description: ''
+lock: '!inline f/kms/generate_grounded_answer_gemini.script.lock'
+kind: script
+schema: null

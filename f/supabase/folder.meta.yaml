@@ -1,0 +1,6 @@
+summary: Supabase automations
+display_name: supabase
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

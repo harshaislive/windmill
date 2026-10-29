@@ -1,0 +1,18 @@
+summary: ''
+description: ''
+lock: '!inline f/vexa/check_calendar_access.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    enable_readable:
+      type: boolean
+      description: ''
+      default: true
+    source:
+      type: string
+      description: ''
+      default: bewild
+      originalType: string
+  required: []

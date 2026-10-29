@@ -1,0 +1,5 @@
+summary: Vexa meeting bot console
+data:
+  datatable: main
+  # All reads/writes go through f/vexa/console_api; no direct table access from the browser.
+  tables: []

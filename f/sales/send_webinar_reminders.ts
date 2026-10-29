@@ -1,10 +1,39 @@
 import * as wmill from "windmill-client";
 
+
+type PipedriveUsageLogArgs = {
+  method: string;
+  rawEndpoint: string;
+  statusCode?: number;
+  success: boolean;
+  durationMs?: number;
+  rateLimitRemaining?: number;
+  rateLimitReset?: string;
+  retryAfter?: string;
+  errorMessage?: string;
+  requestFingerprint?: string;
+};
+
+async function logPipedriveApiUsage(_args: PipedriveUsageLogArgs) {
+  return;
+}
+
+function pipedriveRateLimitRemaining(response: Response): number | undefined {
+  const value = Number(response.headers.get("x-ratelimit-remaining") || response.headers.get("x-rate-limit-remaining"));
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function pipedriveEndpointForLog(url: URL): string {
+  return url.pathname;
+}
+
 const PIPEDRIVE_VARIABLE_PATH = "f/collectives/zoom_collective_to_pipedrive/pipedrive_api_key";
 const INTERAKT_API_KEY_PATH = "f/sales/calendar_prebook_1on1/interakt_api_key";
 const INTERAKT_BASE_URL_PATH = "f/sales/calendar_prebook_1on1/interakt_base_url";
 const DEFAULT_PIPEDRIVE_DOMAIN = "beforest";
 const DEFAULT_TIMEZONE = "Asia/Kolkata";
+const LEGACY_WEBINAR_ENABLED_VARIABLE_PATH = "f/sales/legacy_webinar_enabled";
+const CALENDLY_ZOOM_REGISTRATION_ENABLED_VARIABLE_PATH = "f/sales/calendly_zoom_registration_enabled";
 const SCHEDULED_WEBINAR_PENDING_LABEL_ID = 111;
 const BEFOREST_ADMIN_USER_ID = 18891506;
 
@@ -39,6 +68,20 @@ const WEBINAR_REMINDERS = [
     bodyMode: "collective_link" as const,
   },
 ];
+
+async function legacyWebinarEnabled(): Promise<boolean> {
+  return (await wmill.getVariable(LEGACY_WEBINAR_ENABLED_VARIABLE_PATH).catch(() => "")).toLowerCase() === "true";
+}
+
+async function calendlyZoomRegistrationEnabled(): Promise<boolean> {
+  return (
+    await wmill.getVariable(CALENDLY_ZOOM_REGISTRATION_ENABLED_VARIABLE_PATH).catch(() => "")
+  ).toLowerCase() === "true";
+}
+
+async function webinarReminderPathEnabled(): Promise<boolean> {
+  return (await legacyWebinarEnabled()) || (await calendlyZoomRegistrationEnabled());
+}
 
 type Deal = {
   id: number;
@@ -104,12 +147,25 @@ async function pipedriveV1(method: string, path: string, body?: Record<string, u
   for (const [key, value] of Object.entries(query || {})) {
     if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, String(value));
   }
+  const startedAt = Date.now();
   const response = await fetch(url, {
     method,
     headers: body ? { "content-type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive v1 ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -122,12 +178,25 @@ async function pipedriveV2(method: string, path: string, body?: Record<string, u
   for (const [key, value] of Object.entries(query || {})) {
     if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, String(value));
   }
+  const startedAt = Date.now();
   const response = await fetch(url, {
     method,
     headers: body ? { "content-type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive v2 ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -161,13 +230,17 @@ async function listOpenDeals(maxDeals: number): Promise<Deal[]> {
   return deals;
 }
 
-async function getDealActivities(dealId: number): Promise<Activity[]> {
-  const payload = await pipedriveV1("GET", "activities", undefined, {
-    deal_id: dealId,
-    done: 0,
+function doneStatus(value: unknown): 0 | 1 {
+  return value === true || value === 1 || value === "1" ? 1 : 0;
+}
+
+async function getDealActivities(dealId: number, done: 0 | 1 | null = 0): Promise<Activity[]> {
+  const payload = await pipedriveV1("GET", `deals/${dealId}/activities`, undefined, {
     limit: 500,
   });
-  return Array.isArray(payload.data) ? payload.data as Activity[] : [];
+  const activities = Array.isArray(payload.data) ? payload.data as Activity[] : [];
+  if (done === null) return activities;
+  return activities.filter((activity) => doneStatus(activity.done) === done);
 }
 
 function labelIds(deal: Deal): number[] {
@@ -249,12 +322,7 @@ function activitySubject(plan: Pick<WebinarReminderPlan, "reminder_key" | "webin
 }
 
 async function reminderAlreadyLogged(plan: Pick<WebinarReminderPlan, "deal_id" | "reminder_key" | "webinar_datetime" | "activity_id">): Promise<boolean> {
-  const payload = await pipedriveV1("GET", "activities", undefined, {
-    deal_id: plan.deal_id,
-    done: 1,
-    limit: 500,
-  });
-  const activities = Array.isArray(payload.data) ? payload.data : [];
+  const activities = await getDealActivities(plan.deal_id, 1);
   return activities.some((activity: any) =>
     asString(activity.subject) === activitySubject(plan) &&
     asString(activity.note).includes(`Webinar activity: ${plan.activity_id}`) &&
@@ -275,6 +343,10 @@ async function createReminderActivity(plan: WebinarReminderPlan) {
       `Sent ${plan.reminder_label} webinar reminder on WhatsApp.`,
       `Webinar activity: ${plan.activity_id}`,
       `Webinar: ${plan.webinar_datetime}`,
+      `Template: ${plan.template_name}`,
+      "",
+      "<strong>Message sent</strong>",
+      `<pre>${escapeHtml(manualWebinarReminderMessage(plan))}</pre>`,
     ].join("<br>"),
   });
 }
@@ -283,12 +355,64 @@ function safeJson(value: unknown): string {
   return JSON.stringify(value, null, 2).replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
 }
 
+function escapeHtml(value: string): string {
+  return value.replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
+}
+
+function manualWebinarReminderMessage(plan: WebinarReminderPlan): string {
+  const webinar = new Date(plan.webinar_datetime);
+  const when = Number.isNaN(webinar.getTime())
+    ? "the scheduled webinar time"
+    : new Intl.DateTimeFormat("en-IN", {
+        timeZone: DEFAULT_TIMEZONE,
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }).format(webinar).replace(",", " at") + " IST";
+  return [
+    `Hi ${plan.deal_title},`,
+    "",
+    `Reminder: your ${plan.collective} webinar is scheduled for ${when}.`,
+    plan.access_link ? `Join link: ${plan.access_link}` : "",
+    "",
+    "Please reply here if you need any help joining.",
+  ].filter(Boolean).join("\n");
+}
+
+async function createManualWhatsAppFailureActivity(plan: WebinarReminderPlan, reason: string) {
+  return await pipedriveV1("POST", "activities", {
+    deal_id: plan.deal_id,
+    user_id: BEFOREST_ADMIN_USER_ID,
+    subject: "WhatsApp failed - send manually",
+    type: "task",
+    done: 0,
+    due_date: new Date().toISOString().slice(0, 10),
+    note: [
+      "WhatsApp webinar reminder failed. Please send this manually from WhatsApp Web.",
+      `Reason: ${escapeHtml(reason)}`,
+      `Template: ${escapeHtml(plan.template_name)}`,
+      `Reminder: ${escapeHtml(plan.reminder_key)}`,
+      "",
+      "<strong>Copy-paste message</strong>",
+      `<pre>${escapeHtml(manualWebinarReminderMessage(plan))}</pre>`,
+      "<strong>Manual steps</strong>",
+      "1. Open the lead in WhatsApp Web.",
+      "2. Paste and send the message above.",
+      "3. Mark this Pipedrive activity as done after sending.",
+      "4. If WhatsApp Web also fails, call the lead or ask the deal owner to follow up.",
+    ].join("<br>"),
+  });
+}
+
 function assertWhatsAppReady(plan: WebinarReminderPlan) {
   if (!plan.raw_phone_present || (!plan.recipient.fullPhoneNumber && !(plan.recipient.countryCode && plan.recipient.phoneNumber))) {
     throw new Error(`Cannot send webinar reminder ${plan.reminder_key} for deal ${plan.deal_id}: no usable recipient phone.`);
   }
-  if (plan.reminder_key === "1h" && !plan.access_link) {
-    throw new Error(`Cannot send 1h webinar reminder for deal ${plan.deal_id}: missing Zoom/access link.`);
+  if (!plan.access_link) {
+    throw new Error(`Cannot send webinar reminder ${plan.reminder_key} for deal ${plan.deal_id}: missing Zoom/access link.`);
   }
 }
 
@@ -362,7 +486,7 @@ async function buildPlansForDeal(
         raw_phone_present: Boolean(phone),
         body_values: reminder.bodyMode === "collective_link"
           ? [collective, accessLink]
-          : [deal.title, collective],
+          : [deal.title, collective, accessLink],
         already_logged: false,
       };
       const alreadyLogged = await reminderAlreadyLogged(basePlan).catch(() => false);
@@ -382,10 +506,23 @@ export async function main(
   max_late_minutes = 60,
   max_deals = 500,
   include_already_logged = false,
+  fallback_enabled = false,
 ) {
+  if (!(await webinarReminderPathEnabled())) {
+    return {
+      dry_run,
+      status: "disabled",
+      reason: "Webinar reminders are disabled. Set f/sales/calendly_zoom_registration_enabled=true for targeted one-off reminder jobs, or f/sales/legacy_webinar_enabled=true for the older full legacy path.",
+    };
+  }
   const now = now_iso ? new Date(now_iso) : new Date();
   if (Number.isNaN(now.getTime())) throw new Error(`Invalid now_iso: ${now_iso}`);
   if (!timezone) timezone = DEFAULT_TIMEZONE;
+  if (!dry_run && !deal_id && !fallback_enabled) {
+    throw new Error(
+      "Broad webinar reminder polling is disabled. Use one-off jobs with deal_id, or pass fallback_enabled=true intentionally.",
+    );
+  }
 
   const deals = deal_id ? [await getDeal(Number(deal_id))] : await listOpenDeals(max_deals);
   const plans: WebinarReminderPlan[] = [];
@@ -409,10 +546,21 @@ export async function main(
       skipped.push({ ...plan, reason: "already_logged" });
       continue;
     }
-    assertWhatsAppReady(plan);
-    const whatsapp = await sendInteraktTemplate(plan);
-    const activity = await createReminderActivity(plan);
-    sent.push({ ...plan, whatsapp, activity_id: activity?.data?.id || activity?.id || null });
+    try {
+      assertWhatsAppReady(plan);
+      const whatsapp = await sendInteraktTemplate(plan);
+      const activity = await createReminderActivity(plan);
+      sent.push({ ...plan, whatsapp, activity_id: activity?.data?.id || activity?.id || null });
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      const activity = await createManualWhatsAppFailureActivity(plan, reason);
+      skipped.push({
+        ...plan,
+        reason: "whatsapp_failed_manual_task_created",
+        error: reason,
+        manual_activity_id: activity?.data?.id || activity?.id || null,
+      });
+    }
   }
 
   return {

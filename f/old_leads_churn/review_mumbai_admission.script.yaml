@@ -1,0 +1,10 @@
+summary: Preview exact Zoho Lead admission for a held Mumbai identity
+description: Searches current Leads and Contacts, checks stop conditions and proposes mapping. No CRM or queue write.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    recipient_id:
+      type: integer
+  required: [recipient_id]

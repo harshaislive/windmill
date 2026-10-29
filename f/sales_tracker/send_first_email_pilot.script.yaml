@@ -1,0 +1,21 @@
+summary: One authorized 30-lead first-email pilot from Sai with Sent proof
+description: Preview-only fixed batch, ten unique leads per approved collective. Defaults to dry-run. Fresh eligibility review, durable claim and SMTP/Sent audit. No Sheet writes or automatic retry.
+kind: script
+schema:
+  type: object
+  properties:
+    manifest:
+      type: array
+      items:
+        type: object
+      default: []
+    execute:
+      type: boolean
+      default: false
+    approval_batch:
+      type: string
+      default: ''
+    readback_only:
+      type: boolean
+      default: false
+  required: []

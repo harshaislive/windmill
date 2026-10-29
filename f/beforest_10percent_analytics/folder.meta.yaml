@@ -1,0 +1,6 @@
+summary: Beforest 10% Life analytics dashboard
+display_name: beforest_10percent_analytics
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

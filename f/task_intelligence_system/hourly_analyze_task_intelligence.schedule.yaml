@@ -1,0 +1,14 @@
+summary: Hourly task intelligence analysis after Zoho sync
+args:
+  datatable_name: main
+  limit: 100
+  use_openai_summary: false
+cron_version: v2
+email: harsha@beforest.co
+enabled: false
+is_flow: false
+no_flow_overlap: false
+schedule: 0 5 * * * *
+script_path: f/task_intelligence_system/analysis/analyze_task_intelligence
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

@@ -1,0 +1,5 @@
+summary: ''
+description: ''
+lock: '!inline f/kms/embed_document_chunks.script.lock'
+kind: script
+schema: null

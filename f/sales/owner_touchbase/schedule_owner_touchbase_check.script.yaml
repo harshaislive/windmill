@@ -1,0 +1,26 @@
+summary: Queue owner 1on1 touchbase check
+description: Logs and schedules the delayed owner touchbase check after a
+  successful lead-facing 1on1 team scheduling notice.
+lock: '!inline f/sales/owner_touchbase/schedule_owner_touchbase_check.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    attempt:
+      type: number
+      description: Reminder attempt number.
+      default: 1
+    deal_id:
+      type: number
+      description: Pipedrive deal ID.
+    delay_hours:
+      type: number
+      description: Override delay before the check is sent.
+      default: null
+    dry_run:
+      type: boolean
+      description: Preview without creating a queued job or Pipedrive activity.
+      default: false
+  required:
+    - deal_id

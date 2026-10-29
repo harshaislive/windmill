@@ -1,0 +1,14 @@
+summary: Public password-protected Mumbai churn tracker
+description: Serves the existing tracker UI. Data requires the server-checked team password. Read-only; no sends, CRM or Sheet writes.
+kind: script
+has_preprocessor: true
+schema:
+  type: object
+  properties:
+    query:
+      type: object
+      default: {}
+    dashboard_passcode:
+      type: string
+      default: ''
+  required: []

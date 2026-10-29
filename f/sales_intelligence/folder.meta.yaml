@@ -1,0 +1,6 @@
+summary: Collective sales intelligence
+display_name: Sales intelligence
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

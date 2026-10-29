@@ -1,0 +1,51 @@
+summary: Sync Instagram dashboard snapshot
+description: Fetches Instagram funnel and comment-health metrics from Meta once
+  and stores the dashboard payload in Windmill datatables for cached reads.
+lock: '!inline f/marketing/instagram/sync_ig_dashboard_snapshot.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Fetch and count records without writing dashboard snapshot rows.
+      default: false
+    end_date:
+      type: string
+      description: Optional YYYY-MM-DD end date. Defaults to yesterday in Asia/Kolkata.
+      default: ''
+      originalType: string
+    facebook_token_variable_path:
+      type: string
+      description: Windmill variable path containing the long-lived Facebook token.
+      default: null
+      originalType: string
+    ig_username:
+      type: string
+      description: Instagram username to select from connected accounts.
+      default: beforestfarming
+      originalType: string
+    lookback_days:
+      type: integer
+      description: Rolling number of days to fetch. Defaults to 30.
+      default: 30
+    max_comments_per_media:
+      type: integer
+      description: Maximum comments to inspect per media item.
+      default: 100
+    max_media:
+      type: integer
+      description: Maximum media items to inspect.
+      default: 60
+    page_name:
+      type: string
+      description: Facebook page name connected to the Instagram account.
+      default: Beforest
+      originalType: string
+    timezone:
+      type: string
+      description: Timezone used to decide the snapshot date.
+      default: Asia/Kolkata
+      originalType: string
+  required: []

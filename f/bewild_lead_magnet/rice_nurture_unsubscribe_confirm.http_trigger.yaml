@@ -1,0 +1,23 @@
+summary: Confirm Bewild Rice nurture unsubscribe
+description: Public POST confirmation for the signed Rice Finder unsubscribe
+  page. GET previews never change consent.
+authentication_method: none
+authentication_resource_path: null
+http_method: post
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+retry:
+  exponential:
+    attempts: 0
+    multiplier: 1
+    random_factor: 0
+    seconds: 1
+route_path: bewild/rice/unsubscribe
+route_path_key: bewild/rice/unsubscribe
+script_path: f/bewild_lead_magnet/rice_nurture_unsubscribe
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

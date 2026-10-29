@@ -1,0 +1,3 @@
+description: Pipedrive label IDs for GIS-only sales funnel
+value: '{"gisAwaiting":120,"gisSent":121,"gisOpened":122}'
+is_secret: false

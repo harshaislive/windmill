@@ -1,0 +1,26 @@
+summary: Sync YouTube dashboard metrics
+description: Fetches YouTube Analytics and Reporting metrics from Maton and
+  stores them in Windmill datatables for the YouTube dashboard.
+lock: '!inline f/marketing/youtube/sync_youtube_metrics.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Fetch and count records without writing dashboard rows.
+      default: false
+    end_date:
+      type: string
+      description: Optional YYYY-MM-DD end date. Defaults to yesterday in Asia/Kolkata.
+      default: ''
+    lookback_days:
+      type: integer
+      description: Rolling number of days to fetch. Defaults to 30.
+      default: 30
+    timezone:
+      type: string
+      description: Timezone used to decide the snapshot date.
+      default: Asia/Kolkata
+  required: []

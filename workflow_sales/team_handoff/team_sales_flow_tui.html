@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beforest Collective Sales Flow</title>
+  <style>
+    :root {
+      --ink: #101010;
+      --muted: #575757;
+      --line: #171717;
+      --paper: #ffffff;
+      --panel: #fbfbfb;
+      --green: #dff5e7;
+      --blue: #e4efff;
+      --pink: #ffe8ef;
+      --yellow: #fff2bf;
+      --mint: #e2f7f3;
+      --lav: #eee8ff;
+      --grey: #eeeeee;
+      --coral: #ffe0d5;
+      --shadow: 7px 7px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      line-height: 1.45;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(0,0,0,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 22px 22px;
+    }
+
+    main {
+      width: min(1080px, calc(100vw - 28px));
+      margin: 24px auto 72px;
+    }
+
+    header {
+      border: 2px solid var(--line);
+      background: rgba(255,255,255,0.96);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "LIVE FLOW";
+      position: absolute;
+      right: 16px;
+      top: 14px;
+      border: 1.5px solid var(--line);
+      background: var(--green);
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 5vw, 54px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      border: 1.5px solid var(--line);
+      background: var(--panel);
+      padding: 8px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .auto { background: var(--blue); }
+    .sales { background: var(--coral); }
+    .lead { background: var(--mint); }
+    .off { background: var(--grey); }
+
+    .terminal {
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow);
+      background: rgba(255,255,255,0.97);
+      margin-top: 18px;
+      overflow: hidden;
+    }
+
+    .bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid var(--line);
+      padding: 10px 14px;
+      background: var(--panel);
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border: 1.5px solid var(--line);
+      display: inline-block;
+    }
+    .dot:nth-child(1) { background: var(--coral); }
+    .dot:nth-child(2) { background: var(--yellow); }
+    .dot:nth-child(3) { background: var(--green); }
+
+    .flow {
+      padding: 20px 18px 26px;
+    }
+
+    .node {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      align-items: stretch;
+      margin: 0 auto;
+      max-width: 900px;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: rise 0.48s ease forwards;
+      animation-delay: calc(var(--i) * 70ms);
+    }
+
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .label {
+      border: 1.5px solid var(--line);
+      background: var(--panel);
+      padding: 12px 8px;
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100%;
+    }
+
+    .card {
+      border: 1.5px solid var(--line);
+      background: var(--panel);
+      padding: 13px 14px;
+      position: relative;
+    }
+
+    .card h2 {
+      margin: 0 0 7px;
+      font-size: 17px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .card strong { color: var(--ink); }
+    .card code {
+      background: rgba(0,0,0,0.07);
+      padding: 1px 4px;
+      font-size: 12px;
+    }
+
+    .card.auto { background: var(--blue); }
+    .card.sales { background: var(--coral); }
+    .card.lead { background: var(--mint); }
+    .card.story { background: var(--green); }
+    .card.whatsapp { background: var(--pink); }
+    .card.crm { background: var(--yellow); }
+    .card.choice { background: var(--lav); }
+    .card.off { background: var(--grey); }
+
+    .arrow {
+      max-width: 900px;
+      margin: 6px auto;
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      color: var(--muted);
+      font-weight: 900;
+      opacity: 0;
+      animation: blinkIn 0.35s ease forwards;
+      animation-delay: calc(var(--i) * 70ms);
+    }
+
+    @keyframes blinkIn {
+      to { opacity: 1; }
+    }
+
+    .arrow span {
+      grid-column: 2;
+      padding-left: 12px;
+    }
+
+    .split {
+      max-width: 900px;
+      margin: 8px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .branch {
+      border: 1.5px dashed var(--line);
+      padding: 12px;
+      background: white;
+      opacity: 0;
+      animation: rise 0.48s ease forwards;
+      animation-delay: calc(var(--i) * 70ms);
+    }
+
+    .branch h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .branch .mini {
+      border: 1.5px solid var(--line);
+      padding: 10px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .manual-banner {
+      max-width: 900px;
+      margin: 12px auto;
+      border: 2px solid var(--line);
+      background: var(--coral);
+      padding: 14px;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.08);
+      opacity: 0;
+      animation: rise 0.48s ease forwards;
+      animation-delay: calc(var(--i) * 70ms);
+    }
+
+    .manual-banner h2 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    .manual-banner p {
+      margin: 0;
+      color: #3f302c;
+      font-size: 13px;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .check {
+      border: 2px solid var(--line);
+      background: rgba(255,255,255,0.96);
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.08);
+      padding: 14px;
+    }
+
+    .check h2 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    li { margin: 7px 0; }
+
+    .footer-note {
+      margin-top: 18px;
+      border: 2px solid var(--line);
+      background: var(--yellow);
+      padding: 14px;
+      box-shadow: var(--shadow);
+      font-size: 13px;
+      color: #3c351c;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .node, .arrow, .branch, .manual-banner { animation: none; opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 760px) {
+      main { width: min(100vw - 18px, 1080px); margin-top: 12px; }
+      header { padding-top: 48px; }
+      .legend, .split, .checklist { grid-template-columns: 1fr; }
+      .node, .arrow { grid-template-columns: 72px 1fr; gap: 9px; }
+      .label { font-size: 11px; padding: 10px 6px; }
+      .flow { padding: 14px 10px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Beforest Collective Sales Flow</h1>
+      <p class="subtitle">
+        Current live journey for new collective leads. Automation handles routing, WhatsApp, Journey tracking, and CRM updates. Sales reps step in only where human judgement and scheduling are expected.
+      </p>
+      <div class="legend">
+        <div class="tag auto">AUTOMATION</div>
+        <div class="tag lead">LEAD ACTION</div>
+        <div class="tag sales">SALES REP ACTION</div>
+        <div class="tag off">DISABLED LEGACY</div>
+      </div>
+    </header>
+
+    <section class="terminal">
+      <div class="bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span>sales_flow/current_live_path.tui</span>
+      </div>
+
+      <div class="flow">
+        <div class="node" style="--i:1">
+          <div class="label">TYPEFORM</div>
+          <div class="card auto">
+            <h2>Lead submits collective intake form</h2>
+            <p>Bhopal, Mumbai, Poomaale 2.0, or Hammiyala form lands in Windmill and updates or creates the Pipedrive deal.</p>
+          </div>
+        </div>
+
+        <div class="arrow" style="--i:2"><span>|</span></div>
+
+        <div class="node" style="--i:3">
+          <div class="label">CRM</div>
+          <div class="card crm">
+            <h2>Windmill matches the right deal</h2>
+            <p>Hidden deal ID wins. Otherwise it checks duplicate response token, then same person/contact in the same collective. New deal only if no safe match exists.</p>
+          </div>
+        </div>
+
+        <div class="arrow" style="--i:4"><span>|</span></div>
+
+        <div class="node" style="--i:5">
+          <div class="label">ROUTER</div>
+          <div class="card choice">
+            <h2>Why-join answer decides the path</h2>
+            <p>Meaningful answer moves toward conversation qualification. Missing, blank, filler, unfit, or fallback moves to the Collective Journey path.</p>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="branch" style="--i:6">
+            <h3>PATH A: qualified 1on1 lead</h3>
+            <div class="mini" style="background: var(--pink)">
+              WhatsApp sent: one of our team members will message directly to schedule the 1on1.
+            </div>
+            <div class="mini" style="background: var(--coral)">
+              <strong>Sales rep action:</strong> follow up manually and schedule the 1on1. This is not auto-booked.
+            </div>
+          </div>
+          <div class="branch" style="--i:7">
+            <h3>PATH B: Collective Journey first</h3>
+            <div class="mini" style="background: var(--pink)">
+              WhatsApp sent with tracked button: Open Collective Journey.
+            </div>
+            <div class="mini" style="background: var(--green)">
+              Lead reads story and requests a 1on1 from the bottom CTA if interested.
+            </div>
+          </div>
+        </div>
+
+        <div class="manual-banner" style="--i:8">
+          <h2>Manual checkpoint: qualified lead follow-up</h2>
+          <p>When a lead receives the 1on1 team scheduling notice, the sales team must message them personally and schedule the conversation. The automation intentionally does not prebook a calendar slot.</p>
+        </div>
+
+        <div class="arrow" style="--i:9"><span>|</span></div>
+
+        <div class="node" style="--i:10">
+          <div class="label">STORY</div>
+          <div class="card story">
+            <h2>Collective Journey path</h2>
+            <p>Lead is sent a Collective Journey. Internally this may still be tracked as GIS, but external copy says Collective Journey.</p>
+          </div>
+        </div>
+
+        <div class="arrow" style="--i:11"><span>|</span></div>
+
+        <div class="node" style="--i:12">
+          <div class="label">TRACK</div>
+          <div class="card auto">
+            <h2>Open is tracked through Windmill</h2>
+            <p>The WhatsApp button goes through a signed Windmill URL first. Pipedrive moves from <code>GIS Sent</code> to <code>GIS Opened</code>, then redirects to the Collective Journey.</p>
+          </div>
+        </div>
+
+        <div class="arrow" style="--i:13"><span>|</span></div>
+
+        <div class="node" style="--i:14">
+          <div class="label">IF SECOND FORM NOT SUBMITTED</div>
+          <div class="card whatsapp">
+            <h2>14-day second-form nurture</h2>
+            <p>For leads with <code>GIS Sent</code> or <code>GIS Opened</code> who have not submitted the post-Journey Typeform, WhatsApp follow-ups run on Day 2, 4, 6, 8, 10, 12, and 14. The sequence stops after the second form is submitted.</p>
+          </div>
+        </div>
+
+        <div class="arrow" style="--i:15"><span>|</span></div>
+
+        <div class="node" style="--i:16">
+          <div class="label">BOTTOM CTA</div>
+          <div class="card lead">
+            <h2>Lead requests 1on1 from the story</h2>
+            <p>Each Collective Journey bottom CTA uses a fixed Windmill redirect and forwards hidden Typeform fields such as <code>collective</code>, <code>source</code>, and <code>story_cta</code>.</p>
+          </div>
+        </div>
+
+        <div class="arrow" style="--i:17"><span>|</span></div>
+
+        <div class="node" style="--i:18">
+          <div class="label">POST-STORY FORM</div>
+          <div class="card auto">
+            <h2>Post-story Typeform updates the CRM</h2>
+            <p>Windmill updates the same Pipedrive deal when it can safely match it. If not, it uses contact and collective fallback matching before creating anything new.</p>
+          </div>
+        </div>
+
+        <div class="arrow" style="--i:19"><span>|</span></div>
+
+        <div class="manual-banner" style="--i:20">
+          <h2>Manual checkpoint: post-Journey conversation request</h2>
+          <p>When someone requests a conversation after going through the Collective Journey, sales should review the deal context, message the lead personally, and move the conversation forward. The automation prepares the CRM context; the rep owns the conversation.</p>
+        </div>
+
+        <div class="arrow" style="--i:21"><span>|</span></div>
+
+        <div class="node" style="--i:22">
+          <div class="label">DISABLED</div>
+          <div class="card off">
+            <h2>Old webinar path is off</h2>
+            <p>No webinar CTA, no Calendly webinar registration, no Zoom registration, no webinar reminders, and no webinar attendance sync for this funnel.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="checklist">
+      <div class="check">
+        <h2>Sales Must Do</h2>
+        <ul>
+          <li>Follow up with qualified leads after the team scheduling notice.</li>
+          <li>Follow up when a post-Journey conversation request comes in.</li>
+          <li>Use Pipedrive context before messaging the lead.</li>
+        </ul>
+      </div>
+      <div class="check">
+        <h2>Automation Does</h2>
+        <ul>
+          <li>Routes intake to direct conversation or Collective Journey.</li>
+          <li>Sends approved WhatsApp templates.</li>
+          <li>Tracks opens and updates Pipedrive state labels.</li>
+          <li>Runs second-form nurture for Journey leads until the post-Journey Typeform is submitted.</li>
+        </ul>
+      </div>
+      <div class="check">
+        <h2>Do Not Use</h2>
+        <ul>
+          <li>Do not send webinar links for this path.</li>
+          <li>Do not rely on automatic calendar prebooking.</li>
+          <li>Do not create duplicate deals if a safe CRM match exists.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      <strong>Team rule:</strong> Automation creates context and timing. Sales reps create the actual relationship. When the system says a team member will reach out, the team must reach out.
+    </div>
+  </main>
+</body>
+</html>

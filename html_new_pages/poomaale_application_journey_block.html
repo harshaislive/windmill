@@ -1,0 +1,97 @@
+<!--
+  Poomaale 2.0 application journey block.
+  Paste this ONCE into a BeBuilder HTML element, preferably near the end of the page.
+  Existing buttons with data-tf-popup="i8eBLQkz" will open this journey first.
+-->
+<link rel="stylesheet" href="https://embed.typeform.com/next/css/widget.css">
+<style>
+  @font-face{font-family:"ABC Arizona Flare";src:url("https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaFlare-Light-Trial.woff2") format("woff2");font-weight:300;font-style:normal;font-display:swap}
+  @font-face{font-family:"ABC Arizona Sans";src:url("https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaSans-Regular-Trial.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+  .bfj-modal[hidden]{display:none!important}
+  .bfj-modal{--bfj-bg:#344736;--bfj-accent:#b8dc99;--bfj-text:#fff;--bfj-line:rgba(255,255,255,.28);position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:24px;font-family:"ABC Arizona Sans",Arial,sans-serif}
+  .bfj-backdrop{position:absolute;inset:0;background:rgba(8,25,20,.82);backdrop-filter:blur(8px)}
+  .bfj-dialog{position:relative;width:min(860px,100%);max-height:calc(100vh - 48px);overflow:auto;color:var(--bfj-text);background:var(--bfj-bg);box-shadow:0 32px 100px rgba(0,0,0,.4);transform:translateY(14px);opacity:0;transition:transform .24s ease,opacity .24s ease}
+  .bfj-modal.bfj-open .bfj-dialog{transform:translateY(0);opacity:1}
+  .bfj-dialog.bfj-form-active{width:min(1040px,100%);height:min(900px,calc(100vh - 48px));overflow:hidden}
+  .bfj-close{position:absolute;top:18px;right:18px;z-index:4;box-sizing:border-box!important;display:grid!important;place-items:center;width:42px!important;min-width:42px!important;max-width:42px!important;height:42px!important;min-height:42px!important;padding:0!important;margin:0!important;border:1px solid rgba(255,255,255,.46);border-radius:50%!important;color:var(--bfj-text);background:transparent;font:300 27px/1 "ABC Arizona Sans",Arial,sans-serif!important;appearance:none;cursor:pointer}
+  .bfj-process{padding:clamp(32px,5vw,54px)}
+  .bfj-eyebrow{margin:0 0 12px;color:var(--bfj-accent);font:400 11px/1.2 "ABC Arizona Sans",Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+  .bfj-title{max-width:540px;margin:0;padding-right:42px;color:var(--bfj-text);font:300 clamp(36px,5vw,58px)/.98 "ABC Arizona Flare",Arial,sans-serif;letter-spacing:-.035em}
+  .bfj-intro{max-width:570px;margin:16px 0 26px;color:rgba(255,255,255,.82);font:300 15px/1.55 "ABC Arizona Sans",Arial,sans-serif}
+  .bfj-steps{display:grid;grid-template-columns:1fr 1fr;margin:0;padding:0;list-style:none;border-top:1px solid var(--bfj-line);border-bottom:1px solid var(--bfj-line)}
+  .bfj-step{display:grid;grid-template-columns:28px 1fr;gap:4px 12px;min-height:100px;padding:17px 18px;border-right:1px solid var(--bfj-line);border-bottom:1px solid var(--bfj-line)}
+  .bfj-step:nth-child(even){border-right:0}.bfj-step:nth-last-child(-n+2){border-bottom:0}
+  .bfj-number{grid-row:1/3;padding-top:3px;color:var(--bfj-accent);font-size:11px;letter-spacing:.1em}
+  .bfj-step h3{margin:0;color:var(--bfj-text);font:300 19px/1.15 "ABC Arizona Flare",Arial,sans-serif}
+  .bfj-step p{margin:0;color:rgba(255,255,255,.74);font:400 12px/1.45 "ABC Arizona Sans",Arial,sans-serif}
+  .bfj-note{display:flex;gap:7px;max-width:540px;margin:14px 0 0;padding:0;border:0;color:rgba(255,255,255,.84);font-size:12px;font-weight:300;line-height:1.5}.bfj-note::before{content:"*";flex:0 0 auto;color:var(--bfj-accent)}
+  .bfj-actions{display:flex;align-items:center;gap:20px}
+  .bfj-start{min-height:52px;padding:0 28px;border:1px solid var(--bfj-accent);border-radius:999px;color:var(--bfj-bg);background:var(--bfj-accent);font:400 12px/1 "ABC Arizona Sans",Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .bfj-start:hover{color:#fff;background:transparent}
+  .bfj-later,.bfj-back{padding:10px 2px;border:0;color:var(--bfj-text);background:transparent;font:400 12px/1.3 "ABC Arizona Sans",Arial,sans-serif;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+  .bfj-form{display:none;height:100%;min-height:520px;flex-direction:column;background:#fff}.bfj-dialog.bfj-form-active .bfj-process{display:none}.bfj-dialog.bfj-form-active .bfj-form{display:flex}
+  .bfj-formbar{display:flex;align-items:center;gap:24px;min-height:76px;padding:12px 70px 12px 22px;color:#fff;background:var(--bfj-bg);border-bottom:1px solid var(--bfj-line)}
+  .bfj-formbar p{margin:0;padding-left:24px;border-left:1px solid var(--bfj-line);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  .bfj-widget{position:relative;flex:1;min-width:0;min-height:440px;overflow:hidden;background:#fff}.bfj-loading{position:absolute;inset:0;display:grid;place-items:center;color:#344736;font-size:13px}.bfj-widget>div,.bfj-widget .tf-v1-widget,.bfj-widget iframe{width:100%!important;height:100%!important}.bfj-widget iframe{position:relative;z-index:1;display:block;border:0}
+  body.bfj-body-open{overflow:hidden!important}
+  @media(max-width:560px){.bfj-modal{align-items:stretch;padding:0}.bfj-dialog,.bfj-dialog.bfj-form-active{width:100%;height:100dvh;max-height:none}.bfj-process{display:flex;flex-direction:column;min-height:100dvh;padding:58px 18px calc(16px + env(safe-area-inset-bottom))}.bfj-title{max-width:11ch;padding-right:24px;font-size:35px}.bfj-intro{margin:11px 0 16px;font-size:13px}.bfj-steps{grid-template-columns:1fr}.bfj-step,.bfj-step:nth-child(even){min-height:0;padding:11px 2px;border-right:0;border-bottom:1px solid var(--bfj-line)}.bfj-step:last-child{border-bottom:0}.bfj-step h3{font-size:17px}.bfj-step p{font-size:11.5px}.bfj-note{margin:10px 0 0;font-size:11px}.bfj-actions{align-items:stretch;flex-direction:column;gap:8px;margin-top:auto}.bfj-start{width:100%}.bfj-formbar{align-items:flex-start;flex-direction:column;gap:6px;min-height:88px;padding:15px 62px 12px 16px}.bfj-formbar p{padding-left:0;border-left:0}.bfj-widget{min-height:0}}
+  @media(prefers-reduced-motion:reduce){.bfj-dialog,.bfj-start{transition:none}}
+</style>
+
+<div class="bfj-modal" id="bfj-application-modal" hidden aria-hidden="true" data-form-id="i8eBLQkz" data-collective="poomaale" data-form-title="Poomaale 2.0">
+  <div class="bfj-backdrop" data-bfj-close></div>
+  <section class="bfj-dialog" role="dialog" aria-modal="true" aria-labelledby="bfj-title" tabindex="-1">
+    <button class="bfj-close" type="button" data-bfj-close aria-label="Close application">&times;</button>
+    <div class="bfj-process">
+      <p class="bfj-eyebrow">The invitation</p>
+      <h2 class="bfj-title" id="bfj-title">What happens after you apply?</h2>
+      <p class="bfj-intro">Joining a collective is a considered, mutual journey. We take the time to understand the fit—on both sides.</p>
+      <ol class="bfj-steps">
+        <li class="bfj-step"><span class="bfj-number">01</span><h3>Apply</h3><p>Tell us what draws you here and the life you hope to build.</p></li>
+        <li class="bfj-step"><span class="bfj-number">02</span><h3>We review</h3><p>We consider your responses, readiness and alignment with the collective.</p></li>
+        <li class="bfj-step"><span class="bfj-number">03</span><h3>We meet</h3><p>If there is mutual alignment, we arrange a 1-on-1 in-person conversation.</p></li>
+        <li class="bfj-step"><span class="bfj-number">04</span><h3>Next steps</h3><p>We close the loop with a clear outcome and the way forward.</p></li>
+      </ol>
+      <div class="bfj-actions"><button class="bfj-start" type="button">Start application</button><button class="bfj-later" type="button" data-bfj-close>Not now</button></div>
+      <p class="bfj-note">Your application begins the conversation. It does not confirm membership.</p>
+    </div>
+    <div class="bfj-form" aria-hidden="true">
+      <div class="bfj-formbar"><button class="bfj-back" type="button">&larr; Back</button><p>Poomaale 2.0 application</p></div>
+      <div class="bfj-widget"><div class="bfj-loading" role="status">Loading application…</div></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  if(window.BeforestQualified1on1Signal)return;
+  var ENDPOINT="https://flows.ops.beforest.co/api/r/sales/typeform/qualified-1on1-signal",FORM_ID="i8eBLQkz",QUESTION_REF="4c30971d-c15d-42f8-90d1-94c19a475c4d",UTM_KEYS=["utm_source","utm_medium","utm_campaign","utm_content","utm_term"];
+  function q(key){return new URLSearchParams(location.search).get(key)||""}function cookie(name){var prefix=name+"=",parts=document.cookie?document.cookie.split(";"):[];for(var i=0;i<parts.length;i++){var part=parts[i].trim();if(part.indexOf(prefix)===0)return decodeURIComponent(part.slice(prefix.length))}return""}
+  function attribution(){var values={fbp:cookie("_fbp"),fbc:cookie("_fbc"),fbclid:q("fbclid")};UTM_KEYS.forEach(function(key){values[key]=q(key)});return values}
+  function send(payload){var serialized=JSON.stringify(payload);if(navigator.sendBeacon&&navigator.sendBeacon(ENDPOINT,serialized))return;fetch(ENDPOINT,{method:"POST",mode:"no-cors",credentials:"omit",keepalive:true,body:serialized}).catch(function(){})}
+  function mergeOptions(formId,existing){var merged=Object.assign({},existing||{});if(formId!==FORM_ID)return merged;var responseId="",reached=false,sent=false;function trySend(){if(sent||!responseId||!reached)return;sent=true;send(Object.assign({signal_type:"typeform_embed_question_reached",form_id:FORM_ID,response_id:responseId,question_ref:QUESTION_REF,event_time:Math.floor(Date.now()/1000),event_source_url:location.href},attribution()))}function compose(first,second){return function(event){try{if(typeof first==="function")first(event)}finally{second(event)}}}merged.onStarted=compose(merged.onStarted,function(event){responseId=event&&event.responseId?String(event.responseId):"";trySend()});merged.onQuestionChanged=compose(merged.onQuestionChanged,function(event){if(event&&event.ref===QUESTION_REF){reached=true;trySend()}});return merged}
+  function patch(tf){if(!tf||typeof tf.createPopup!=="function"||tf.createPopup.__beforestQualified1on1Patched)return false;var original=tf.createPopup;function wrapped(formId,options){return original.call(this,formId,mergeOptions(formId,options))}wrapped.__beforestQualified1on1Patched=true;tf.createPopup=wrapped;return true}
+  window.BeforestQualified1on1Signal={mergeOptions:mergeOptions,install:function(){patch(window.tf)},supportedForms:[FORM_ID]};patch(window.tf);
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+  if(window.BeforestApplicationJourney)return;
+  var modal=document.getElementById("bfj-application-modal");if(!modal)return;
+  var dialog=modal.querySelector(".bfj-dialog"),processView=modal.querySelector(".bfj-process"),formView=modal.querySelector(".bfj-form"),widget=modal.querySelector(".bfj-widget"),startButton=modal.querySelector(".bfj-start"),backButton=modal.querySelector(".bfj-back");
+  var formId=modal.getAttribute("data-form-id"),collective=modal.getAttribute("data-collective"),formTitle=modal.getAttribute("data-form-title"),lastFocused=null,widgetMounted=false,localStartedAt=Date.now();
+  Array.prototype.forEach.call(document.querySelectorAll('[data-tf-popup="'+formId+'"]'),function(trigger){trigger.setAttribute("data-bfj-trigger","");trigger.removeAttribute("data-tf-popup")});
+  function hiddenValues(){var params=new URLSearchParams(location.search),hidden={collective:collective};["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid"].forEach(function(key){var value=params.get(key);if(value)hidden[key]=value});var seconds=typeof window.timeSpentSeconds==="number"?window.timeSpentSeconds:Math.max(0,Math.floor((Date.now()-localStartedAt)/1000));hidden.utm_time_spent=seconds+"s";return hidden}
+  function openModal(){lastFocused=document.activeElement;modal.hidden=false;modal.setAttribute("aria-hidden","false");document.body.classList.add("bfj-body-open");requestAnimationFrame(function(){modal.classList.add("bfj-open");modal.querySelector(".bfj-close").focus()})}
+  function showProcess(){dialog.classList.remove("bfj-form-active");formView.setAttribute("aria-hidden","true");processView.removeAttribute("aria-hidden")}
+  function closeModal(){modal.classList.remove("bfj-open");modal.setAttribute("aria-hidden","true");document.body.classList.remove("bfj-body-open");setTimeout(function(){modal.hidden=true;showProcess();widget.innerHTML='<div class="bfj-loading" role="status">Loading application…</div>';widgetMounted=false;if(lastFocused&&typeof lastFocused.focus==="function")lastFocused.focus()},240)}
+  function renderWidget(){if(widgetMounted||!window.tf||typeof window.tf.createWidget!=="function")return;widgetMounted=true;var options={container:widget,hidden:hiddenValues(),medium:"snippet",transitiveSearchParams:["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid"],iframeProps:{title:formTitle}};if(window.BeforestQualified1on1Signal&&typeof window.BeforestQualified1on1Signal.mergeOptions==="function")options=window.BeforestQualified1on1Signal.mergeOptions(formId,options);window.tf.createWidget(formId,options)}
+  function ensureTypeform(){if(window.tf&&typeof window.tf.createWidget==="function"){renderWidget();return}var sdk=document.getElementById("bfj-typeform-sdk")||document.querySelector('script[src*="embed.typeform.com/next/embed.js"]');if(!sdk){sdk=document.createElement("script");sdk.id="bfj-typeform-sdk";sdk.src="https://embed.typeform.com/next/embed.js";document.head.appendChild(sdk)}sdk.addEventListener("load",renderWidget,{once:true});var attempts=0,loader=window.setInterval(function(){attempts+=1;if(window.tf&&typeof window.tf.createWidget==="function"){window.clearInterval(loader);renderWidget()}else if(attempts>=100){window.clearInterval(loader)}},50)}
+  function showForm(){dialog.classList.add("bfj-form-active");processView.setAttribute("aria-hidden","true");formView.setAttribute("aria-hidden","false");ensureTypeform()}
+  document.addEventListener("click",function(event){var target=event.target instanceof Element?event.target.closest('[data-bfj-trigger], [data-tf-popup="'+formId+'"]'):null;if(!target||modal.contains(target))return;event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();openModal()},true);
+  modal.addEventListener("click",function(event){if(event.target.closest("[data-bfj-close]")){event.preventDefault();closeModal()}});startButton.addEventListener("click",showForm);backButton.addEventListener("click",showProcess);modal.addEventListener("keydown",function(event){if(event.key==="Escape"){event.preventDefault();closeModal()}});window.BeforestApplicationJourney={open:openModal,close:closeModal,formId:formId};
+})();
+</script>

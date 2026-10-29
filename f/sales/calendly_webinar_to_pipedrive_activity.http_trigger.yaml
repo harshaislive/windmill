@@ -6,7 +6,7 @@ authentication_resource_path: null
 http_method: post
 is_flow: true
 is_static_website: false
-mode: enabled
+mode: disabled
 raw_string: false
 request_type: async
 route_path: calendly/webinar/pipedrive/activity

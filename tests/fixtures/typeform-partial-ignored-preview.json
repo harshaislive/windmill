@@ -1,0 +1,11 @@
+{
+  "body": {
+    "event_type": "form_response_partial",
+    "form_response": {
+      "form_id": "CYae8hmZ",
+      "token": "synthetic-partial-response-token",
+      "answers": []
+    }
+  },
+  "dry_run": false
+}

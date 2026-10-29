@@ -1,0 +1,27 @@
+summary: Reconcile Vivek Calendly bookings to Pipedrive
+description: Polls only Vivek's configured Calendly event type, matches invitees by exact email and Bhopal or Mumbai UTM campaign, and safely syncs unambiguous open Vivek-owned deals. Missing UTM is accepted only when exactly one eligible deal exists. Handles cancellation and Asia/Kolkata activity times without touching Hammiyala or Poomaale.
+lock: '!inline f/sales/reconcile_vivek_calendly_bookings.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Report matches and intended updates without writing to Pipedrive.
+      default: true
+    lookback_days:
+      type: integer
+      default: 7
+    lookahead_days:
+      type: integer
+      default: 60
+    max_events:
+      type: integer
+      description: Safety cap for each Calendly status.
+      default: 250
+    max_writes:
+      type: integer
+      description: Maximum invitee reconciliations allowed in one live run.
+      default: 50
+  required: []

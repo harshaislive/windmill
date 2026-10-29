@@ -10,15 +10,7 @@ is_static_website: false
 mode: enabled
 raw_string: false
 request_type: async
-retry:
-  constant:
-    attempts: 0
-    seconds: 0
-  exponential:
-    attempts: 0
-    multiplier: 1
-    random_factor: null
-    seconds: 0
+retry: {}
 route_path: typeform/pipedrive/intake
 route_path_key: typeform/pipedrive/intake
 script_path: f/sales/typeform_to_pipedrive_intake

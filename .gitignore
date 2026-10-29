@@ -14,7 +14,16 @@ NUL
 n8n_workflows/
 snapshots/
 typeform_webhook_payload/
+data/tracking/mumbai-email-backfill-plan-20260929.json
 
 # Windmill/GitHub local state
 .wmill/
 .windmill/
+
+# Local data / scratch (contains lead PII; never push to this public repo)
+exports/
+*.zip
+tmp_*.json
+.state/
+.codex-remote-attachments/
+NUL.css

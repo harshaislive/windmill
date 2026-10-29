@@ -1,0 +1,15 @@
+summary: Fetch YouTube dashboard data
+description: Reads the latest successful YouTube metrics snapshot from Windmill
+  datatables and returns dashboard-ready JSON.
+lock: '!inline f/marketing/youtube/fetch_youtube_dashboard.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    snapshot_date:
+      type: string
+      description: Optional YYYY-MM-DD snapshot date. Defaults to the latest
+        successful sync.
+      default: ''
+  required: []

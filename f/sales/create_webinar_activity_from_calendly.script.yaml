@@ -1,12 +1,14 @@
 summary: 04C Action - webinar Zoom/Pipedrive + confirmation
-description: Internal worker for the webinar booking flow. Reads the Calendly
-  payload, detects the collective, finds or creates the matching Pipedrive
-  person/deal by invitee email, keeps the deal title as the invitee name, assigns
-  the correct collective owner, registers the invitee into the matching Zoom
-  webinar, writes Zoom join/reference fields, creates or updates the webinar
-  activity, enforces the `Scheduled Webinar - Pending` label, sends the webinar
-  confirmation WhatsApp, and schedules one-off WhatsApp reminder jobs for 3d,
-  24h, and 1h before the webinar.
+description: Internal worker for the contained Calendly webinar registration
+  path. Reads the Calendly payload, detects the collective, finds or creates the
+  matching Pipedrive person/deal by invitee email, keeps the deal title as the
+  invitee name, assigns the correct collective owner, registers the invitee into
+  the matching Zoom webinar, writes Zoom join/reference fields, creates or
+  updates the webinar activity, enforces the `Scheduled Webinar - Pending`
+  label, sends the webinar confirmation WhatsApp, and schedules one-off WhatsApp
+  reminder jobs for 3d, 24h, and 1h before the webinar. Requires either
+  `f/sales/calendly_zoom_registration_enabled=true` for this contained path or
+  `f/sales/legacy_webinar_enabled=true` for the older full legacy path.
 lock: '!inline f/sales/create_webinar_activity_from_calendly.script.lock'
 kind: script
 schema:
@@ -21,6 +23,11 @@ schema:
       type: boolean
       description: Resolve the matching person/deal and planned activity without
         writing to Pipedrive or registering the invitee in Zoom.
+      default: false
+    schedule_attendance_checks:
+      type: boolean
+      description: Also enqueue the old Zoom attendance/prebook check jobs. Keep false
+        for the contained Calendly-to-Zoom registration/reminder path.
       default: false
   required:
     - calendly_payload

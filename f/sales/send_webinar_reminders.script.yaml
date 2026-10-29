@@ -1,8 +1,11 @@
 summary: 08A Worker - send webinar WhatsApp reminders
-description: Reusable worker for webinar reminder jobs scheduled by the Calendly
-  to Zoom/Pipedrive flow. For a targeted deal, it reads the open webinar
-  activity date/time and sends the due approved Interakt webinar reminder. Each
-  send is logged as a done Pipedrive activity for dedupe.
+description: Reusable worker for targeted webinar reminder jobs scheduled by the
+  contained Calendly-to-Zoom/Pipedrive registration path. For a targeted deal,
+  it reads the open webinar activity date/time and sends the due approved
+  Interakt webinar reminder. Each send is logged as a done Pipedrive activity
+  for dedupe. Requires either `f/sales/calendly_zoom_registration_enabled=true`
+  for targeted one-off jobs or `f/sales/legacy_webinar_enabled=true` for the
+  older full legacy path.
 lock: '!inline f/sales/send_webinar_reminders.script.lock'
 kind: script
 schema:
@@ -18,6 +21,11 @@ schema:
       description: Preview reminders without sending WhatsApp messages or logging
         activities.
       default: true
+    fallback_enabled:
+      type: boolean
+      description: Explicitly allow broad non-dry-run fallback polling when no deal_id
+        is provided. Keep false for the disabled 08Z schedule.
+      default: false
     include_already_logged:
       type: boolean
       description: Include reminders that already have a matching Pipedrive activity.

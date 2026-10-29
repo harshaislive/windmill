@@ -1,0 +1,15 @@
+summary: Test Zoho Campaigns API connection
+description: Test-only script that refreshes Zoho Campaigns OAuth access and
+  lists available Campaigns resources without touching production sales
+  workflows.
+lock: '!inline f/sales/zoho_campaigns/test_connection.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    include_raw:
+      type: boolean
+      description: Include raw Zoho API payloads in the result for debugging.
+      default: false
+  required: []

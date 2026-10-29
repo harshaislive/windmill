@@ -1,0 +1,11 @@
+summary: Sales dashboard lead intelligence
+public: true
+data:
+  datatable: main
+  tables:
+    - main/sales_intelligence_groups
+    - main/sales_intelligence_health
+    - main/sales_readiness_deals
+    - main/sales_intelligence_budget
+    - main/sales_intelligence_profiles
+    - main/sales_intelligence_tinyfish_queue

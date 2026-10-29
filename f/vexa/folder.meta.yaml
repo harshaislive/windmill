@@ -1,0 +1,6 @@
+summary: Vexa meeting bot console
+display_name: vexa
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

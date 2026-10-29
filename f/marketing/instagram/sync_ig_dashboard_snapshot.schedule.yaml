@@ -1,0 +1,25 @@
+summary: Daily Instagram dashboard snapshot sync
+description: Runs the Instagram dashboard snapshot sync every day at 9:20 AM Asia/Kolkata.
+args:
+  dry_run: false
+  end_date: ''
+  facebook_token_variable_path: f/marketing/instagram/facebook_api_token
+  ig_username: beforestfarming
+  lookback_days: 30
+  max_comments_per_media: 100
+  max_media: 60
+  page_name: Beforest
+  timezone: Asia/Kolkata
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+retry:
+  constant:
+    attempts: 2
+    seconds: 300
+schedule: 0 20 9 * * *
+script_path: f/marketing/instagram/sync_ig_dashboard_snapshot
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

@@ -1,0 +1,6 @@
+summary: Remove a KMS document from knowledge retrieval
+description: Deletes matching Qdrant points and marks the processing row
+  DELETED. The original Dropbox file is not removed.
+lock: '!inline f/kms/delete_document_from_knowledge_base.script.lock'
+kind: script
+schema: null

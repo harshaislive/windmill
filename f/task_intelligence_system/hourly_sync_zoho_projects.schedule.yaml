@@ -1,0 +1,12 @@
+summary: Hourly Zoho Projects sync for task intelligence system
+args:
+  datatable_name: main
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: false
+schedule: 0 0 * * * *
+script_path: f/task_intelligence_system/sync/sync_zoho_projects
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

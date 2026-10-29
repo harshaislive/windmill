@@ -1,0 +1,16 @@
+summary: null
+description: null
+authentication_method: none
+authentication_resource_path: null
+http_method: post
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+route_path: bewild/lead-magnet/capture
+route_path_key: bewild/lead-magnet/capture
+script_path: f/bewild_lead_magnet/capture_lead
+static_asset_config: null
+workspaced_route: false
+wrap_body: true

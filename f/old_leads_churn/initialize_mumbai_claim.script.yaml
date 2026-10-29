@@ -1,0 +1,10 @@
+summary: Install atomic Mumbai nurture step claim
+description: Creates a database function with recipient locks, unique steps and atomic daily capacity. No send is executed.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true

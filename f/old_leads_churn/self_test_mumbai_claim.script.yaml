@@ -1,0 +1,7 @@
+summary: Synthetic no-send Mumbai claim and timing test
+description: Tests concurrent reservations, quota, uncertain state, and 48-hour timing using future-dated .invalid records, then cleans up.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}

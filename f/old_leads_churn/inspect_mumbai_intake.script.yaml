@@ -1,0 +1,10 @@
+summary: Inspect Mumbai Sheet intake and held queue without writes
+description: Read-only source, state and delivery-switch check.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true

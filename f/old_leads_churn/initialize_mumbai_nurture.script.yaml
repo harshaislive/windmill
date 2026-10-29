@@ -1,0 +1,10 @@
+summary: Initialize isolated Mumbai nurture queue tables
+description: Creates dedicated main datatable tables and constraints. Makes no external calls or sends.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true

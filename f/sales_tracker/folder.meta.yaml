@@ -1,0 +1,6 @@
+summary: Collective sales tracker; prospect outreach remains disabled
+display_name: Sales tracker
+owners:
+  - u/harsha
+extra_perms:
+  u/harsha: true

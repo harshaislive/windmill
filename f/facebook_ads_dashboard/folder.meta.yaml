@@ -1,0 +1,6 @@
+summary: Facebook Ads Dashboard
+display_name: facebook_ads_dashboard
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

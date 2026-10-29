@@ -1,8 +1,10 @@
 summary: 05D Worker - 1on1 reschedule request
 description: Handles a lead clicking the WhatsApp `Reschedule Call` button.
-  Current version acknowledges and records routing only; the next version will
-  cancel the owner calendar event, update the deal label to `1on1 - Awaiting`,
-  and send the booking-link acknowledgement.
+  Cancels the owner calendar event when found, closes the stale owner-owned
+  Pipedrive call activity, updates the deal label to `1on1 - Awaiting`, clears
+  meeting fields, and sends the owner booking-link acknowledgement where a safe
+  template/link exists. Rakesh/Sravani fallback creates a neutral manual task
+  instead of sending the old Rakesh-specific booking link.
 lock: '!inline f/sales/interakt_reschedule_requested_worker.script.lock'
 kind: script
 schema:

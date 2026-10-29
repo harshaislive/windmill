@@ -1,0 +1,20 @@
+summary: 11B Schedule - reconcile owner 1on1 calendars
+description: Runs the conservative owner-calendar reconciliation worker six
+  times daily at 6 AM, 9 AM, 12 PM, 3 PM, 6 PM, and 9 PM IST. It only syncs
+  Google Calendar events that clearly include a Pipedrive deal ID, so it can
+  repair missing Pipedrive meeting fields/activities without guessing from
+  names.
+args:
+  dry_run: false
+  lookahead_days: 30
+  lookback_days: 2
+  max_events_per_calendar: 500
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 6,9,12,15,18,21 * * *
+script_path: f/sales/reconcile_owner_calendar_1on1
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

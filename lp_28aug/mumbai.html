@@ -1,0 +1,4539 @@
+<p><style>
+        /* Font Face Declarations */
+        @font-face {
+            font-family: 'ABC Arizona Flare';
+            src: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaFlare-Light-Trial.woff2') format('woff2'),
+                 url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaFlare-Light-Trial.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'ABC Arizona Flare';
+            src: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaFlare-Regular-Trial.woff2') format('woff2'),
+                 url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaFlare-Regular-Trial.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'ABC Arizona Sans';
+            src: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaSans-Regular-Trial.woff2') format('woff2'),
+                 url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaSans-Regular-Trial.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            overflow-x: hidden;
+            background-color: #000;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
+        }
+
+        /* Global scroll indicator styling */
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 60px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .scroll-indicator svg {
+            width: 47px;
+            height: 27px;
+        }
+
+        /* Common section styling */
+        section {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Mobile base styles - ONLY when width < 1024px OR portrait */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            section {
+                width: 1080px;
+                max-width: 100%;
+            }
+
+            /* ============================================
+               SECTION 1 - HERO (MOBILE BASE)
+               ============================================ */
+            .section-1 {
+                height: 1920px;
+                overflow: hidden;
+                background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/mumbai_mobile.webp');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+
+        /* Common Section 1 styles (apply to both mobile and desktop) */
+        .section-1 {
+            position: relative;
+        }
+
+        .section-1 .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 0) 55%,
+                rgba(0, 0, 0, 0.7) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Common styles for both mobile and desktop */
+        .section-1 .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Mobile base styles with fixed values - ONLY when width < 1024px OR portrait */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            .section-1 .hero-titles {
+                position: absolute;
+                top: 450px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 932px;
+                text-align: center;
+            }
+
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif !important;
+                font-size: 153.39px;
+                font-weight: 300;
+                line-height: 0.7;
+                letter-spacing: normal;
+                text-align: center;
+                white-space: nowrap;
+            }
+
+            .section-1 .title-hammiyala {
+                color: #ff774a;
+            }
+
+            .section-1 .title-collective {
+                color: #ffffff;
+                padding-left: 0;
+            }
+
+            /* Hide "THE" on mobile only */
+            .section-1 .title-the {
+                display: none;
+            }
+
+            .section-1 .subtitle-section {
+                position: absolute;
+                top: 1375px;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                width: 700px;
+            }
+
+            .section-1 .subtitle-line {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 23.49px;
+                font-weight: 300;
+                line-height: 1;
+                color: #ffffff;
+                letter-spacing: normal;
+                white-space: nowrap;
+            }
+
+            .section-1 .subtitle-line:nth-child(1),
+            .section-1 .subtitle-line:nth-child(2) {
+                margin-bottom: 2px;
+            }
+
+            /* Hide desktop subtitle line on mobile */
+            .section-1 .subtitle-line-desktop {
+                display: none;
+            }
+
+            .section-1 .cta-section {
+                position: absolute;
+                top: 1532px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .section-1 .scroll-indicator {
+                position: absolute;
+                top: 1726px;
+                left: 50%;
+                transform: translateX(-50%);
+                animation: bounce 2s infinite;
+            }
+
+            .section-1 .scroll-indicator svg {
+                width: 45px;
+                height: 26px;
+            }
+        }
+
+        /* Common color styles */
+        .section-1 .title-hammiyala {
+            color: #ff774a;
+        }
+
+        .section-1 .title-collective {
+            color: #ffffff;
+        }
+
+        /* Common button styles */
+        .section-1 .cta-button {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid #ffffff;
+            border-radius: 48px;
+            padding: 18px 48px;
+            min-height: 44px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .section-1 .cta-button:hover,
+        .section-1 .cta-button:active {
+            background: #ffffff;
+            color: #ff774a;
+        }
+
+        .section-1 .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* ============================================
+           SECTION 2 - OUR VISION
+           ============================================ */
+
+        /* Common styles */
+        .section-2 {
+            position: relative;
+            background-color: #f5f5f0;
+            overflow: hidden;
+        }
+
+        .section-2 .background-image {
+            display: none;
+        }
+
+        .section-2 .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Mobile base styles */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            .section-2 {
+                height: 150vh;
+                min-height: 850px;
+                padding: 20px 50px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            .section-2 .content {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-2 .title-section {
+                text-align: center;
+                margin-bottom: 40px;
+                padding-top: 30px;
+                width: 100%;
+            }
+
+            .section-2 .title-reimagining {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 153.39px;
+                font-weight: 300;
+                line-height: 0.7;
+                color: #9E3430;
+                margin-bottom: 0px;
+                text-align: center;
+            }
+
+            .section-2 .title-sustainability {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 153.39px;
+                font-weight: 300;
+                line-height: 0.7;
+                color: #9E3430;
+                text-align: center;
+            }
+
+            .section-2 .subtitle-section-2 {
+                text-align: center;
+                margin-bottom: 50px;
+                width: 100%;
+            }
+
+            .section-2 .subtitle-text {
+                font-family: 'ABC Arizona flare', Arial, sans-serif;
+                font-size: 48px;
+                font-weight: 400;
+                line-height: 0.6;
+                color: #E07856;
+                margin: 0;
+                text-align: center;
+            }
+
+            .section-2 .description-section {
+                text-align: center;
+                margin-bottom: 60px;
+                padding: 0 60px;
+                max-width: 100%;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
+            .section-2 .description-paragraph {
+                font-family: 'ABC Arizona flare', Arial, sans-serif;
+                font-size: 22px;
+                font-weight: 300;
+                line-height: 1.3;
+                color: #7a6a5a;
+                margin: 0 auto;
+                max-width: 900px;
+            }
+
+            .section-2 .map-section {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 0 0 0 0;
+                overflow: visible;
+                min-height: auto;
+            }
+
+            .section-2 .map-image {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                border-radius: 0px;
+                object-fit: contain;
+                object-position: top center;
+                display: block;
+                margin: 0 auto;
+            }
+        }
+
+        /* ============================================
+           SECTION 3 - ACCORDION / TABS (MUMBAI COLLECTIVE)
+           ============================================ */
+
+        /* Common styles */
+        .section-3 {
+            background-color: #f5f5f0;
+        }
+
+        /* Hide tab navigation on mobile by default */
+        .section-3 .tab-navigation {
+            display: none;
+        }
+
+        /* Hide desktop content container on mobile */
+        .section-3 .content-container {
+            display: none;
+        }
+
+        /* Hide text pagination on mobile by default */
+        .section-3 .text-pagination {
+            display: none;
+        }
+
+        /* Hide desktop title/body wrappers on mobile - treat as transparent containers */
+        .section-3 .content-title,
+        .section-3 .content-body {
+            display: contents;
+        }
+
+        /* CRITICAL: Hide accordion sections on desktop AND tablet landscape by default */
+        @media (min-width: 768px) and (orientation: landscape) {
+            .section-3 .accordion-section,
+            section.section-3 .accordion-section,
+            .section-3 .accordion-section[data-content],
+            div.accordion-section {
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                max-height: 0 !important;
+                overflow: hidden !important;
+                opacity: 0 !important;
+                position: absolute !important;
+                left: -9999px !important;
+                top: -9999px !important;
+                pointer-events: none !important;
+                clip: rect(0, 0, 0, 0) !important;
+            }
+
+            .section-3 .accordion-header,
+            .section-3 .accordion-content,
+            .section-3 .accordion-title {
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                overflow: hidden !important;
+            }
+        }
+
+        /* Mobile accordion styles */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            .section-3 {
+                padding: 50px 0;
+            }
+
+            .section-3 .accordion-section {
+                width: 100%;
+            }
+
+            .section-3 .accordion-header {
+                position: relative;
+                width: 100%;
+                padding: 30px 52px;
+                background-color: #ffffff;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .section-3 .accordion-header::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 52px;
+                right: 52px;
+                height: 2px;
+                background-color: #9E3430;
+            }
+
+            .section-3 .accordion-header.active::after {
+                display: none;
+            }
+
+            .section-3 .accordion-header:hover {
+                background-color: #ebebd9;
+            }
+
+            .section-3 .accordion-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 43.18px;
+                font-weight: 400;
+                color: #2f4835;
+            }
+
+            .section-3 .accordion-icon {
+                width: 24px;
+                height: 24px;
+                color: #86312b;
+                transition: transform 0.3s ease;
+            }
+
+            .section-3 .accordion-header.active .accordion-icon {
+                transform: rotate(180deg);
+            }
+
+            .section-3 .accordion-content {
+                position: relative;
+                width: 100%;
+                min-height: 600px;
+                background-color: #1a2e1a;
+                display: none;
+                flex-direction: column;
+            }
+
+            .section-3 .accordion-content.active {
+                display: flex;
+            }
+
+            .section-3 .background-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+                overflow: hidden;
+            }
+
+            .section-3 .background-image img {
+                width: 100%;
+                height: 120%;
+                object-fit: cover;
+                object-position: center;
+                transform: translateY(0);
+                transition: transform 0.1s linear;
+                pointer-events: none;
+            }
+
+            .section-3 .background-image::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.35);
+                z-index: 1;
+            }
+
+            .section-3 .text-overlay {
+                position: relative;
+                z-index: 2;
+                padding: 80px 90px 60px 90px;
+                width: 100%;
+            }
+
+            .section-3 .text-overlay p {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 16.8px;
+                font-weight: 300;
+                line-height: 1.2;
+                color: #ffffff;
+                margin-bottom: 32px;
+            }
+
+            .section-3 .text-overlay p:last-of-type {
+                margin-bottom: 0;
+            }
+
+            /* Subtitle with decorative line */
+            .section-3 .subtitle-with-line {
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+                margin-bottom: 30px;
+                background-color: #9e3430;
+                padding: 20px 0 20px 20px;
+                margin-left: -90px;
+                margin-right: -90px;
+            }
+
+            .section-3 .decorative-line {
+                width: 80px;
+                height: 2px;
+                background-color: #ff774a;
+                flex-shrink: 0;
+                margin-top: 8px;
+            }
+
+            .section-3 .subtitle-heading-mobile {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 1.2;
+                color: #ff774a;
+                text-transform: uppercase;
+                margin: 0;
+                letter-spacing: 0.5px;
+            }
+
+            .section-3 .cta-button-accordion {
+                display: inline-block;
+                background: transparent;
+                border: 2px solid #b8dc99;
+                border-radius: 50px;
+                padding: 12px 32px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 14.4px;
+                font-weight: 400;
+                letter-spacing: 2.4px;
+                color: #b8dc99;
+                text-transform: uppercase;
+                text-decoration: none;
+                margin-top: 32px;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .section-3 .cta-button-accordion:hover {
+                background: #b8dc99;
+                color: #2f4835;
+            }
+
+            .section-3 .green-bar-text {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                background-color: #2d4a35;
+                padding: 40px 90px;
+                margin-top: auto;
+            }
+
+            .section-3 .green-bar-text p {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 300;
+                line-height: 1.4;
+                color: #b8dc99;
+                text-transform: uppercase;
+            }
+
+            .section-3 .green-bar-stats {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                height: 140px;
+                background-color: #2d4a35;
+                display: grid;
+                grid-template-columns: auto 1fr 1fr 1fr;
+                gap: 40px;
+                align-items: center;
+                padding: 0 60px;
+                margin-top: auto;
+            }
+
+            .section-3 .stat-item {
+                text-align: center;
+                color: #b8dc99;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .section-3 .stat-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .section-3 .stat-number {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 64px;
+                font-weight: 300;
+                line-height: 1;
+                color: #b8dc99;
+                margin-bottom: 0px;
+            }
+
+            .section-3 .stat-label {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 16px;
+                font-weight: 300;
+                line-height: 1.3;
+                color: #b8dc99;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .section-3 .stats-decorative-line {
+                width: 74px;
+                height: 4px;
+                justify-self: start;
+            }
+
+            /* White background for CRAFTED FOR SELF-SUFFICIENCY accordion */
+            .section-3 .accordion-section[data-content="collective"] .accordion-content {
+                background-color: #ffffff;
+                padding: 40px 0;
+            }
+
+            /* Security cards - Mobile vertical layout */
+            .section-3 .security-cards-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                width: 100%;
+                padding: 0 20px;
+            }
+
+            .section-3 .security-card {
+                position: relative;
+                width: 100%;
+                height: 420px;
+                overflow: hidden;
+                border-radius: 0;
+            }
+
+            .section-3 .security-card-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .section-3 .security-card-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 30px 25px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+            }
+
+            .section-3 .security-card-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 22px;
+                font-weight: 400;
+                color: #ff7742;
+                margin: 0 0 15px 0;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .section-3 .security-card-description {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 14px;
+                font-weight: 300;
+                color: #f4f4f5;
+                line-height: 1.5;
+                margin: 0;
+            }
+        }
+
+        /* Desktop tab styles */
+        @media (orientation: landscape) and (min-width: 1024px) {
+            .section-3 {
+                background-color: #ffffff;
+                padding: 0 0 0 0;
+                height: 100vh;
+                min-height: 100vh;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .section-3 .accordion-header {
+                display: none !important;
+                visibility: hidden !important;
+            }
+
+            .section-3 .accordion-content {
+                display: none !important;
+                visibility: hidden !important;
+            }
+
+            .section-3 .accordion-section {
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                overflow: hidden !important;
+                opacity: 0 !important;
+                position: absolute !important;
+                pointer-events: none !important;
+            }
+
+            section.section-3 .accordion-section {
+                display: none !important;
+                visibility: hidden !important;
+            }
+
+            .accordion-section[data-content="purpose"],
+            .accordion-section[data-content="journey"],
+            .accordion-section[data-content="collective"] {
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                overflow: hidden !important;
+            }
+
+            .section-3 .content-container {
+                display: block;
+                position: relative;
+                overflow: hidden;
+                flex: 1;
+                min-height: 0;
+            }
+
+            .section-3 .tab-navigation {
+                display: flex;
+                position: relative;
+                height: 60px;
+                background-color: transparent;
+                z-index: 10;
+                gap: 3px;
+                padding: 0;
+                flex-shrink: 0;
+            }
+
+            .section-3 .tab-button {
+                flex: 1;
+                background-color: #9e3430;
+                color: #ffffff;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 22px;
+                font-weight: 300;
+                text-transform: uppercase;
+                border: 2px solid #9e3430;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+            }
+
+            .section-3 .tab-button:not(:last-child) {
+                border-right: 2px solid #9e3430;
+            }
+
+            .section-3 .tab-button:hover {
+                opacity: 0.9;
+            }
+
+            .section-3 .tab-button.active {
+                background-color: #f4f4f5;
+                color: #9e3430;
+                border: 2px solid #9e3430;
+            }
+
+            .section-3 .tab-content {
+                display: none;
+                position: relative;
+            }
+
+            .section-3 .tab-content.active {
+                display: grid;
+                grid-template-columns: 70% 30%;
+                gap: 0;
+                height: 100%;
+            }
+
+            /* Left Zone */
+            .section-3 .left-zone {
+                background-color: #ffffff;
+                position: relative;
+                display: grid;
+                grid-template-rows: auto 1fr;
+            }
+
+            .section-3 .title-wrapper {
+                padding: 30px 0 30px 0;
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+                padding-left: 0;
+                min-height: 0;
+            }
+
+            .section-3 .title-line {
+                width: 120px;
+                height: 2px;
+                background-color: #9e3430;
+                margin-top: 8px;
+                flex-shrink: 0;
+            }
+
+            .section-3 .title-text {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 50px;
+                font-weight: 300;
+                line-height: 0.85;
+                color: #9e3430;
+                text-transform: uppercase;
+                white-space: nowrap;
+                margin: 0;
+            }
+
+            /* Poomaale concept text */
+            .section-3 .concept-text {
+                margin-left: 40px;
+                color: #b8dc99;
+                font-size: 32px;
+                font-weight: 300;
+                line-height: 0.9;
+            }
+
+            .section-3 .concept-text p {
+                margin: 0;
+            }
+
+            /* Image Container */
+            .section-3 .image-container {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                align-self: end;
+                min-height: 0;
+            }
+
+            .section-3 .main-image {
+                width: 100%;
+                height: 100%;
+                min-height: 400px;
+                object-fit: cover;
+                object-position: center bottom;
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+
+            .section-3 .image-container::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.35);
+                z-index: 1;
+            }
+            .section-3 .image-container.no-overlay::after {
+                display: none;
+            }
+
+            /* Green overlay text on image */
+            .section-3 .green-overlay-text {
+                position: absolute;
+                bottom: 13.08%;
+                left: 0;
+                right: 37.48%;
+                z-index: 2;
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .section-3 .green-overlay-text::before {
+                content: '';
+                width: 200px;
+                height: 2px;
+                background-color: #b8dc99;
+                margin-top: 0.4em;
+                flex-shrink: 0;
+            }
+
+            .section-3 .green-overlay-text p {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 23.49px;
+                font-weight: 400;
+                line-height: 1.2;
+                color: #b8dc99;
+                text-transform: uppercase;
+                margin: 0;
+            }
+
+            /* Poomaale Stats Overlay */
+            .section-3 .stats-overlay {
+                position: absolute;
+                bottom: 90px;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 0;
+                z-index: 2;
+            }
+
+            .section-3 .stat-line {
+                width: 200px;
+                height: 2px;
+                background-color: #b8dc99;
+                margin-top: 0.15em;
+                flex-shrink: 0;
+            }
+
+            /* Hammiyala Stats */
+            .section-3 .hammiyala-stats {
+                position: absolute;
+                bottom: 90px;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 0;
+                z-index: 2;
+            }
+
+            .section-3 .hammiyala-stat-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #b8dc99;
+                gap: 10px;
+            }
+
+            .section-3 .hammiyala-stat-text {
+                font-size: 20px;
+                font-weight: 400;
+                color: #b8dc99;
+                text-transform: uppercase;
+                margin: 0;
+                text-align: center;
+            }
+
+            /* Security Cards for Self-Sufficiency */
+            /* Full-width layout for sufficiency tab */
+            .section-3 #desktop-sufficiency.tab-content.active {
+                display: block;
+                grid-template-columns: none;
+            }
+
+            .section-3 .sufficiency-full-width {
+                width: 100%;
+                padding: 0;
+                position: relative;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .section-3 .security-cards-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                width: 100%;
+                margin-top: 0;
+                padding: 0 40px;
+                flex: 1;
+                min-height: 0;
+            }
+
+            .section-3 .security-card {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                min-height: 420px;
+                border-radius: 0px;
+                overflow: hidden;
+            }
+
+            .section-3 .security-card-image {
+                width: 100%;
+                height: 100%;
+                display: block;
+                object-fit: cover;
+            }
+
+            .section-3 .security-card-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 40px 30px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                background: rgba(0, 0, 0, 0.1);
+            }
+
+            .section-3 .security-card-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 400;
+                color: #ff7742;
+                margin: 0 0 60px 0;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .section-3 .security-card-description {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 16px;
+                font-weight: 300;
+                color: #f4f4f5;
+                line-height: 1.3;
+                margin: 0;
+            }
+
+            .section-3 .stat-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #b8dc99;
+            }
+
+            .section-3 .stat-number {
+                font-size: 60px;
+                font-weight: 300;
+                line-height: 1;
+                margin-bottom: 10px;
+                color: #b8dc99;
+            }
+
+            .section-3 .stat-label {
+                font-size: 14px;
+                font-weight: 300;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                line-height: 1.3;
+                color: #b8dc99;
+                max-width: 150px;
+                text-align: center;
+            }
+
+            .section-3 .stat-icon {
+                width: 50px;
+                height: 50px;
+                object-fit: contain;
+            }
+
+            /* Right Text Column */
+            .section-3 .right-column {
+                width: 100%;
+                padding: 30px 40px 50px 40px;
+                display: flex;
+                flex-direction: column;
+                overflow-y: auto;
+            }
+
+            .section-3 .right-column p {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 17px;
+                font-weight: 300;
+                line-height: 1.5;
+                color: #000000;
+                margin: 0 0 20px 0;
+            }
+
+            .section-3 .right-column p:last-child {
+                margin-bottom: 0;
+            }
+
+            .section-3 .invite-button {
+                display: block;
+                width: 100%;
+                margin-top: 40px;
+                padding: 10px 25px;
+                background-color: transparent;
+                border: 2px solid #9e3430;
+                border-radius: 30px;
+                color: #9e3430;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 16px;
+                font-weight: 400;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                text-decoration: none;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .section-3 .invite-button:hover {
+                background-color: #9e3430;
+                color: #ffffff;
+            }
+
+            /* Subtitle Heading */
+            .section-3 .subtitle-heading {
+                margin-bottom: 20px;
+            }
+
+            .section-3 .subtitle-heading h3 {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 32px;
+                font-weight: 300;
+                line-height: 0.9;
+                color: #9e3430;
+                text-transform: uppercase;
+                margin: 0;
+                letter-spacing: 0.5px;
+            }
+
+            /* OUR APPROACH subtitle beside title */
+            .section-3 .approach-subtitle {
+                margin-bottom: 0;
+                padding-left: 0;
+            }
+
+            .section-3 .approach-subtitle h3 {
+                color: #ff774a;
+                font-size: 30px;
+                line-height: 1;
+                padding-left: 50px;
+            }
+
+            /* Pagination Dots */
+            .section-3 .pagination-dots {
+                display: flex;
+                justify-content: center;
+                gap: 12px;
+                margin-top: auto;
+            }
+
+            .section-3 .pagination-dots .dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: transparent;
+                border: 2px solid #9e3430;
+                opacity: 0.5;
+                cursor: pointer;
+                transition: opacity 0.3s ease;
+            }
+
+            .section-3 .pagination-dots .dot.active {
+                background-color: #9e3430;
+                opacity: 1;
+            }
+
+            .section-3 .pagination-dots .dot:hover {
+                background-color: #b89b8a;
+                border-color: #b89b8a;
+            }
+
+            /* Sufficiency tab pagination - bottom right corner */
+            .section-3 .sufficiency-pagination {
+                display: flex;
+                justify-content: flex-end;
+                padding: 25px 40px 30px 40px;
+                margin-top: 0;
+                flex-shrink: 0;
+            }
+
+            /* Text Pagination Arrows - Desktop Only */
+            .section-3 .text-pagination {
+                display: none !important;
+                gap: 10px;
+                margin-bottom: 20px;
+                justify-content: flex-start;
+                flex-shrink: 0;
+            }
+
+            .section-3 .pagination-arrow {
+                width: 40px;
+                height: 40px;
+                background-color: #344736;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .section-3 .pagination-arrow svg {
+                width: 20px;
+                height: 20px;
+                stroke: #ffffff;
+                fill: none;
+            }
+
+            .section-3 .pagination-arrow:disabled {
+                opacity: 0.3;
+                cursor: not-allowed;
+            }
+
+            .section-3 .pagination-arrow:not(:disabled):hover {
+                opacity: 0.8;
+            }
+
+            /* Hide text-overlay paragraphs by default - will be shown by JS */
+            .section-3 .right-column .text-overlay {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                align-items: center;
+            }
+        }
+
+        /* ============================================
+           MEDIUM LAPTOP SCREENS (1366px - 1920px) - Section 3 Security Cards Fix
+           ============================================ */
+        @media (orientation: landscape) and (min-width: 1024px) and (max-width: 1920px) {
+            .section-3 .security-card-overlay {
+                padding: 40px 30px 55px 30px;
+            }
+        }
+
+        /* ============================================
+           SECTION 4 - DESIGNING A LANDSCAPE, FOSTERING A COMMUNITY
+           ============================================ */
+        .section-4 {
+            width: 100%;
+            background-color: #9e3430;
+            padding: 100px 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-4 .content {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-4 .image-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 0 auto;
+        }
+
+        .section-4 .image-container img {
+            width: 100%;
+            height: 400px;
+            display: block;
+        }
+
+        .section-4 .title-on-image {
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: clamp(56px, 6.09vw, 70px);
+            font-weight: 300;
+            line-height: 0.8;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .section-4 .title-below-image {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: clamp(56px, 6.09vw, 70px);
+            font-weight: 300;
+            line-height: 0.8;
+            color: #ff774a;
+            text-transform: uppercase;
+            margin: 0 0 30px 0;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        /* Hide title-line-white on desktop - only visible on mobile */
+        .section-4 .title-line-white {
+            display: none;
+        }
+
+        .section-4 .description {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-4 .description p {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.3;
+            color: #ffffff;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .section-4 .description p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Mobile override for description font size */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            .section-4 .description p {
+                font-size: 14px;
+            }
+        }
+
+
+        /* ============================================
+           SECTION 5 - HOMES THAT REFLECT
+           ============================================ */
+        .section-5 {
+            width: 100%;
+            background-color: #86312b;
+            padding: 50px 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-5 .content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-5 .main-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-5 .title-line-1 {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: clamp(56px, 6.09vw, 70px);
+            font-weight: 300;
+            line-height: 0.9;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .section-5 .title-line-2 {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: clamp(56px, 6.09vw, 70px);
+            font-weight: 300;
+            line-height: 0.85;
+            color: #ff774a;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .section-5 .description {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.3;
+            color: #ffffff;
+            text-align: center;
+            margin: 0 0 60px 0;
+            max-width: 1100px;
+        }
+
+        .section-5 .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-5 .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0;
+        }
+
+        .section-5 .carousel-track {
+            display: flex;
+            transition: transform 0.2s ease-in-out;
+            width: 100%;
+        }
+
+        .section-5 .carousel-slide {
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            flex-shrink: 0;
+            height: 600px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .section-5 .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .section-5 .carousel-text-overlay {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0px;
+            width: 80%;
+            max-width: 900px;
+        }
+
+        .section-5 .carousel-tag {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: #FF774A;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .section-5 .carousel-title {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 38px;
+            font-weight: 300;
+            color: #ffffff;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .section-5 .carousel-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .section-5 .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: transparent;
+            border: 2px solid #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .section-5 .carousel-dot.active {
+            background-color: #ffffff;
+        }
+
+        .section-5 .carousel-dot:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Section 5 image display control - Show mobile image by default */
+        .section-5 .mobile-image {
+            display: block;
+        }
+
+        .section-5 .desktop-image {
+            display: none;
+        }
+
+        /* Mobile: Use auto height for carousel slides and show only mobile images */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            .section-5 .carousel-slide {
+                height: auto;
+            }
+
+            .section-5 .carousel-slide img {
+                height: auto;
+            }
+
+            .section-5 .carousel-slide .mobile-image {
+                display: block !important;
+            }
+
+            .section-5 .carousel-slide .desktop-image {
+                display: none !important;
+            }
+
+            /* Reduce font sizes for mobile */
+            .section-5 .carousel-tag {
+                font-size: 13px;
+            }
+
+            .section-5 .carousel-title {
+                font-size: 18px;
+            }
+
+            /* Reduce carousel dots size for mobile */
+            .section-5 .carousel-dot {
+                width: 8px;
+                height: 8px;
+                border-width: 1.5px;
+            }
+
+            /* Adjust bottom position for mobile */
+            .section-5 .carousel-text-overlay {
+                bottom: 60px;
+            }
+        }
+
+        /* Show desktop image on desktop, hide mobile image */
+        @media (orientation: landscape) and (min-width: 1024px) {
+            .section-5 .carousel-slide .mobile-image {
+                display: none !important;
+            }
+
+            .section-5 .carousel-slide .desktop-image {
+                display: block !important;
+            }
+
+            .section-5 .carousel-slide {
+                height: 500px;
+            }
+
+            .section-5 .carousel-slide img {
+                height: 100%;
+                object-position: center center;
+            }
+        }
+
+        /* ============================================
+           SECTION 6 - A MEMBER'S JOURNEY
+           ============================================ */
+        .section-6 {
+            position: relative;
+            background-color: #9e3430;
+            padding: 100px 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .section-6::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 85%;
+            background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Vector%20(3).png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+        }
+
+        .section-6 .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .section-6 .main-heading {
+            text-align: center;
+            margin-bottom: 0px;
+        }
+
+        .section-6 .main-heading h1 {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: clamp(56px, 6.09vw, 117.08px);
+            font-weight: 300;
+            line-height: 1;
+            text-transform: uppercase;
+            margin: 0;
+            display: inline;
+        }
+
+        .section-6 .heading-line-1 {
+            color: #ffffff;
+        }
+
+        .section-6 .heading-line-2 {
+            color: #ff774a;
+            margin-left: 0.3em;
+        }
+
+        .section-6 .description {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.3;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+        }
+
+        .section-6 .description p {
+            margin: 0 0 40px 0;
+        }
+
+        .section-6 .description p:last-child {
+            margin-bottom: 30;
+        }
+
+        .section-6 .cta-button {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid #ffffff;
+            border-radius: 48px;
+            padding: 15px 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .section-6 .cta-button:hover {
+            background: #ffffff;
+            color: #9e3430;
+        }
+
+
+        /* ============================================
+           SECTION 7 - NEXT STEPS
+           ============================================ */
+
+        .section-7 {
+            position: relative;
+            min-height: 105vh;
+            background-color: #9e3430;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 0;
+        }
+
+        /* Background landscape image */
+        .section-7::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Mask%20group%20(1).png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+        }
+
+        .section-7 .content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 15vh;
+        }
+
+        .section-7 .overlay-box {
+            background-color: #86312b;
+            padding: 60px 80px;
+            text-align: center;
+            max-width: 1050px;
+            width: 100%;
+        }
+
+        .section-7 .title {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 60px;
+            font-weight: 300;
+            color: #ff774a;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .section-7 .subtitle {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 60px;
+            font-weight: 300;
+            color: #ffffff;
+            margin-bottom: 30px;
+            line-height: 0.8;
+            letter-spacing: 0.9px;
+            white-space: nowrap;
+        }
+
+        .section-7 .description {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            color: #ffffff;
+            line-height: 1.4;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-7 .cta-button {
+            display: inline-block;
+            padding: 18px 48px;
+            background-color: transparent;
+            color: #ffffff;
+            text-decoration: none;
+            border: 2px solid #ffffff;
+            border-radius: 48px;
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: auto;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .section-7 .cta-button:hover,
+        .section-7 .cta-button:active {
+            background-color: #ffffff;
+            color: #9e3430;
+        }
+
+        .section-7 .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN - MOBILE RESPONSIVE SCALING
+           ============================================ */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            section {
+                width: 100vw !important;
+            }
+
+            /* Global scroll indicator responsive */
+            .scroll-indicator {
+                margin: calc(60px * 100vw / 1080) 0;
+            }
+
+            .scroll-indicator svg {
+                width: calc(47px * 100vw / 1080);
+                height: calc(27px * 100vw / 1080);
+            }
+
+            /* Section 1 responsive */
+            .section-1 {
+                height: calc(100vw * 1920 / 1080);
+            }
+
+            .section-1 .hero-titles {
+                top: calc(450px * 100vw / 1080);
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(932px * 100vw / 1080);
+                text-align: center;
+            }
+
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-size: calc(158.39px * 100vw / 1080);
+            }
+
+
+            .section-1 .subtitle-section {
+                top: calc(1375px * 100vw / 1080);
+                width: calc(700px * 100vw / 1080);
+            }
+
+            .section-1 .subtitle-line {
+                font-size: calc(23.49px * 100vw / 1080);
+            }
+
+            .section-1 .subtitle-line:nth-child(1),
+            .section-1 .subtitle-line:nth-child(2) {
+                margin-bottom: calc(2px * 100vw / 1080);
+            }
+
+            .section-1 .cta-section {
+                top: calc(1532px * 100vw / 1080);
+            }
+
+            .section-1 .cta-button {
+                padding: calc(18px * 100vw / 1080) calc(48px * 100vw / 1080);
+                font-size: calc(16px * 100vw / 1080);
+                border-width: calc(2px * 100vw / 1080);
+                border-radius: calc(48px * 100vw / 1080);
+            }
+
+            .section-1 .scroll-indicator {
+                top: calc(1726px * 100vw / 1080);
+            }
+
+            .section-1 .scroll-indicator svg {
+                width: calc(45px * 100vw / 1080);
+                height: calc(26px * 100vw / 1080);
+            }
+
+            /* Section 2 responsive */
+            .section-2 {
+                min-height: calc(100vw * 850 / 1080);
+                padding: calc(80px * 100vw / 1080) calc(50px * 100vw / 1080);
+            }
+
+            .section-2 .title-section {
+                margin-bottom: calc(40px * 100vw / 1080);
+                padding-top: calc(30px * 100vw / 1080);
+            }
+
+            .section-2 .title-reimagining,
+            .section-2 .title-sustainability {
+                font-size: calc(153.39px * 100vw / 1080);
+            }
+
+            .section-2 .subtitle-section-2 {
+                margin-bottom: calc(50px * 100vw / 1080);
+            }
+
+            .section-2 .subtitle-text {
+                font-size: calc(48px * 100vw / 1080);
+            }
+
+            .section-2 .description-section {
+                margin-bottom: calc(60px * 100vw / 1080);
+                padding: 0 calc(60px * 100vw / 1080);
+            }
+
+            .section-2 .description-paragraph {
+                font-size: calc(32px * 100vw / 1080);
+            }
+
+            .section-2 .map-section {
+                padding: 0 calc(40px * 100vw / 1080) calc(40px * 100vw / 1080) calc(40px * 100vw / 1080);
+            }
+
+            /* Section 3 responsive */
+            .section-3 {
+                padding: calc(50px * 100vw / 1080) 0;
+            }
+
+            .section-3 .accordion-header {
+                padding: calc(30px * 100vw / 1080) calc(52px * 100vw / 1080);
+            }
+
+            .section-3 .accordion-header::after {
+                left: calc(52px * 100vw / 1080);
+                right: calc(52px * 100vw / 1080);
+                height: calc(2px * 100vw / 1080);
+            }
+
+            .section-3 .accordion-title {
+                font-size: calc(43.18px * 100vw / 1080);
+            }
+
+            .section-3 .accordion-icon {
+                width: calc(24px * 100vw / 1080);
+                height: calc(24px * 100vw / 1080);
+            }
+
+            .section-3 .accordion-content {
+                min-height: calc(800px * 100vw / 1080);
+            }
+
+            .section-3 .text-overlay {
+                padding: calc(80px * 100vw / 1080) calc(90px * 100vw / 1080) calc(60px * 100vw / 1080) calc(90px * 100vw / 1080);
+                max-width: calc(700px * 100vw / 1080);
+            }
+
+            .section-3 .text-overlay p {
+                font-size: calc(24px * 100vw / 1080);
+                margin-bottom: calc(32px * 100vw / 1080);
+            }
+
+            .section-3 .cta-button-accordion {
+                border-width: calc(2px * 100vw / 1080);
+                border-radius: calc(50px * 100vw / 1080);
+                padding: calc(15px * 100vw / 1080) calc(40px * 100vw / 1080);
+                font-size: calc(20px * 100vw / 1080);
+                letter-spacing: calc(3px * 100vw / 1080);
+                margin-top: calc(40px * 100vw / 1080);
+            }
+
+            .section-3 .green-bar-text {
+                padding: calc(40px * 100vw / 1080) calc(90px * 100vw / 1080);
+            }
+
+            .section-3 .green-bar-text p {
+                font-size: calc(24px * 100vw / 1080);
+            }
+
+            .section-3 .green-bar-stats {
+                height: calc(140px * 100vw / 1080);
+                padding: 0 calc(60px * 100vw / 1080);
+            }
+
+            .section-3 .stat-item {
+                gap: calc(5px * 100vw / 1080);
+            }
+
+            .section-3 .stat-icon {
+                width: calc(48px * 100vw / 1080);
+                height: calc(48px * 100vw / 1080);
+            }
+
+            .section-3 .stat-number {
+                font-size: calc(64px * 100vw / 1080);
+                margin-bottom: 0px;
+            }
+
+            .section-3 .stat-label {
+                font-size: calc(16px * 100vw / 1080);
+            }
+
+            /* Section 4 responsive */
+            .section-4 {
+                height: calc(100vw * 1920 / 1080);
+                padding: calc(80px * 100vw / 1080) calc(60px * 100vw / 1080);
+            }
+
+            .section-4 .image-container {
+                height: calc(900px * 100vw / 1080);
+            }
+
+            .section-4 .image-container img {
+                content: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Group%20(2).png');
+            }
+
+            .section-4 .main-title {
+                margin-bottom: calc(20px * 100vw / 1080);
+            }
+
+            .section-4 .title-join,
+            .section-4 .title-community {
+                font-size: calc(99px * 100vw / 1080);
+            }
+
+            .section-4 .subtitle {
+                font-size: calc(29px * 100vw / 1080);
+                margin-bottom: calc(60px * 100vw / 1080);
+            }
+
+            .section-4 .section-heading {
+                font-size: calc(24px * 100vw / 1080);
+                margin-bottom: calc(30px * 100vw / 1080);
+            }
+
+            .section-4 .description {
+                font-size: calc(24px * 100vw / 1080);
+                margin-bottom: calc(60px * 100vw / 1080);
+                max-width: calc(900px * 100vw / 1080);
+            }
+
+            .section-4 .image-text-wrapper {
+                max-width: calc(920px * 100vw / 1080);
+            }
+
+            .section-4 .image-container {
+                border-radius: calc(8px * 100vw / 1080);
+            }
+
+            .section-4 .image-overlay-text {
+                bottom: calc(20px * 100vw / 1080);
+            }
+
+            .section-4 .below-image-text {
+                margin-top: calc(5px * 100vw / 1080);
+            }
+
+            .section-4 .overlay-title-what,
+            .section-4 .overlay-title-were,
+            .section-4 .overlay-title-building,
+            .section-4 .overlay-title-together {
+                font-size: calc(99px * 100vw / 1080);
+            }
+
+            /* Section 5 responsive */
+            .section-5 {
+                padding: calc(80px * 100vw / 1080) calc(60px * 100vw / 1080) calc(40px * 100vw / 1080) calc(60px * 100vw / 1080);
+            }
+
+            .section-5 .features-container {
+                max-width: calc(900px * 100vw / 1080);
+                gap: calc(40px * 100vw / 1080);
+            }
+
+            .section-5 .feature-card {
+                border-radius: calc(8px * 100vw / 1080);
+                padding: calc(60px * 100vw / 1080) calc(50px * 100vw / 1080);
+                gap: calc(20px * 100vw / 1080);
+            }
+
+            .section-5 .feature-icon {
+                width: calc(35px * 100vw / 1080);
+                height: calc(35px * 100vw / 1080);
+                margin-bottom: calc(10px * 100vw / 1080);
+            }
+
+            .section-5 .feature-title {
+                font-size: calc(24px * 100vw / 1080);
+                margin-bottom: calc(10px * 100vw / 1080);
+            }
+
+            .section-5 .feature-description {
+                font-size: calc(24px * 100vw / 1080);
+                max-width: calc(600px * 100vw / 1080);
+            }
+
+            .section-5 .scroll-indicator {
+                margin-top: calc(40px * 100vw / 1080);
+            }
+
+            .section-5 .scroll-indicator svg {
+                width: calc(40px * 100vw / 1080);
+                height: calc(40px * 100vw / 1080);
+            }
+
+            /* Section 6 responsive */
+            .section-6 {
+                padding: calc(100px * 100vw / 1080) calc(80px * 100vw / 1080);
+            }
+
+            .section-6 .content {
+                max-width: calc(1200px * 100vw / 1080);
+                gap: calc(50px * 100vw / 1080);
+            }
+
+            .section-6 .description {
+                font-size: calc(18px * 100vw / 1080);
+            }
+
+            .section-6 .description p {
+                margin: 0 0 calc(30px * 100vw / 1080) 0;
+            }
+
+            .section-6 .cta-button {
+                border-width: calc(2px * 100vw / 1080);
+                border-radius: calc(48px * 100vw / 1080);
+                padding: calc(15px * 100vw / 1080) calc(40px * 100vw / 1080);
+                font-size: calc(16px * 100vw / 1080);
+            }
+
+            /* Section 7 responsive */
+            .section-7 {
+                padding: 0;
+            }
+
+            .section-7 .content {
+                padding-top: calc(150px * 100vw / 1080);
+            }
+
+            .section-7 .overlay-box {
+                padding: calc(60px * 100vw / 1080) calc(80px * 100vw / 1080);
+                max-width: calc(1050px * 100vw / 1080);
+            }
+
+            .section-7 .title {
+                font-size: calc(48px * 100vw / 1080);
+                margin-bottom: calc(20px * 100vw / 1080);
+            }
+
+            .section-7 .subtitle {
+                font-size: calc(64px * 100vw / 1080);
+                margin-bottom: calc(30px * 100vw / 1080);
+            }
+
+            .section-7 .description {
+                font-size: calc(15px * 100vw / 1080);
+                margin-bottom: calc(40px * 100vw / 1080);
+                max-width: calc(800px * 100vw / 1080);
+            }
+
+            .section-7 .cta-button {
+                padding: calc(16px * 100vw / 1080) calc(40px * 100vw / 1080);
+                font-size: calc(16px * 100vw / 1080);
+            }
+        }
+
+        /* Tablet portrait optimization - cap scaling */
+        @media (orientation: portrait) and (min-width: 600px) and (max-width: 1023px) {
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-size: calc(158.39px * 600 / 1080) !important;
+            }
+
+            .section-1 .hero-titles {
+                width: calc(932px * 600 / 1080) !important;
+                top: calc(450px * 600 / 1080) !important;
+                left: 50% !important;
+                transform: translateX(-50%);
+                text-align: center;
+            }
+
+            .section-1 .subtitle-section {
+                width: calc(700px * 600 / 1080) !important;
+                top: calc(1375px * 600 / 1080) !important;
+            }
+
+            .section-1 .subtitle-line {
+                font-size: calc(23.49px * 600 / 1080) !important;
+            }
+
+            .section-1 .cta-section {
+                top: calc(1532px * 600 / 1080) !important;
+            }
+
+            .section-1 .cta-button {
+                font-size: calc(16px * 600 / 1080) !important;
+                padding: calc(18px * 600 / 1080) calc(48px * 600 / 1080) !important;
+            }
+
+            .section-1 .scroll-indicator {
+                top: calc(1726px * 600 / 1080) !important;
+            }
+
+            .section-1 {
+                height: calc(600px * 1920 / 1080) !important;
+            }
+        }
+
+        /* Additional optimization for smaller mobile screens */
+        @media (max-width: 768px) {
+            /* Section 1 - Mobile optimized */
+            .section-1 {
+                height: 100vh;
+                min-height: 100vh;
+            }
+
+            .section-1 .hero-titles {
+                top: 20vh;
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+                text-align: center;
+            }
+
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-size: 15vw;
+                line-height: 0.5;
+                white-space: nowrap;
+            }
+
+            .section-1 .title-collective {
+                padding-left: 0;
+            }
+
+            .section-1 .subtitle-section {
+                top: auto;
+                bottom: 30vh;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 85vw;
+                max-width: none;
+            }
+
+            .section-1 .subtitle-line {
+                font-size: 4.2vw;
+                white-space: normal;
+                line-height: 1.2;
+                margin-bottom: 0 !important;
+            }
+
+            .section-1 .cta-section {
+                top: auto;
+                bottom: 18vh;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .section-1 .cta-button {
+                font-size: 3.2vw;
+                padding: 10px 30px;
+                min-height: auto;
+                letter-spacing: 1px;
+                border-radius: 30px;
+                white-space: nowrap;
+            }
+
+            .section-1 .scroll-indicator {
+                top: auto;
+                bottom: 3vh;
+                animation: none;
+            }
+
+            .section-1 .scroll-indicator svg {
+                width: 8vw;
+                height: auto;
+            }
+
+            /* Section 2 - Mobile optimized */
+            .section-2 {
+                height: auto;
+                min-height: auto;
+                padding: 15px 20px 20px 15px;
+                background-color: #ffffff;
+            }
+
+            .section-2 .title-section {
+                margin-bottom: 2vh;
+                padding-top: 30px;
+            }
+
+            .section-2 .title-reimagining {
+                font-size: 33px;
+                line-height: 0.85;
+                color: #9E3430;
+            }
+
+            .section-2 .title-sustainability {
+                font-size: 33px;
+                line-height: 0.85;
+                color: #ff774a;
+            }
+
+            .section-2 .subtitle-section-2 {
+                margin-bottom: 3.5vh;
+            }
+
+            .section-2 .subtitle-text {
+                font-size: 4vw;
+                color: #9E3430;
+            }
+
+            .section-2 .description-section {
+                margin-bottom: 6vh;
+                padding: 0 2vw;
+            }
+
+            .section-2 .description-paragraph {
+                font-size: 4.2vw;
+                line-height: 1.6;
+                color: #9E3430;
+            }
+
+            .section-2 .map-section {
+                padding: 0;
+            }
+
+            .section-2 .scroll-indicator {
+                display: none;
+            }
+
+            /* Section 3 - Accordion Mobile optimized */
+            .section-3 {
+                padding: 0vw 0;
+            }
+
+            .section-3 .accordion-header {
+                padding: 5vw 5vw;
+            }
+
+            .section-3 .accordion-header::after {
+                left: 5vw;
+                right: 5vw;
+                height: 1px;
+            }
+
+            .section-3 .accordion-title {
+                font-size: 6vw;
+                line-height: 1;
+                color: #9e3430;
+            }
+
+            .section-3 .accordion-icon {
+                width: 6vw;
+                height: 6vw;
+                min-width: 20px;
+                min-height: 20px;
+            }
+
+            .section-3 .accordion-content {
+                min-height: 600px;
+            }
+
+            .section-3 .text-overlay {
+                padding: 0vw 7vw 8vw 7vw;
+                width: 100%;
+            }
+
+            .section-3 .text-overlay p {
+                font-size: calc(3.8vw + 2px);
+                line-height: 1.2;
+                margin-bottom: 5vw;
+            }
+
+            .section-3 .cta-button-accordion {
+                border-width: 1px;
+                border-radius: 30px;
+                padding: 2.4vw 6.4vw;
+                font-size: 2.56vw;
+                letter-spacing: 1.2px;
+                margin-top: 4.8vw;
+                min-height: 44px;
+                white-space: nowrap;
+            }
+
+            .section-3 .green-bar-text {
+                padding: 5vw 6vw;
+            }
+
+            .section-3 .green-bar-text p {
+                font-size: calc(3.2vw + 2px);
+                line-height: 1.4;
+            }
+
+            .section-3 .green-bar-stats {
+                height: auto;
+                padding: 5vw 4vw;
+                display: grid;
+                grid-template-columns: auto 1fr 1fr 1fr;
+                gap: 3vw;
+            }
+
+            .section-3 .stat-item {
+                gap: 1vw;
+                min-width: 0;
+            }
+
+            .section-3 .stat-icon {
+                width: 8vw;
+                height: 8vw;
+            }
+
+            .section-3 .stat-number {
+                font-size: 8vw;
+                line-height: 1;
+            }
+
+            .section-3 .stat-label {
+                font-size: 2.2vw;
+                line-height: 1;
+            }
+
+            .section-3 .stats-decorative-line {
+                width: 15vw;
+                height: 1vw;
+                justify-self: start;
+            }
+
+            /* Section 4 - Mobile optimized */
+            .section-4 {
+                height: auto;
+                min-height: 100vh;
+                padding: 10vw 5vw;
+            }
+
+            /* Section 4 - Title on image (mobile) */
+            .section-4 .title-on-image {
+                position: absolute;
+                bottom: 0px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 0;
+                line-height: 1;
+                color: #ffffff;
+                text-align: center;
+                white-space: nowrap;
+                width: 90%;
+                margin: 0;
+            }
+
+            .section-4 .title-on-image::before {
+                content: 'DESIGNING\A A LANDSCAPE,';
+                font-size: 10vw;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-weight: 300;
+                text-transform: uppercase;
+                letter-spacing: 0.02em;
+                white-space: pre-line;
+            }
+
+            /* Section 4 - White title below image (mobile) */
+            .section-4 .title-line-white {
+                font-size: 9vw;
+                line-height: 1.2;
+                color: #ffffff;
+                text-align: center;
+                margin: 5px 0 5px 0;
+                white-space: nowrap;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-weight: 300;
+                text-transform: uppercase;
+                letter-spacing: 0.02em;
+            }
+
+            /* Section 4 - Orange title below image (mobile) */
+            .section-4 .title-below-image {
+                font-size: 10vw;
+                line-height: 1;
+                color: #ff774a;
+                text-align: center;
+                margin: 0 0 30px 0;
+                white-space: pre-line;
+            }
+
+            .section-4 .main-title {
+                margin-bottom: 4vw;
+            }
+
+            .section-4 .title-join,
+            .section-4 .title-community {
+                font-size: 13vw;
+                line-height: 0.5;
+            }
+
+            .section-4 .subtitle {
+                font-size: 4vw;
+                margin-bottom: 8vw;
+                line-height: 1;
+            }
+
+            .section-4 .section-heading {
+                font-size: 4.5vw;
+                margin-bottom: 5vw;
+            }
+
+            .section-4 .description {
+                font-size: 3.5vw;
+                line-height: 1.6;
+                margin-bottom: 8vw;
+                max-width: 90vw;
+            }
+
+            .section-4 .image-wrapper {
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .section-4 .image-text-wrapper {
+                max-width: 100%;
+            }
+
+            .section-4 .image-container {
+                position: relative;
+                width: 100%;
+                height: 60vh;
+                min-height: 350px;
+                border-radius: 4vw;
+                overflow: visible;
+            }
+
+            .section-4 .image-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+
+            .section-4 .community-overlay-title {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 13vw;
+                font-weight: 300;
+                line-height: 0.75;
+                color: #b8dc99;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+                z-index: 2;
+                word-spacing: 100vw !important;
+                display: block !important;
+            }
+
+            .section-4 .community-below-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 13vw;
+                font-weight: 300;
+                line-height: 0.75;
+                color: #ffffff;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                word-spacing: 100vw !important;
+                display: block !important;
+            }
+
+            .section-4 .image-overlay-text {
+                bottom: 3vw;
+            }
+
+            .section-4 .overlay-title-what,
+            .section-4 .overlay-title-were {
+                font-size: 13vw;
+                line-height: 0.75;
+                margin: 0;
+                padding: 0;
+            }
+
+            .section-4 .below-image-text {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            .section-4 .overlay-title-building,
+            .section-4 .overlay-title-together {
+                font-size: 13vw;
+                line-height: 0.75;
+                margin: 0;
+                padding: 0;
+            }
+
+            .section-4 .scroll-indicator {
+                display: none;
+            }
+
+            /* Section 5 - Mobile optimized */
+            .section-5 {
+                padding: 10vw 5vw 0vw 5vw;
+            }
+
+            .section-5 .title-line-1,
+            .section-5 .title-line-2 {
+                font-size: 10vw;
+            }
+
+            .section-5 .description {
+                font-size: 14px;
+            }
+
+            .section-5 .features-container {
+                max-width: 100%;
+                gap: 6vw;
+            }
+
+            .section-5 .feature-card {
+                border-radius: 0;
+                padding: 8vw 6vw;
+                gap: 3vw;
+            }
+
+            .section-5 .feature-icon {
+                width: 7vw;
+                height: 7vw;
+                margin-bottom: 2vw;
+            }
+
+            .section-5 .feature-title {
+                font-size: 4vw;
+                margin-bottom: 2vw;
+            }
+
+            .section-5 .feature-description {
+                font-size: 3.5vw;
+                line-height: 1.5;
+                max-width: 100%;
+            }
+
+            .section-5 .scroll-indicator {
+                margin-top: 6vw;
+                display: none;
+            }
+
+            /* Section 6 - Mobile optimized */
+            .section-6 {
+                padding: 20vw 6vw 0 6vw;
+                display: flex;
+                align-items: flex-start;
+                min-height: auto;
+                position: relative;
+            }
+
+            .section-6 .content {
+                max-width: 100%;
+                gap: 8vw;
+                padding-bottom: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-6 .main-heading h1 {
+                font-size: 10vw;
+                display: block;
+            }
+
+            .section-6 .heading-line-1,
+            .section-6 .heading-line-2 {
+                display: block;
+                margin-left: 0;
+            }
+
+            .section-6 .description {
+                font-size: 14px;
+                line-height: 1.3;
+                padding-bottom: 300px;
+            }
+
+            .section-6 .description p {
+                margin: 0 0 6vw 0;
+            }
+
+            /* Hide desktop button on mobile - only show the one in vector-overlay-container */
+            .section-6 .content > .cta-button {
+                display: none;
+            }
+
+            /* Vector overlay container - positioned over the leaf background */
+            .section-6 .vector-overlay-container {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 10%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 3;
+            }
+
+            /* Wrapper for button and arrow - centered vertically and horizontally */
+            .section-6 .button-arrow-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 180px;
+            }
+
+            .section-6 .cta-button {
+                border-width: 1px;
+                border-radius: 30px;
+                padding: 3.5vw 10vw;
+                font-size: 3.5vw;
+                letter-spacing: 1.5px;
+                min-height: auto;
+                white-space: nowrap;
+            }
+
+            .section-6::before {
+                top: auto;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                height: 40%;
+                background-position: bottom center;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+
+            .section-6 .scroll-indicator-section6 svg {
+                width: 8vw;
+                height: auto;
+            }
+
+            /* Section 7 - Mobile optimized */
+            .section-7 {
+                min-height: 100vh;
+                padding: 0;
+                background-color: #9e3430;
+            }
+
+            .section-7::before {
+                content: '' !important;
+                position: absolute !important;
+                background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Mask%20group%20(3).png') !important;
+                background-size: cover !important;
+                background-position: top center !important;
+                background-repeat: no-repeat !important;
+                width: 100% !important;
+                height: 68% !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                z-index: 0 !important;
+            }
+
+            .section-7 .content {
+                position: relative;
+                z-index: 1;
+                padding: 0;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                min-height: 100vh;
+                padding-top: 15vh;
+            }
+
+            .section-7 .overlay-box {
+                position: relative;
+                z-index: 2;
+                padding: 12vw 10vw;
+                max-width: 85vw;
+                text-align: center;
+                background-color: #86312b;
+            }
+
+            .section-7 .title {
+                font-size: 10vw;
+                margin-bottom: 1vw;
+                letter-spacing: 0.06em;
+                line-height: 1.3;
+                color: #ff774a;
+                font-weight: 300;
+            }
+
+            .section-7 .subtitle {
+                font-size: 10vw;
+                margin-bottom: 7vw;
+                line-height: 0.4;
+                letter-spacing: 0.06em;
+                color: #ffffff;
+                font-weight: 300;
+            }
+
+            .section-7 .description {
+                font-size: 4.2vw;
+                line-height: 1.4;
+                margin-bottom: 8vw;
+                max-width: 100%;
+                color: #ffffff;
+                font-weight: 300;
+            }
+
+            .section-7 .description br {
+                display: none;
+            }
+
+            .section-7 .cta-button {
+                padding: 3.5vw 9vw;
+                font-size: 3.5vw;
+                letter-spacing: 0.15em;
+                border: 1.5px solid #ffffff;
+                border-radius: 50px;
+                background-color: transparent;
+                color: #ffffff;
+            }
+        }
+
+        /* ============================================
+           MEDIUM VIEWPORTS (1024px - 1399px)
+           Section 3 only - reduced sizes
+           ============================================ */
+        @media (orientation: landscape) and (min-width: 1024px) and (max-width: 1399px) {
+            /* Section 3 - Reduced sizes for medium viewports */
+            .section-3 {
+                min-height: auto !important;
+                height: auto !important;
+            }
+
+            .section-3 .tab-button {
+                font-size: 14px !important;
+            }
+
+            .section-3 .title-wrapper {
+                padding: 20px 0 20px 0 !important;
+                gap: 12px !important;
+            }
+
+            .section-3 .title-line {
+                width: 60px !important;
+                height: 1.5px !important;
+            }
+
+            .section-3 .title-text {
+                font-size: 50px !important;
+            }
+
+            .section-3 .concept-text {
+                font-size: 18px !important;
+                margin-left: 20px !important;
+            }
+
+            .section-3 .image-container {
+                height: 450px !important;
+            }
+
+            .section-3 .main-image {
+                min-height: 350px !important;
+            }
+
+            .section-3 .green-overlay-text {
+                bottom: 45px !important;
+                gap: 12px !important;
+            }
+
+            .section-3 .green-overlay-text::before {
+                width: 90px !important;
+                height: 1.5px !important;
+            }
+
+            .section-3 .green-overlay-text p {
+                font-size: 12px !important;
+            }
+
+            .section-3 .stats-overlay,
+            .section-3 .hammiyala-stats {
+                bottom: 45px !important;
+                gap: 6px !important;
+            }
+
+            .section-3 .stat-line {
+                width: 90px !important;
+                height: 1.5px !important;
+            }
+
+            .section-3 .stat-icon {
+                width: 28px !important;
+                height: 28px !important;
+            }
+
+            .section-3 .stat-number {
+                font-size: 36px !important;
+                margin-bottom: 6px !important;
+            }
+
+            .section-3 .stat-label {
+                font-size: 9px !important;
+                max-width: 80px !important;
+            }
+
+            .section-3 .hammiyala-stat-item {
+                gap: 6px !important;
+            }
+
+            .section-3 .hammiyala-stat-text {
+                font-size: 11px !important;
+            }
+
+            .section-3 .right-column {
+                padding: 30px 20px 40px 20px !important;
+            }
+
+            .section-3 .right-column p {
+                font-size: 16px !important;
+                margin: 0 0 14px 0 !important;
+            }
+
+            .section-3 .invite-button {
+                font-size: 11px !important;
+                padding: 10px 20px !important;
+                margin-top: 20px !important;
+                border-width: 1.5px !important;
+                border-radius: 20px !important;
+                letter-spacing: 0.6px !important;
+            }
+
+            .section-3 .pagination-dots {
+                bottom: 15px !important;
+                gap: 6px !important;
+            }
+
+            .section-3 .pagination-dots .dot {
+                width: 8px !important;
+                height: 8px !important;
+            }
+        }
+
+        /* ============================================
+           DESKTOP VERSION (Landscape orientation with reasonable width)
+           ============================================ */
+        @media (orientation: landscape) and (min-width: 1024px) {
+            /* Section 1 - Desktop Hero */
+            section {
+                width: 100vw;
+                max-width: 100%;
+            }
+
+            .section-1 {
+                height: 100vh;
+                min-height: 700px;
+                background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Mumbai_Hero%20page_Section_Bg.webp');
+                background-size: cover;
+                background-position: center center;
+                background-repeat: no-repeat;
+            }
+
+            .section-1 .gradient-overlay {
+                background: linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0) 0%,
+                    rgba(0, 0, 0, 0) 70%,
+                    rgba(0, 0, 0, 0.4) 100%
+                );
+            }
+
+            .section-1 .hero-titles {
+                position: absolute;
+                top: 18vh;
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+                text-align: center;
+            }
+
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif !important;
+                font-size: 117.08px;
+                font-weight: 300;
+                line-height: 0.75;
+                letter-spacing: normal;
+                text-align: center;
+                white-space: nowrap;
+                margin: 0;
+                padding: 0;
+            }
+
+            .section-1 .title-hammiyala {
+                color: #ff774a;
+                margin-bottom: 5px;
+            }
+
+            .section-1 .title-collective {
+                color: #ffffff;
+                padding-left: 0;
+                margin-bottom: 30px;
+            }
+
+            .section-1 .subtitle-section {
+                position: absolute;
+                top: calc(18vh + 200px);
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+                max-width: 1400px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .section-1 .subtitle-line {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 23.49px;
+                font-weight: 300;
+                line-height: 1.3;
+                color: #ffffff;
+                letter-spacing: 1px;
+                white-space: nowrap;
+                margin-bottom: 0 !important;
+                margin-top: 0 !important;
+            }
+
+            /* Hide mobile subtitle lines on desktop */
+            .section-1 .subtitle-line:nth-child(1),
+            .section-1 .subtitle-line:nth-child(2) {
+                display: none;
+            }
+
+            /* Show desktop subtitle line */
+            .section-1 .subtitle-line-desktop {
+                display: block;
+            }
+
+            .section-1 .cta-section {
+                position: absolute;
+                top: auto;
+                bottom: 17vh;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .section-1 .cta-button {
+                background: transparent;
+                border: 2px solid #ffffff;
+                border-radius: 48px;
+                padding: 15px 60px;
+                font-size: clamp(18px, 0.83vw, 16px);
+                letter-spacing: 4px;
+                min-height: auto;
+            }
+
+            .section-1 .scroll-indicator {
+                position: absolute;
+                top: auto;
+                bottom: 0.5vh;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .section-1 .scroll-indicator svg {
+                width: clamp(30px, 2.34vw, 45px);
+                height: auto;
+            }
+
+            /* Section 2 - Desktop Reimagining Sustainability */
+            .section-2 {
+                height: 100vh;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 40px 50px;
+                overflow: hidden;
+            }
+
+            .section-2 .content {
+                width: 100%;
+                max-width: 1600px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-2 .title-section {
+                text-align: center;
+                margin-bottom: 20px;
+                padding-top: 0px;
+                width: 100%;
+            }
+
+            .section-2 .title-reimagining {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 70px;
+                font-weight: 300;
+                line-height: 0.85;
+                color: #9E3430;
+                margin: 0;
+                letter-spacing: 0.02em;
+                text-align: center;
+            }
+
+            .section-2 .title-sustainability {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 70px;
+                font-weight: 300;
+                line-height: 0.85;
+                color: #9E3430;
+                margin: 0;
+                letter-spacing: 0.02em;
+                text-align: center;
+            }
+
+            .section-2 .subtitle-section-2 {
+                text-align: center;
+                margin-bottom: 25px;
+                width: 100%;
+            }
+
+            .section-2 .subtitle-text {
+                font-family: 'ABC Arizona flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 400;
+                line-height: 0.9;
+                color: #E07856;
+                margin: 0;
+                letter-spacing: 0.05em;
+                text-align: center;
+            }
+
+            .section-2 .description-section {
+                text-align: center;
+                max-width: 1000px;
+                margin: 0 auto 20px auto;
+                padding: 0 40px;
+                width: 100%;
+            }
+
+            .section-2 .description-paragraph {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 18px;
+                font-weight: 300;
+                line-height: 1.3;
+                color: #6b5d4f;
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            .section-2 .map-section {
+                width: 100%;
+                max-width: 900px;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 0;
+                overflow: visible;
+                flex: 1;
+                min-height: 0;
+            }
+
+            .section-2 .map-image {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                max-height: 100%;
+                border-radius: 0px;
+                box-shadow: none;
+                object-fit: contain;
+                object-position: top center;
+                display: block;
+                margin: 0 auto;
+            }
+
+            /* Section 3 - Desktop Tab Styles (already defined above in common styles) */
+            /* The desktop tab styles from lines 567-814 handle this section */
+
+            /* Section 4 - Desktop Join Our Community */
+            .section-4 {
+                background-color: #9E3430;
+                padding: 0 100px 20px 100px;
+                display: block;
+                position: relative;
+                z-index: 1;
+                height: auto !important;
+            }
+
+            .section-4 .main-title {
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            .section-4 .title-join {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 99px;
+                font-weight: 300;
+                color: #b8dc99;
+                text-transform: uppercase;
+                line-height: 1;
+                margin: 0;
+            }
+
+            .section-4 .title-community {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 99px;
+                font-weight: 300;
+                color: white;
+                text-transform: uppercase;
+                line-height: 0.5;
+                margin: 0;
+            }
+
+            .section-4 .subtitle {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 23.5px;
+                font-weight: 300;
+                color: white;
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: 0.03em;
+                margin-bottom: 50px;
+                padding-top: 20px;
+            }
+
+            .section-4 .section-heading {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 500;
+                color: #b8dc99;
+                text-align: center;
+                margin-bottom: 25px;
+            }
+
+            .section-4 .description {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 23px;
+                font-weight: 300;
+                color: white;
+                text-align: center;
+                max-width: 1200px;
+                line-height: 1.4;
+                margin: 0 auto 40px auto;
+            }
+
+            .section-4 .description p {
+                margin: 0 0 30px 0;
+            }
+
+            .section-4 .description .text-accent {
+                color: #b8dc99;
+            }
+
+            .section-4 .image-wrapper {
+                width: 100%;
+                max-width: 1300px;
+                margin: 0 auto 50px auto;
+            }
+
+            /* === Section 4 Desktop - PROPER IMPLEMENTATION === */
+
+            /* Hide mobile-specific wrapper */
+            .section-4 .image-text-wrapper {
+                display: none !important;
+            }
+
+            /* Desktop image wrapper */
+            section.section-4 .image-wrapper {
+                width: 100%;
+                max-width: 1300px;
+                margin: 0 auto 60px auto;
+                display: block;
+            }
+
+            /* Image container - Fixed height viewport for parallax */
+            section.section-4 .image-wrapper .image-container {
+                position: relative;
+                width: 100%;
+                height: 600px;
+                overflow: hidden;
+                background-color: #000;
+            }
+
+            /* Image - static, no parallax */
+            section.section-4 .image-wrapper .image-container img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                display: block;
+            }
+
+            /* Text overlay - Fixed to container, not image */
+            section.section-4 .image-wrapper .image-overlay {
+                position: absolute;
+                bottom: 80px;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                text-align: center;
+                display: block;
+            }
+
+            /* Text overlay on image - "WHAT WE'RE" */
+            section.section-4 .image-wrapper .image-container .community-overlay-title {
+                position: absolute;
+                bottom: -12px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 10;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 99px;
+                font-weight: 300;
+                color: #b8dc99;
+                text-transform: uppercase;
+                line-height: 1;
+                margin: 0;
+                padding-bottom: 0;
+                white-space: nowrap;
+                display: block;
+            }
+
+            /* Text below image - "BUILDING TOGETHER" */
+            section.section-4 .image-wrapper .community-below-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 99px;
+                font-weight: 300;
+                color: #ffffff;
+                text-transform: uppercase;
+                line-height: 1;
+                margin: -12px 0;
+                padding-top: 0;
+                white-space: nowrap;
+                text-align: center;
+                display: block;
+            }
+
+            /* Section 5 - Desktop (Homes That Reflect) - Uses mobile/base styles */
+
+            /* Feature cards inside Section 4 for desktop */
+            .section-4 .features-container {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                gap: 0;
+                width: 100%;
+                max-width: 1600px;
+                margin: 0 auto 80px auto;
+            }
+
+            .section-4 .feature-card {
+                background: #415c43;
+                padding: 60px 50px;
+                border-radius: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                min-height: 300px;
+            }
+
+            .section-4 .feature-card.transparent {
+                background: rgba(47, 72, 53, 0.3);
+            }
+
+            .section-4 .feature-icon {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 20px;
+            }
+
+            .section-4 .feature-icon img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                filter: brightness(0) saturate(100%) invert(76%) sepia(15%) saturate(741%) hue-rotate(58deg) brightness(92%) contrast(86%);
+            }
+
+            .section-4 .feature-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 500;
+                color: #b8dc99;
+                margin-bottom: 15px;
+            }
+
+            .section-4 .feature-description {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 300;
+                color: white;
+                line-height: 1.4;
+                max-width: 100%;
+            }
+
+            .section-4 .scroll-indicator {
+                text-align: center;
+                margin-top: 0px;
+                position: relative;
+                padding-bottom: 0px;
+            }
+
+            .section-4 .scroll-indicator svg {
+                width: 47px;
+                height: auto;
+            }
+
+            /* Section 6 - Desktop A Member's Journey */
+            .section-6 {
+                min-height: 100vh;
+                padding: 90px 80px;
+            }
+
+            .section-6 .content {
+                max-width: 1100px;
+                gap: 70px;
+            }
+
+            .section-6 .description {
+                font-size: 18px;
+                line-height: 1.6;
+            }
+
+            .section-6 .description p {
+                margin: 0 0 30px 0;
+            }
+
+            .section-6 .cta-button {
+                padding: 15px 60px;
+                font-size: 16px;
+                letter-spacing: 4px;
+            }
+
+            .section-6 .vector-overlay-container {
+                display: none;
+            }
+
+            /* Section 7 - Desktop Next Steps */
+            .section-7 {
+                min-height: 115vh;
+                padding: 0;
+            }
+
+            .section-7 .content {
+                padding-top: clamp(10vh, 15vh, 10vh);
+            }
+
+            .section-7 .overlay-box {
+                padding: clamp(0px, 6vh, 80px) clamp(50px, 8vw, 10px);
+                max-width: clamp(800px, 60vw, 1050px);
+            }
+
+            .section-7 .title {
+                font-size: clamp(64px, 3.5vw, 56px);
+                margin-bottom: clamp(0px, 2vh, 0px);
+            }
+
+            .section-7 .subtitle {
+                font-size: clamp(42px, 5vw, 70px);
+                margin-bottom: clamp(25px, 3vh, 40px);
+            }
+
+            .section-7 .description {
+                font-size: clamp(16px, 1.2vw, 14px);
+                margin-bottom: clamp(60px, 4vh, 50px);
+                max-width: clamp(700px, 75%, 900px);
+                line-height: 1.5;
+                letter-spacing: 0.6px;
+            }
+
+            .section-7 .cta-button {
+                padding: clamp(14px, 1.5vh, 18px) clamp(35px, 4vw, 50px);
+                font-size: clamp(14px, 1.1vw, 18px);
+            }
+        }
+    </style></p>
+<!-- SECTION 1: HERO -->
+<section class="section-1">
+<div class="gradient-overlay"> </div>
+<div class="content">
+<div class="hero-titles">
+<h1 class="title-hammiyala"><span class="title-the">THE </span>MUMBAI</h1>
+<h1 class="title-collective">COLLECTIVE</h1>
+</div>
+<div class="subtitle-section">
+<p class="subtitle-line">A VISION FOR SUSTAINABLE LIVING</p>
+<p class="subtitle-line">100+ ACRES | 50 HOMES</p>
+<p class="subtitle-line subtitle-line-desktop">A VISION FOR SUSTAINABLE LIVING | 100+ ACRES | 50 HOMES</p>
+</div>
+<div class="cta-section"><button class="cta-button" data-tf-popup="kfcjiXxR" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=The Mumbai Collective" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=mumbai,utm_source=,utm_medium=,utm_campaign=">GET AN INVITE</button></div>
+<div class="scroll-indicator"> </div>
+</div>
+</section>
+<!-- SECTION 2: OUR VISION -->
+<section class="section-2">
+<div class="background-image"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/ourvision.jpg" alt="Person with binoculars in nature" /></div>
+<div class="content">
+<div class="title-section">
+<h2 class="title-reimagining">REIMAGINING</h2>
+<h2 class="title-sustainability">SUSTAINABILITY</h2>
+</div>
+<div class="subtitle-section-2">
+<h3 class="subtitle-text">IN MUMBAI'S BACKYARD</h3>
+</div>
+<div class="description-section">
+<p class="description-paragraph">Nestled equidistant from the bustling hubs of Mumbai and Pune, The Mumbai Collective lies on a breathtaking tabletop landscape—a retreat shaped by nature and guided by a vision of true sustainability. This is more than a place to live; it's a commitment to a lifestyle that respects and nurtures the land, creating a sanctuary that redefines community living.</p>
+</div>
+<div class="map-section"><img class="map-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Map_Mumbai_edited.png" alt="Map showing route between Mumbai and The Mumbai Collective" /></div>
+</div>
+</section>
+<!-- SECTION 3: ACCORDION / TABS -->
+<section class="section-3"><!-- Tab Navigation (Desktop Only) -->
+<div class="tab-navigation"><button class="tab-button active" data-tab="purpose">OUR PURPOSE</button> <button class="tab-button" data-tab="approach">OUR APPROACH</button> <button class="tab-button" data-tab="sufficiency">CRAFTED FOR SELF-SUFFICIENCY</button></div>
+<!-- Desktop Content Container -->
+<div class="content-container"><!-- THE ORIGINS Tab Content -->
+<div id="desktop-purpose" class="tab-content active">
+<div class="left-zone">
+<div class="title-wrapper">
+<div class="title-line"> </div>
+<h2 class="title-text">OUR<br />PURPOSE</h2>
+</div>
+<div class="image-container"><img class="main-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Pupose_sec_img.png" alt="Livestock in field" /></div>
+</div>
+<div class="right-column">
+<div class="text-pagination"> </div>
+<div class="subtitle-heading">
+<h3>CULTIVATING<br />A LEGACY OF<br />SUSTAINABILITY</h3>
+</div>
+<div class="text-overlay">
+<p>At The Mumbai Collective, our purpose transcends real estate; it's about cultivating a thriving ecosystem that aligns human needs with nature's wisdom. Every aspect of this 100-acre sanctuary reflects our dedication to a simple, profound goal: regeneration. Our approach is inspired by the Four Returns-financial, natural, social, and inspirational-which guide each decision and weave resilience into every acre.</p>
+<div class="pagination-dots">
+<div class="dot active"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+</div>
+</div>
+<!-- OUR APPROACH Tab Content -->
+<div id="desktop-approach" class="tab-content">
+<div class="left-zone">
+<div class="title-wrapper">
+<div class="title-line"> </div>
+<h2 class="title-text">OUR<br />APPROACH</h2>
+<div class="subtitle-heading approach-subtitle">
+<h3>EMBRACING<br />THE LAND'S<br />WISDOM</h3>
+</div>
+</div>
+<div class="image-container no-overlay"><img class="main-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Clip%20path%20group%20(1).png" alt="Family walking in nature" /></div>
+</div>
+<div class="right-column">
+<div class="text-pagination"> </div>
+<div class="text-overlay">
+<p>The Mumbai Collective is designed with respect for the land's unique contours, hydrology, and biodiversity. Here, each decision supports the natural rhythm and capacity of the landscape, bringing together principles of permaculture— Earth Care, People Care, and Fair Share. With this approach, we go beyond conserving; we regenerate. We envision a landscape that supports life in all its forms, where food forests flourish, water cycles are restored, and biodiversity thrives.</p>
+<button class="invite-button" data-tf-popup="kfcjiXxR" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=The Mumbai Collective" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=mumbai,utm_source=,utm_medium=,utm_campaign=">GET AN INVITE</button>
+<div class="pagination-dots">
+<div class="dot"> </div>
+<div class="dot active"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+</div>
+</div>
+<!-- HAMMIYALA COLLECTIVE Tab Content -->
+<div id="desktop-sufficiency" class="tab-content">
+<div class="sufficiency-full-width">
+<div class="title-wrapper">
+<div class="title-line"> </div>
+<h2 class="title-text">CRAFTED FOR<br />SELF-SUFFICIENCY</h2>
+</div>
+<div class="security-cards-container">
+<div class="security-card"><img class="security-card-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Food%20Security.png" alt="Food Security" />
+<div class="security-card-overlay">
+<h3 class="security-card-title">FOOD SECURITY</h3>
+<p class="security-card-description">Imagine living among lush food forests, where biodiversity is a natural ally, pest control occurs naturally, and food is abundant for humans and wildlife alike. Inspired by forest ecosystems, our food forests are designed with polyculture planting, bio-fencing, and a selection of native species that sustain and nurture the land. Residents here enjoy the fruits of a self-sustaining landscape that connects daily life with the wisdom of nature.</p>
+</div>
+</div>
+<div class="security-card"><img class="security-card-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Water%20Security.png" alt="Water Security" />
+<div class="security-card-overlay">
+<h3 class="security-card-title">WATER SECURITY</h3>
+<p class="security-card-description">Water is the essence of life, and at The Mumbai Collective, we honor it with innovative management that allows "running water to walk and walking water to crawl." Using swales, check dams, and sink pits, we slow down water, creating microclimates and fertile soil, preventing erosion, and revitalizing water cycles. Monsoons are transformed from challenges to opportunities, nourishing both the land and the community.</p>
+</div>
+</div>
+<div class="security-card"><img class="security-card-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Power%20Security.png" alt="Power Security" />
+<div class="security-card-overlay">
+<h3 class="security-card-title">POWER SECURITY</h3>
+<p class="security-card-description">Our commitment to self-sufficiency extends to power. By integrating renewable energy sources and sustainable building designs, we aim for an energy landscape that is resilient and eco-friendly. The result is a community where power is reliably generated, distributed, and consumed in harmony with the environment.</p>
+</div>
+</div>
+</div>
+<div class="pagination-dots sufficiency-pagination">
+<div class="dot active"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Mobile Accordion Sections -->
+<div class="accordion-section" data-content="purpose">
+<div class="accordion-header active">
+<h2 class="accordion-title">OUR PURPOSE</h2>
+</div>
+<div class="accordion-content active">
+<div class="background-image"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/MUM_IMG_2.jpg" alt="Livestock in field" /></div>
+<div class="text-overlay">
+<div class="subtitle-with-line">
+<div class="decorative-line"> </div>
+<h3 class="subtitle-heading-mobile">CULTIVATING A LEGACY<br />OF SUSTAINABILITY</h3>
+</div>
+<p>At The Mumbai Collective, our purpose transcends real estate; it's about cultivating a thriving ecosystem that aligns human needs with nature's wisdom. Every aspect of this 100-acre sanctuary reflects our dedication to a simple, profound goal: regeneration. Our approach is inspired by the Four Returns—financial, natural, social, and inspirational—which guide each decision and weave resilience into every acre.</p>
+</div>
+<!-- Pagination Dots -->
+<div class="right-decoration">
+<div class="dot active"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+</div>
+<!-- OUR JOURNEY -->
+<div class="accordion-section" data-content="journey">
+<div class="accordion-header">
+<h2 class="accordion-title">OUR APPROACH</h2>
+</div>
+<div class="accordion-content">
+<div class="background-image"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/MUM_IMG_6.jpg" alt="Landscape view" /></div>
+<div class="text-overlay">
+<div class="subtitle-with-line">
+<div class="decorative-line"> </div>
+<h3 class="subtitle-heading-mobile">EMBRACING<br />THE LAND'S WISDOM</h3>
+</div>
+<p>The Mumbai Collective is designed with respect for the land's unique contours, hydrology, and biodiversity. Here, each decision supports the natural rhythm and capacity of the landscape, bringing together principles of permaculture— Earth Care, People Care, and Fair Share. With this approach, we go beyond conserving; we regenerate. We envision a landscape that supports life in all its forms, where food forests flourish, water cycles are restored, and biodiversity thrives.</p>
+</div>
+<!-- Pagination Dots -->
+<div class="right-decoration">
+<div class="dot"> </div>
+<div class="dot active"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+</div>
+<!-- HAMMIYALA COLLECTIVE -->
+<div class="accordion-section" data-content="collective">
+<div class="accordion-header">
+<h2 class="accordion-title">CRAFTED FOR SELF-SUFFICIENCY</h2>
+</div>
+<div class="accordion-content">
+<div class="security-cards-container">
+<div class="security-card"><img class="security-card-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Group%2081%20(1).png" alt="Food Security" />
+<div class="security-card-overlay">
+<h3 class="security-card-title">FOOD SECURITY</h3>
+<p class="security-card-description">Imagine living among lush food forests, where biodiversity is a natural ally, pest control occurs naturally, and food is abundant for humans and wildlife alike. Inspired by forest ecosystems, our food forests are designed with polyculture planting, bio-fencing, and a selection of native species that sustain and nurture the land. Residents here enjoy the fruits of a self-sustaining landscape that connects daily life with the wisdom of nature.</p>
+</div>
+</div>
+<div class="security-card"><img class="security-card-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Group%2080%20(1).png" alt="Water Security" />
+<div class="security-card-overlay">
+<h3 class="security-card-title">WATER SECURITY</h3>
+<p class="security-card-description">Water is the essence of life, and at The Mumbai Collective, we honor it with innovative management that allows "running water to walk and walking water to crawl." Using swales, check dams, and sink pits, we slow down water, creating microclimates and fertile soil, preventing erosion, and revitalizing water cycles. Monsoons are transformed from challenges to opportunities, nourishing both the land and the community.</p>
+</div>
+</div>
+<div class="security-card"><img class="security-card-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Group%20(3).png" alt="Power Security" />
+<div class="security-card-overlay">
+<h3 class="security-card-title">POWER SECURITY</h3>
+<p class="security-card-description">Our commitment to self-sufficiency extends to power. By integrating renewable energy sources and sustainable building designs, we aim for an energy landscape that is resilient and eco-friendly. The result is a community where power is reliably generated, distributed, and consumed in harmony with the environment.</p>
+</div>
+</div>
+</div>
+<!-- Pagination Dots -->
+<div class="right-decoration">
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot active"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: DESIGNING A LANDSCAPE, FOSTERING A COMMUNITY -->
+<section class="section-4">
+<div class="content">
+<div class="image-container"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Group%2082.png" alt="Hands pointing at landscape plans on grass" />
+<h1 class="title-on-image">DESIGNING A LANDSCAPE,</h1>
+</div>
+<h1 class="title-line-white">A LANDSCAPE</h1>
+<h1 class="title-below-image">FOSTERING A COMMUNITY</h1>
+<div class="description">
+<p>The Mumbai Collective is a rural sanctuary that treats its landscape as a unified whole, where each home and every shared space exists in harmony with the larger ecosystem. Here, members aren't just residents; they're stewards of a landscape that grows more resilient over time. Designed to encourage a balanced and sustainable way of life, every element—from common lakes to forest patches— contributes to creating an environment where human presence strengthens, rather than weakens, the land.</p>
+<p>Our members have access to the estate as a whole, sharing not only the benefits of its diverse amenities but also the responsibility for its care and evolution. Each member's plot is an integral part of the collective landscape, and all members share the estate's assets and produce. This model of shared ownership cultivates a deep sense of community, where collaboration and connection thrive.</p>
+</div>
+</div>
+</section>
+<!-- SECTION 5: HOMES THAT REFLECT -->
+<section class="section-5">
+<div class="content">
+<div class="main-title">
+<h1 class="title-line-1">HOMES THAT REFLECT</h1>
+<h1 class="title-line-2">THE LAND'S STORY</h1>
+</div>
+<p class="description">A home at The Mumbai Collective is more than a structure—it's a reflection of nature's rhythms, the local culture, and the sustainability ethos we hold dear. Each home is crafted using locally sourced materials, combining timeless design with modern amenities. These homes do more than shelter; they harmonize with the landscape, breathe life into the surroundings, and offer durability and comfort for generations to come. In partnership with Biome Environmental Solutions, our homes are a model of responsible architecture, combining the rich heritage of regional craftsmanship with the strength of natural materials and the wisdom of sustainable design. The architecture embodies our values, providing a balance of tradition, innovation, and environmental consciousness.</p>
+<div class="carousel-container">
+<div class="carousel-wrapper">
+<div class="carousel-track">
+<div class="carousel-slide"><img class="mobile-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Img_1%20(1).jpg" alt="Home 1" /> <img class="desktop-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/img_1.jpg" alt="Home 1" />
+<div class="carousel-text-overlay">
+<p class="carousel-tag">HOME IS A FEELING</p>
+<h2 class="carousel-title">Walking as a way of life.</h2>
+</div>
+</div>
+<div class="carousel-slide"><img class="mobile-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Img_2%20(1).jpg" alt="Home 2" /> <img class="desktop-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/img_2.jpg" alt="Home 2" />
+<div class="carousel-text-overlay">
+<p class="carousel-tag">HOME IS A FEELING</p>
+<h2 class="carousel-title">Meet the community through the front</h2>
+</div>
+</div>
+<div class="carousel-slide"><img class="mobile-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Img_3%20(1).jpg" alt="Home 3" /> <img class="desktop-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/img_3.jpg" alt="Home 3" />
+<div class="carousel-text-overlay">
+<p class="carousel-tag">HOME IS A FEELING</p>
+<h2 class="carousel-title">...and nature through the back</h2>
+</div>
+</div>
+<div class="carousel-slide"><img class="mobile-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Img_5%20(1).jpg" alt="Home 4" /> <img class="desktop-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/img_5.jpg" alt="Home 4" />
+<div class="carousel-text-overlay">
+<p class="carousel-tag">HOME IS A FEELING</p>
+<h2 class="carousel-title">Home made for the earth, of the earth</h2>
+</div>
+</div>
+<div class="carousel-slide"><img class="mobile-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/Img_4%20(1).jpg" alt="Home 5" /> <img class="desktop-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/mumbai_page_images/img_4.jpg" alt="Home 5" />
+<div class="carousel-text-overlay">
+<p class="carousel-tag">HOME IS A FEELING</p>
+<h2 class="carousel-title">Home that are born from convention but are not contained by it.</h2>
+</div>
+</div>
+</div>
+</div>
+<div class="carousel-dots">
+<div class="carousel-dot active" data-slide="0"> </div>
+<div class="carousel-dot" data-slide="1"> </div>
+<div class="carousel-dot" data-slide="2"> </div>
+<div class="carousel-dot" data-slide="3"> </div>
+<div class="carousel-dot" data-slide="4"> </div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 6: A MEMBER'S JOURNEY -->
+<section class="section-6">
+<div class="content">
+<div class="main-heading">
+<h1 class="heading-line-1">THE</h1>
+<h1 class="heading-line-2">INVITATION</h1>
+</div>
+<div class="description">
+<p>A home at The Mumbai Collective is more than a structure—it's a reflection of nature's rhythms, the local culture, and the sustainability ethos we hold dear. Each home is crafted using locally sourced materials, combining timeless design with modern amenities. These homes do more than shelter; they harmonize with the landscape, breathe life into the surroundings, and offer durability and comfort for generations to come.</p>
+<p>As a member, you'll have access to every corner of the estate—from hiking trails and camping grounds to serene lakes and abundant food forests. Your membership is more than a property investment; it's a journey into a lifestyle of responsibility and reconnection with the earth, a fulfilling experience that grows deeper with time.</p>
+</div>
+<button class="cta-button" data-tf-popup="kfcjiXxR" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=The Mumbai Collective" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=mumbai,utm_source=,utm_medium=,utm_campaign=">GET AN INVITE</button></div>
+<div class="vector-overlay-container">
+<div class="button-arrow-wrapper"><button class="cta-button" data-tf-popup="kfcjiXxR" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=The Mumbai Collective" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=mumbai,utm_source=,utm_medium=,utm_campaign=">GET AN INVITE</button>
+<div class="scroll-indicator-section6"> </div>
+</div>
+</div>
+</section>
+<!-- SECTION 7: NEXT STEPS -->
+<section class="section-7">
+<div class="content">
+<div class="overlay-box">
+<h2 class="title">JOIN THE</h2>
+<h1 class="subtitle">MOVEMENT</h1>
+<p class="description">Explore the Mumbai Collective and take the first step towards a life where sustainability meets community.</p>
+<button class="cta-button" data-tf-popup="kfcjiXxR" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=The Mumbai Collective" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=mumbai,utm_source=,utm_medium=,utm_campaign=">GET AN INVITE</button></div>
+</div>
+</section>
+<!-- END SECTION 7 -->
+<p><script>
+        // Section 3 - Accordion and Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionHeaders = document.querySelectorAll('.section-3 .accordion-header');
+            const tabButtons = document.querySelectorAll('.section-3 .tab-button');
+            const accordionSections = document.querySelectorAll('.section-3 .accordion-section');
+            const desktopTabContents = document.querySelectorAll('.section-3 .content-container .tab-content');
+            const paginationDots = document.querySelectorAll('.section-3 .pagination-dots .dot');
+
+            // Function to switch tabs (desktop)
+            function switchTab(tabName) {
+                // Remove active class from all tabs and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                desktopTabContents.forEach(content => content.classList.remove('active'));
+
+                // Mobile accordion
+                accordionSections.forEach(section => {
+                    const accordionContent = section.querySelector('.accordion-content');
+                    if (accordionContent) {
+                        accordionContent.classList.remove('active');
+                    }
+                });
+
+                // Remove active from all pagination dots
+                paginationDots.forEach(dot => dot.classList.remove('active'));
+
+                // Add active class to selected tab button
+                const activeTab = document.querySelector(`.section-3 .tab-button[data-tab="${tabName}"]`);
+                if (activeTab) {
+                    activeTab.classList.add('active');
+                }
+
+                // Show corresponding desktop content
+                const activeDesktopContent = document.querySelector(`.section-3 .content-container #desktop-${tabName}`);
+                if (activeDesktopContent) {
+                    activeDesktopContent.classList.add('active');
+
+                    // Update pagination dots for this tab
+                    const tabPaginationDots = activeDesktopContent.querySelectorAll('.pagination-dots .dot');
+                    const tabs = ['purpose', 'approach', 'sufficiency'];
+                    const activeTabIndex = tabs.indexOf(tabName);
+
+                    if (tabPaginationDots.length > 0 && activeTabIndex !== -1) {
+                        tabPaginationDots[activeTabIndex].classList.add('active');
+                    }
+                }
+
+                // Show corresponding mobile accordion content
+                const activeMobileSection = document.querySelector(`.section-3 .accordion-section[data-content="${tabName}"]`);
+                if (activeMobileSection) {
+                    const accordionContent = activeMobileSection.querySelector('.accordion-content');
+                    if (accordionContent) {
+                        accordionContent.classList.add('active');
+                    }
+                }
+            }
+
+            // Mobile accordion functionality
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const isActive = this.classList.contains('active');
+
+                    // Close all accordion sections
+                    accordionHeaders.forEach(h => {
+                        h.classList.remove('active');
+                        h.nextElementSibling.classList.remove('active');
+                    });
+
+                    // If this wasn't active, open it
+                    if (!isActive) {
+                        this.classList.add('active');
+                        content.classList.add('active');
+                    }
+                });
+            });
+
+            // Desktop tab functionality
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+
+                    // Recalculate pagination for the active tab after switching
+                    // Use longer delay to ensure tab is fully rendered
+                    setTimeout(() => {
+                        const activeTabContent = document.querySelector(`.section-3 .content-container #desktop-${tabName}`);
+                        if (activeTabContent) {
+                            const rightColumn = activeTabContent.querySelector('.right-column');
+                            if (rightColumn && rightColumn.textPaginationInstance) {
+                                console.log('Recalculating pagination for tab:', tabName);
+                                rightColumn.textPaginationInstance.calculatePages();
+                                rightColumn.textPaginationInstance.goToPage(0);
+                            }
+                        }
+                    }, 150);
+                });
+            });
+
+            // Desktop pagination dot navigation
+            const allPaginationDots = document.querySelectorAll('.section-3 .pagination-dots .dot');
+            const tabs = ['purpose', 'approach', 'sufficiency'];
+
+            allPaginationDots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    const dotTabIndex = index % 3; // Each set of 3 dots maps to 3 tabs
+                    switchTab(tabs[dotTabIndex]);
+                });
+            });
+
+            // Open first section by default
+            accordionHeaders[0].classList.add('active');
+            accordionHeaders[0].nextElementSibling.classList.add('active');
+        });
+
+        // Parallax effect for accordion background images and Section 4
+        function handleParallax() {
+            // Section 3 accordion parallax
+            const accordionContents = document.querySelectorAll('.section-3 .accordion-content.active');
+
+            accordionContents.forEach(content => {
+                const rect = content.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                // Check if element is in viewport
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    const scrolled = windowHeight - rect.top;
+                    const rate = scrolled * 0.1; // Parallax speed (reduced for subtle effect)
+
+                    const bgImage = content.querySelector('.background-image img');
+                    if (bgImage) {
+                        bgImage.style.transform = `translateY(${-rate}px)`;
+                    }
+                }
+            });
+
+            // Section 4 parallax removed - image is now static
+        }
+
+        // Add scroll event listener
+        window.addEventListener('scroll', handleParallax);
+        window.addEventListener('load', handleParallax);
+
+        // Section 5 - Carousel functionality
+        (function() {
+            const carouselTrack = document.querySelector('.section-5 .carousel-track');
+            const carouselDots = document.querySelectorAll('.section-5 .carousel-dot');
+            const slides = document.querySelectorAll('.section-5 .carousel-slide');
+
+            if (!carouselTrack || slides.length === 0) return;
+
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            let autoPlayInterval = null;
+            let isTransitioning = false;
+
+            // Function to go to a specific slide
+            function goToSlide(slideIndex) {
+                if (isTransitioning) return; // Prevent multiple transitions at once
+
+                isTransitioning = true;
+                currentSlide = slideIndex;
+                const offset = -currentSlide * 100;
+                carouselTrack.style.transform = `translateX(${offset}%)`;
+
+                // Update dots
+                carouselDots.forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+
+                // Reset transition flag after animation completes (500ms matches CSS transition)
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 500);
+            }
+
+            // Function to go to next slide
+            function nextSlide() {
+                if (isTransitioning) return;
+                const nextIndex = (currentSlide + 1) % totalSlides;
+                goToSlide(nextIndex);
+            }
+
+            // Auto-play functionality - change slide every 5 seconds (increased from 4)
+            function startAutoPlay() {
+                // Clear any existing interval first
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                }
+                autoPlayInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopAutoPlay() {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+            }
+
+            // Dot click handlers
+            carouselDots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    stopAutoPlay();
+                    goToSlide(index);
+                    startAutoPlay(); // Restart auto-play after manual navigation
+                });
+            });
+
+            // Pause auto-play on hover (optional)
+            const carouselContainer = document.querySelector('.section-5 .carousel-container');
+            if (carouselContainer) {
+                carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+                carouselContainer.addEventListener('mouseleave', startAutoPlay);
+            }
+
+            // Start auto-play on page load
+            startAutoPlay();
+        })();
+    </script></p>
+<!-- Beforest application journey modal: review the process before opening Typeform. -->
+<style>
+  .bf-app-modal[hidden] { display: none !important; }
+  .bf-app-modal {
+    --bf-ink: #173f35;
+    --bf-paper: #f4f0e6;
+    --bf-line: rgba(23, 63, 53, .18);
+    --bf-accent: #b8dc99;
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+  .bf-app-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 25, 20, .76);
+    backdrop-filter: blur(10px);
+  }
+  .bf-app-modal__dialog {
+    position: relative;
+    width: min(1080px, 100%);
+    max-height: min(860px, calc(100vh - 48px));
+    overflow: auto;
+    color: var(--bf-ink);
+    background:
+      radial-gradient(circle at 90% 0%, rgba(184, 220, 153, .42), transparent 29%),
+      var(--bf-paper);
+    border: 1px solid rgba(255, 255, 255, .32);
+    border-radius: 3px;
+    box-shadow: 0 32px 100px rgba(0, 0, 0, .38);
+    padding: clamp(28px, 4.5vw, 64px);
+    transform: translateY(18px);
+    opacity: 0;
+    transition: transform .26s ease, opacity .26s ease;
+  }
+  .bf-app-modal.is-open .bf-app-modal__dialog { transform: translateY(0); opacity: 1; }
+  .bf-app-modal__close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--bf-line);
+    border-radius: 50%;
+    color: var(--bf-ink);
+    background: rgba(244, 240, 230, .76);
+    font: 300 27px/1 "Avenir Next", Avenir, sans-serif;
+    cursor: pointer;
+  }
+  .bf-app-modal__eyebrow {
+    margin: 0 0 12px;
+    font: 600 11px/1.2 "Avenir Next", Avenir, sans-serif;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+  .bf-app-modal__title {
+    max-width: 780px;
+    margin: 0;
+    font: 400 clamp(34px, 5vw, 66px)/.98 "ABC Arizona Flare", "Iowan Old Style", "Palatino Linotype", serif;
+    letter-spacing: -.035em;
+  }
+  .bf-app-modal__intro {
+    max-width: 760px;
+    margin: 20px 0 34px;
+    font: 400 clamp(15px, 1.6vw, 18px)/1.55 "Avenir Next", Avenir, sans-serif;
+  }
+  .bf-app-modal__steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--bf-line);
+    border-bottom: 1px solid var(--bf-line);
+  }
+  .bf-app-modal__step {
+    min-height: 214px;
+    padding: 24px 22px 26px;
+    border-right: 1px solid var(--bf-line);
+  }
+  .bf-app-modal__step:last-child { border-right: 0; }
+  .bf-app-modal__number {
+    display: block;
+    margin-bottom: 30px;
+    color: rgba(23, 63, 53, .6);
+    font: 500 12px/1 "Avenir Next", Avenir, sans-serif;
+    letter-spacing: .14em;
+  }
+  .bf-app-modal__step h3 {
+    margin: 0 0 10px;
+    color: var(--bf-ink);
+    font: 500 20px/1.15 "ABC Arizona Flare", "Iowan Old Style", serif;
+  }
+  .bf-app-modal__step p {
+    margin: 0;
+    color: rgba(23, 63, 53, .82);
+    font: 400 14px/1.5 "Avenir Next", Avenir, sans-serif;
+  }
+  .bf-app-modal__next {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 24px;
+    margin: 28px 0;
+    padding: 22px 24px;
+    background: rgba(184, 220, 153, .38);
+  }
+  .bf-app-modal__next strong {
+    font: 600 13px/1.4 "Avenir Next", Avenir, sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .bf-app-modal__next p {
+    margin: 0;
+    font: 400 15px/1.55 "Avenir Next", Avenir, sans-serif;
+  }
+  .bf-app-modal__actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .bf-app-modal__begin {
+    min-height: 52px;
+    padding: 0 28px;
+    border: 1px solid var(--bf-ink);
+    border-radius: 999px;
+    color: #fff;
+    background: var(--bf-ink);
+    font: 600 12px/1 "Avenir Next", Avenir, sans-serif;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform .18s ease, background .18s ease;
+  }
+  .bf-app-modal__begin:hover { transform: translateY(-2px); background: #0e3028; }
+  .bf-app-modal__later {
+    padding: 10px 2px;
+    border: 0;
+    color: var(--bf-ink);
+    background: transparent;
+    font: 500 13px/1.3 "Avenir Next", Avenir, sans-serif;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+  }
+  body.bf-app-modal-open { overflow: hidden !important; }
+  @media (max-width: 820px) {
+    .bf-app-modal { padding: 12px; }
+    .bf-app-modal__dialog { max-height: calc(100vh - 24px); padding: 34px 20px 26px; }
+    .bf-app-modal__title { padding-right: 34px; font-size: clamp(34px, 10vw, 48px); }
+    .bf-app-modal__intro { margin-bottom: 24px; }
+    .bf-app-modal__steps { grid-template-columns: 1fr; }
+    .bf-app-modal__step { min-height: 0; padding: 18px 4px; border-right: 0; border-bottom: 1px solid var(--bf-line); }
+    .bf-app-modal__step:last-child { border-bottom: 0; }
+    .bf-app-modal__number { float: left; width: 42px; margin: 4px 8px 0 0; }
+    .bf-app-modal__step h3, .bf-app-modal__step p { margin-left: 50px; }
+    .bf-app-modal__next { grid-template-columns: 1fr; gap: 8px; padding: 18px; }
+    .bf-app-modal__actions { align-items: stretch; flex-direction: column; }
+    .bf-app-modal__begin { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bf-app-modal__dialog, .bf-app-modal__begin { transition: none; }
+  }
+</style>
+
+<div class="bf-app-modal" id="bf-application-modal" hidden aria-hidden="true">
+  <div class="bf-app-modal__backdrop" data-bf-modal-close></div>
+  <section class="bf-app-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="bf-application-modal-title" tabindex="-1">
+    <button class="bf-app-modal__close" type="button" data-bf-modal-close aria-label="Close application process">&times;</button>
+    <p class="bf-app-modal__eyebrow">The path to membership</p>
+    <h2 class="bf-app-modal__title" id="bf-application-modal-title">A considered path to joining The Mumbai Collective</h2>
+    <p class="bf-app-modal__intro">Becoming part of a Beforest collective is a considered, mutual decision. Here is what the journey looks like before you begin.</p>
+    <ol class="bf-app-modal__steps">
+      <li class="bf-app-modal__step"><span class="bf-app-modal__number">01</span><h3>Application</h3><p>Tell us what brings you here, what you hope to build, and how you see yourself participating.</p></li>
+      <li class="bf-app-modal__step"><span class="bf-app-modal__number">02</span><h3>Review</h3><p>Our team considers your responses, readiness, and alignment with the collective's values and current offering.</p></li>
+      <li class="bf-app-modal__step"><span class="bf-app-modal__number">03</span><h3>1-on-1 conversation</h3><p>If there is mutual alignment, we contact you to agree on a convenient time and place to meet in person.</p></li>
+      <li class="bf-app-modal__step"><span class="bf-app-modal__number">04</span><h3>Closure &amp; next steps</h3><p>After the conversation, we clearly confirm the outcome and what happens next.</p></li>
+    </ol>
+    <div class="bf-app-modal__next"><strong>What happens next?</strong><p>Once you submit, our team will carefully review your responses. Please answer thoughtfully and as specifically as you can—your responses help us understand the fit. Submitting an application begins the review; it does not confirm membership yet.</p></div>
+    <div class="bf-app-modal__actions">
+      <button class="bf-app-modal__begin" id="bf-application-begin" type="button">Begin my application</button>
+      <button class="bf-app-modal__later" type="button" data-bf-modal-close>Continue exploring</button>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  if (window.BeforestApplicationJourneyModal) return;
+  window.BeforestApplicationJourneyModal = true;
+
+  var formId = "kfcjiXxR";
+  var collective = "mumbai";
+  var formTitle = "The Mumbai Collective";
+  var modal = document.getElementById("bf-application-modal");
+  var dialog = modal && modal.querySelector(".bf-app-modal__dialog");
+  var beginButton = document.getElementById("bf-application-begin");
+  var lastFocused = null;
+
+  if (!modal || !dialog || !beginButton) return;
+
+  document.querySelectorAll('[data-tf-popup="' + formId + '"]').forEach(function (trigger) {
+    trigger.removeAttribute("data-tf-popup");
+    trigger.setAttribute("data-bf-application-trigger", "");
+    if (trigger.tagName === "A" && (!trigger.getAttribute("href") || trigger.getAttribute("href") === "#")) {
+      trigger.setAttribute("href", "#apply");
+    }
+  });
+
+  function focusableElements() {
+    return Array.prototype.slice.call(dialog.querySelectorAll('button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'));
+  }
+
+  function openModal() {
+    lastFocused = document.activeElement;
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("bf-app-modal-open");
+    requestAnimationFrame(function () {
+      modal.classList.add("is-open");
+      var closeButton = dialog.querySelector(".bf-app-modal__close");
+      if (closeButton) closeButton.focus();
+    });
+  }
+
+  function closeModal(restoreFocus) {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("bf-app-modal-open");
+    window.setTimeout(function () {
+      modal.hidden = true;
+      if (restoreFocus !== false && lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
+    }, 260);
+  }
+
+  function attribution() {
+    var params = new URLSearchParams(window.location.search);
+    var hidden = { collective: collective };
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"].forEach(function (key) {
+      var value = params.get(key);
+      if (value) hidden[key] = value;
+    });
+    if (typeof window.timeSpentSeconds === "number") hidden.utm_time_spent = window.timeSpentSeconds + "s";
+    return hidden;
+  }
+
+  function openTypeform() {
+    var hidden = attribution();
+    closeModal(false);
+    if (window.tf && typeof window.tf.createPopup === "function") {
+      window.tf.createPopup(formId, {
+        hidden: hidden,
+        opacity: 100,
+        size: 100,
+        medium: "snippet",
+        transitiveSearchParams: true,
+        iframeProps: { title: formTitle }
+      }).open();
+      return;
+    }
+    var query = new URLSearchParams(hidden).toString();
+    window.open("https://form.typeform.com/to/" + formId + (query ? "?" + query : ""), "_blank", "noopener");
+  }
+
+  document.addEventListener("click", function (event) {
+    var trigger = event.target.closest("[data-bf-application-trigger]");
+    if (trigger) {
+      event.preventDefault();
+      openModal();
+      return;
+    }
+    if (event.target.closest("[data-bf-modal-close]")) {
+      event.preventDefault();
+      closeModal(true);
+    }
+  });
+
+  beginButton.addEventListener("click", openTypeform);
+  modal.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeModal(true);
+      return;
+    }
+    if (event.key !== "Tab") return;
+    var items = focusableElements();
+    if (!items.length) return;
+    var first = items[0];
+    var last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+})();
+</script>
+
+<!-- Beforest qualified 1-on-1 signal; deployment copy of workflow_sales/website_snippets/typeform_qualified_1on1_embed_signal.js -->
+<p><script>
+(function () {
+  "use strict";
+  if (window.BeforestQualified1on1Signal) return;
+  var ENDPOINT = "https://flows.ops.beforest.co/api/r/sales/typeform/qualified-1on1-signal";
+  var SIGNAL_TYPE = "typeform_embed_question_reached";
+  var FORM_CONFIG = {
+    CYae8hmZ: { formId: "CYae8hmZ", ref: "113a9ad4-4d43-4165-9bf7-62f82b1352ab" },
+    kfcjiXxR: { formId: "kfcjiXxR", ref: "1292d853-e1d7-438a-8f82-70fbad90e914" },
+    hbDB2ybS: { formId: "hbDB2ybS", ref: "f8e95240-2bd9-4522-8eac-53860c400950" },
+    i8eBLQkz: { formId: "i8eBLQkz", ref: "4c30971d-c15d-42f8-90d1-94c19a475c4d" },
+    leXyUOuT: { formId: "leXyUOuT", ref: "113a9ad4-4d43-4165-9bf7-62f82b1352ab" },
+    "01KVFCGFDB0S9M80A066Z7XV58": { formId: "leXyUOuT", ref: "113a9ad4-4d43-4165-9bf7-62f82b1352ab" }
+  };
+  var UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+  function queryValue(key) { return new URLSearchParams(window.location.search).get(key) || ""; }
+  function cookieValue(name) {
+    var prefix = name + "=";
+    var parts = document.cookie ? document.cookie.split(";") : [];
+    for (var index = 0; index < parts.length; index++) {
+      var part = parts[index].trim();
+      if (part.indexOf(prefix) === 0) return decodeURIComponent(part.slice(prefix.length));
+    }
+    return "";
+  }
+  function attribution() {
+    var values = { fbp: cookieValue("_fbp"), fbc: cookieValue("_fbc"), fbclid: queryValue("fbclid") };
+    UTM_KEYS.forEach(function (key) { values[key] = queryValue(key); });
+    return values;
+  }
+  function hiddenWithAttribution(existingHidden) {
+    var merged = Object.assign({}, existingHidden || {});
+    UTM_KEYS.forEach(function (key) {
+      var value = queryValue(key);
+      if (value) merged[key] = value;
+    });
+    return merged;
+  }
+  function send(payload) {
+    var serialized = JSON.stringify(payload);
+    if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, serialized)) return;
+    fetch(ENDPOINT, { method: "POST", mode: "no-cors", credentials: "omit", keepalive: true, body: serialized }).catch(function () {});
+  }
+  function signalOptions(requestedFormId, existingHidden) {
+    var config = FORM_CONFIG[requestedFormId];
+    var expectedRef = config ? config.ref : "";
+    var responseId = "";
+    var reachedQualifiedQuestion = false;
+    var sent = false;
+    function trySend() {
+      if (sent || !config || !responseId || !reachedQualifiedQuestion) return;
+      sent = true;
+      send(Object.assign({
+        signal_type: SIGNAL_TYPE,
+        form_id: config.formId,
+        response_id: responseId,
+        question_ref: expectedRef,
+        event_time: Math.floor(Date.now() / 1000),
+        event_source_url: window.location.href
+      }, attribution()));
+    }
+    return {
+      hidden: hiddenWithAttribution(existingHidden),
+      onStarted: function (event) {
+        responseId = event && event.responseId ? String(event.responseId) : "";
+        trySend();
+      },
+      onQuestionChanged: function (event) {
+        if (!event || event.ref !== expectedRef) return;
+        if (event.formId && event.formId !== requestedFormId && event.formId !== config.formId) return;
+        reachedQualifiedQuestion = true;
+        trySend();
+      }
+    };
+  }
+  function composeCallbacks(existingCallback, signalCallback) {
+    return function (event) {
+      try { if (typeof existingCallback === "function") existingCallback(event); }
+      finally { signalCallback(event); }
+    };
+  }
+  function mergeOptions(formId, existingOptions) {
+    var merged = Object.assign({}, existingOptions || {});
+    if (!FORM_CONFIG[formId]) return merged;
+    var signal = signalOptions(formId, merged.hidden);
+    merged.hidden = signal.hidden;
+    merged.onStarted = composeCallbacks(merged.onStarted, signal.onStarted);
+    merged.onQuestionChanged = composeCallbacks(merged.onQuestionChanged, signal.onQuestionChanged);
+    return merged;
+  }
+  function patchTypeform(tf) {
+    if (!tf || typeof tf.createPopup !== "function") return false;
+    if (tf.createPopup.__beforestQualified1on1Patched) return true;
+    var originalCreatePopup = tf.createPopup;
+    function patchedCreatePopup(formId, existingOptions) {
+      return originalCreatePopup.call(this, formId, mergeOptions(formId, existingOptions));
+    }
+    patchedCreatePopup.__beforestQualified1on1Patched = true;
+    tf.createPopup = patchedCreatePopup;
+    return true;
+  }
+  function install() {
+    if (patchTypeform(window.tf)) return;
+    var descriptor = Object.getOwnPropertyDescriptor(window, "tf");
+    if (!window.tf && (!descriptor || descriptor.configurable)) {
+      var tfValue;
+      Object.defineProperty(window, "tf", {
+        configurable: true,
+        enumerable: true,
+        get: function () { return tfValue; },
+        set: function (value) { tfValue = value; patchTypeform(value); }
+      });
+    }
+    var attempts = 0;
+    var patchTimer = window.setInterval(function () {
+      attempts++;
+      if (patchTypeform(window.tf) || attempts >= 200) window.clearInterval(patchTimer);
+    }, 50);
+  }
+  window.BeforestQualified1on1Signal = { mergeOptions: mergeOptions, install: install, supportedForms: Object.keys(FORM_CONFIG) };
+  install();
+})();
+</script></p>
+<!-- Typeform Embed Script -->
+<p><script>
+    // Accurate time tracking using setInterval and Page Visibility API
+    var timeSpentSeconds = 0;
+    var timerInterval = null;
+    var isPageVisible = true;
+
+    // Start timer when page loads
+    function startTimer() {
+        // Increment every second only when page is visible
+        timerInterval = setInterval(function() {
+            if (document.visibilityState === 'visible') {
+                timeSpentSeconds++;
+            }
+        }, 1000);
+    }
+
+    // Get UTM parameters from current URL
+    function getUrlParams() {
+        var params = new URLSearchParams(window.location.search);
+        var utmParams = {};
+        for (var key of params.keys()) {
+            if (key.startsWith('utm_')) {
+                utmParams[key] = params.get(key);
+            }
+        }
+        return utmParams;
+    }
+
+    // Track page visibility changes
+    document.addEventListener('visibilitychange', function() {
+        isPageVisible = document.visibilityState === 'visible';
+    });
+
+    // Start timer immediately
+    startTimer();
+
+    // Intercept clicks on Typeform buttons to add time_spent as UTM parameter
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-tf-popup]');
+            if (!btn) return;
+
+            e.preventDefault();
+
+            var formId = btn.getAttribute('data-tf-popup');
+            var opacity = btn.getAttribute('data-tf-opacity') || 100;
+            var size = btn.getAttribute('data-tf-size') || 100;
+            var iframePropsStr = btn.getAttribute('data-tf-iframe-props') || '';
+            var medium = btn.getAttribute('data-tf-medium') || 'snippet';
+            var transitiveParams = btn.hasAttribute('data-tf-transitive-search-params');
+
+            // Get existing UTM params from URL (preserves Facebook ads UTMs)
+            var utmParams = getUrlParams();
+
+            // Add time_spent to UTM params
+            utmParams['utm_time_spent'] = timeSpentSeconds + 's';
+
+            console.log('Opening Typeform - Active time spent:', timeSpentSeconds, 'seconds');
+
+            // Open as popup via Typeform SDK with hidden fields
+            if (window.tf && window.tf.createPopup) {
+                var options = {
+                    hidden: utmParams,
+                    opacity: parseInt(opacity),
+                    size: parseInt(size),
+                    medium: medium,
+                    transitiveSearchParams: transitiveParams
+                };
+
+                // Parse iframe props
+                if (iframePropsStr) {
+                    var propsParts = iframePropsStr.split('=');
+                    if (propsParts.length >= 2 && propsParts[0].trim() === 'title') {
+                        options.iframeProps = { title: propsParts.slice(1).join('=') };
+                    }
+                }
+
+                window.tf.createPopup(formId, options).open();
+            } else {
+                // Fallback: open via URL
+                var url = 'https://form.typeform.com/to/' + formId;
+                url += '?typeform-embed=popup';
+                for (var key in utmParams) {
+                    if (utmParams.hasOwnProperty(key)) {
+                        url += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(utmParams[key]);
+                    }
+                }
+                window.open(url, '_blank');
+            }
+        });
+    });
+</script> <script src="https://embed.typeform.com/next/embed.js"></script></p>

@@ -1,0 +1,7 @@
+summary: Notify active team members when a KMS document becomes ready
+description: Matches the ready document collection to an active team, sends one
+  SMTP email per active member, and records delivery status. Dropbox is never
+  modified.
+lock: '!inline f/kms/notify_team_document_ready.script.lock'
+kind: script
+schema: null

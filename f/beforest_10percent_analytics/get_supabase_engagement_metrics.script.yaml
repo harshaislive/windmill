@@ -1,0 +1,10 @@
+summary: Get Supabase deep engagement metrics
+description: Reads the analytics schema for journey, intent, invite, and hot lead metrics.
+lock: '!inline
+  f/beforest_10percent_analytics/get_supabase_engagement_metrics.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

@@ -1,4 +1,5 @@
 summary: 05B Flow - Interakt WhatsApp inbound router
+tag: sales-webhook
 description: Single public Interakt webhook entrypoint. It parses inbound
   WhatsApp button/message payloads, routes known 1on1 actions by message text or
   callback data, and keeps unknown events safely ignored.
@@ -87,6 +88,38 @@ value:
                       expr: results.parse_interakt_payload
                   path: f/sales/interakt_owner_no_show_worker
             expr: results.parse_interakt_payload.action === "owner_not_attended"
+            parallel: true
+            skip_failure: true
+          - summary: Owner confirmed lead touched base
+            modules:
+              - id: handle_owner_touchbase_confirmed
+                value:
+                  type: script
+                  input_transforms:
+                    dry_run:
+                      type: javascript
+                      expr: flow_input.dry_run === true || flow_input.body?.dry_run === true
+                    route:
+                      type: javascript
+                      expr: results.parse_interakt_payload
+                  path: f/sales/owner_touchbase/handle_owner_touchbase_response
+            expr: results.parse_interakt_payload.action === "owner_touchbase_confirmed"
+            parallel: true
+            skip_failure: true
+          - summary: Owner marked touchbase pending
+            modules:
+              - id: handle_owner_touchbase_pending
+                value:
+                  type: script
+                  input_transforms:
+                    dry_run:
+                      type: javascript
+                      expr: flow_input.dry_run === true || flow_input.body?.dry_run === true
+                    route:
+                      type: javascript
+                      expr: results.parse_interakt_payload
+                  path: f/sales/owner_touchbase/handle_owner_touchbase_response
+            expr: results.parse_interakt_payload.action === "owner_touchbase_pending"
             parallel: true
             skip_failure: true
         default:

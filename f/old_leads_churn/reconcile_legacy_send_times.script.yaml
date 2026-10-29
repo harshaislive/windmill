@@ -1,0 +1,10 @@
+summary: Reconcile exact historical Mumbai email timestamps
+description: Reads 79 live Zoho email logs by message ID and repairs only journal verified_at values. No send.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true

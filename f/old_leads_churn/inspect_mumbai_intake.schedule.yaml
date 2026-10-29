@@ -1,0 +1,13 @@
+summary: Mumbai nurture intake inspection, disabled
+description: Read-only inspection job. Keep disabled pending completed nurture implementation and release gates.
+args:
+  dry_run: true
+cron_version: v2
+email: harsha@beforest.co
+enabled: false
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 9 * * *
+script_path: f/old_leads_churn/inspect_mumbai_intake
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

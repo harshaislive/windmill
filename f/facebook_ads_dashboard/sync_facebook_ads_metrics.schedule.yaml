@@ -1,0 +1,17 @@
+summary: Facebook Ads dashboard metrics sync
+description: Refreshes Facebook Ads dashboard datatables from Meta once daily at
+  8:00 AM IST using date-wise upserts.
+args:
+  end_date: ''
+  include_community: false
+  lookback_days: 30
+  timezone: Asia/Kolkata
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 8 * * *
+script_path: f/facebook_ads_dashboard/sync_facebook_ads_metrics
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

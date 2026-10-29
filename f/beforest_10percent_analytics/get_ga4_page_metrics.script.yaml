@@ -1,0 +1,18 @@
+summary: Get GA4 metrics for live.10percent.beforest.co
+description: Reads GA4 page, acquisition, device, geography, and event metrics
+  for the Beforest 10% Life page.
+lock: '!inline f/beforest_10percent_analytics/get_ga4_page_metrics.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    end_date:
+      type: string
+      description: GA4 end date such as today, yesterday, or YYYY-MM-DD.
+      default: today
+    start_date:
+      type: string
+      description: GA4 start date such as 30daysAgo, 90daysAgo, or YYYY-MM-DD.
+      default: 90daysAgo
+  required: []

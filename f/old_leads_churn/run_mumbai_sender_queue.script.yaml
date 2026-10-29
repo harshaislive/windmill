@@ -1,0 +1,12 @@
+summary: Independent Mumbai sender queue with 30-day ramp
+kind: script
+schema:
+  type: object
+  required: [sender]
+  properties:
+    sender:
+      type: string
+      enum: [sai@beforest.co, community@beforest.co, harish@beforest.co, yogesh@beforest.co]
+    dry_run:
+      type: boolean
+      default: true

@@ -1,9 +1,9 @@
 summary: 01B Action - Typeform to Pipedrive intake
 description: Entry point for the sales funnel. Receives active collective
   Typeform submissions, creates or updates the Pipedrive person/deal, assigns
-  the owner by collective, maps custom fields, routes webinar vs 1on1, and
-  applies the first label/stage. For 1on1 submissions it runs the Azure
-  fit/unfit decision.
+  the owner by collective, maps custom fields, routes GIS vs 1on1, and applies
+  the first label/stage. For 1on1 submissions it runs the Azure fit/unfit
+  decision; missing/filler/unfit intent goes to GIS Awaiting.
 lock: '!inline f/sales/typeform_to_pipedrive_intake.script.lock'
 kind: script
 schema:
@@ -20,3 +20,4 @@ schema:
       default: false
   required:
     - body
+tag: sales-webhook

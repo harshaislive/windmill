@@ -1,0 +1,6 @@
+description: Mailchimp Marketing API credentials for Beforest sales
+  WhatsApp-failure email fallback batches.
+value:
+  api_key: $var:f/sales/mailchimp_fallback/api_key
+  server: us14
+resource_type: mailchimp

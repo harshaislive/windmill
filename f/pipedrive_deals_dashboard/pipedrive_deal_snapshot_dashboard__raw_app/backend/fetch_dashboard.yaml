@@ -1,0 +1,3 @@
+type: runnableByPath
+path: f/pipedrive_deals_dashboard/fetch_dashboard
+runType: script

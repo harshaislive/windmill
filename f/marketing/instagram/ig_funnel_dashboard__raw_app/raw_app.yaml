@@ -1,0 +1,7 @@
+summary: Instagram Funnel Dashboard
+data:
+  datatable: main
+  tables:
+    - main/instagram_sync_runs
+    - main/instagram_dashboard_snapshots
+public: true

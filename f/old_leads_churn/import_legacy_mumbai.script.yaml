@@ -1,0 +1,14 @@
+summary: Idempotent import of 79 verified Mumbai legacy Leads
+description: Requires prior live CRM reconciliation. No prospect or CRM writes.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    records:
+      type: array
+      items:
+        type: object
+    dry_run:
+      type: boolean
+      default: true

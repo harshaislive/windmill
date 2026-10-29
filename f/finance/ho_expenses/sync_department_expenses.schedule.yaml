@@ -1,0 +1,16 @@
+summary: Daily HO Expenses snapshot refresh
+description: Refreshes all Department-tagged expense snapshots from Zoho Books
+  every day at 8 AM India time.
+args:
+  departments: []
+  full_refresh: false
+  to: ''
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 8 * * *
+script_path: f/finance/ho_expenses/sync_department_expenses
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

@@ -1,0 +1,7 @@
+summary: Read-only Mumbai sender and owner access preflight
+description: Checks Rakesh's Leads creation metadata and all four assigned owner identities and From addresses. Makes no CRM or email writes.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}

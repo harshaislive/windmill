@@ -1,0 +1,164 @@
+summary: Process approved KMS document
+description: Download, extract, chunk, embed, index, and mark an approved
+  Dropbox document ready.
+value:
+  modules:
+    - id: download
+      value:
+        type: script
+        input_transforms:
+          dropbox_file_id:
+            type: javascript
+            expr: flow_input.dropbox_file_id
+          dropbox_path:
+            type: javascript
+            expr: flow_input.dropbox_path
+          dropbox_revision:
+            type: javascript
+            expr: flow_input.dropbox_revision
+          file_name:
+            type: javascript
+            expr: flow_input.file_name
+          file_size_bytes:
+            type: javascript
+            expr: flow_input.file_size_bytes
+        path: f/kms/download_approved_document
+    - id: extract
+      value:
+        type: script
+        input_transforms:
+          version:
+            type: javascript
+            expr: flow_input.version
+          content_base64:
+            type: javascript
+            expr: results.download.content_base64
+          department:
+            type: javascript
+            expr: flow_input.department
+          dropbox_file_id:
+            type: javascript
+            expr: results.download.dropbox_file_id
+          dropbox_path:
+            type: javascript
+            expr: results.download.dropbox_path
+          dropbox_revision:
+            type: javascript
+            expr: results.download.dropbox_revision
+          file_name:
+            type: javascript
+            expr: results.download.file_name
+        path: f/kms/extract_document_unstructured
+    - id: chunk
+      value:
+        type: script
+        input_transforms:
+          version:
+            type: javascript
+            expr: results.extract.version
+          department:
+            type: javascript
+            expr: results.extract.department
+          dropbox_file_id:
+            type: javascript
+            expr: results.extract.dropbox_file_id
+          dropbox_path:
+            type: javascript
+            expr: results.extract.dropbox_path
+          dropbox_revision:
+            type: javascript
+            expr: results.extract.dropbox_revision
+          elements:
+            type: javascript
+            expr: results.extract.elements
+          file_name:
+            type: javascript
+            expr: results.extract.file_name
+        path: f/kms/clean_and_chunk_document
+    - id: index
+      value:
+        type: script
+        input_transforms:
+          version:
+            type: javascript
+            expr: results.chunk.version
+          chunks:
+            type: javascript
+            expr: results.chunk.chunks
+          content_hash:
+            type: javascript
+            expr: results.chunk.content_hash
+          department:
+            type: javascript
+            expr: results.chunk.department
+          dropbox_file_id:
+            type: javascript
+            expr: results.chunk.dropbox_file_id
+          dropbox_path:
+            type: javascript
+            expr: results.chunk.dropbox_path
+          dropbox_revision:
+            type: javascript
+            expr: results.chunk.dropbox_revision
+          file_name:
+            type: javascript
+            expr: results.chunk.file_name
+        path: f/kms/index_embedded_chunks_qdrant
+    - id: status_ready
+      value:
+        type: script
+        input_transforms:
+          version:
+            type: javascript
+            expr: flow_input.version
+          chunk_count:
+            type: javascript
+            expr: results.chunk.chunk_count
+          content_hash:
+            type: javascript
+            expr: results.download.content_hash
+          department:
+            type: javascript
+            expr: flow_input.department
+          dropbox_file_id:
+            type: javascript
+            expr: results.download.dropbox_file_id
+          dropbox_path:
+            type: javascript
+            expr: results.download.dropbox_path
+          dropbox_revision:
+            type: javascript
+            expr: results.download.dropbox_revision
+          file_name:
+            type: javascript
+            expr: results.download.file_name
+          status:
+            type: static
+            value: READY
+        path: f/kms/update_document_status
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  order: []
+  properties:
+    version:
+      type: string
+    approval_status:
+      type: string
+    department:
+      type: string
+    dropbox_file_id:
+      type: string
+    dropbox_path:
+      type: string
+    dropbox_revision:
+      type: string
+    event_type:
+      type: string
+    file_name:
+      type: string
+    file_size_bytes:
+      type: number
+  required:
+    - dropbox_path
+    - file_name

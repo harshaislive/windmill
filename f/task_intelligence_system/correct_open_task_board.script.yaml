@@ -1,0 +1,9 @@
+summary: ''
+description: ''
+lock: '!inline f/task_intelligence_system/correct_open_task_board.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

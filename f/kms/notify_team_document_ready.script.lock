@@ -1,0 +1,19 @@
+{
+  "version": "4",
+  "specifiers": {
+    "npm:nodemailer@7": "7.0.13",
+    "npm:postgres@3": "3.4.9",
+    "npm:windmill-client@1": "1.792.0"
+  },
+  "npm": {
+    "nodemailer@7.0.13": {
+      "integrity": "sha512-PNDFSJdP+KFgdsG3ZzMXCgquO7I6McjY2vlqILjtJd0hy8wEvtugS9xKRF2NWlPNGxvLCXlTNIae4serI7dinw=="
+    },
+    "postgres@3.4.9": {
+      "integrity": "sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw=="
+    },
+    "windmill-client@1.792.0": {
+      "integrity": "sha512-bCiNyGzojxid5bAFU4bJZPNODEGSrSirD8t1SM3MrFVfKGl3Y8wKaSGVC/xtfoVQ3xHWRffu12lC5Dm/grlZzQ=="
+    }
+  }
+}

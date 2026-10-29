@@ -1,0 +1,25 @@
+summary: Record exact Mumbai reply or suppression event
+description: Idempotently stops queued sends. Caller must verify inbound evidence. CRM Note and owner handoff remain separate release gates.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    recipient_id:
+      type: integer
+    kind:
+      type: string
+      enum: [REPLY, OPTOUT, BOUNCE, SALES_HANDOFF, COLLECTIVE_CHANGE, ADDRESS_CHANGE, IDENTITY_HOLD]
+    event_key:
+      type: string
+    source:
+      type: string
+    evidence:
+      type: object
+      default: {}
+    occurred_at:
+      type: string
+    dry_run:
+      type: boolean
+      default: true
+  required: [recipient_id, kind, event_key, source, occurred_at]

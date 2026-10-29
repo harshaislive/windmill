@@ -1,0 +1,21 @@
+summary: 02C Worker - send 1on1 team scheduling notice
+description: Sends a WhatsApp notice for fit leads confirming that a team member
+  will message them directly to schedule the 1on1 conversation. This replaces
+  automatic calendar prebooking for the GIS-only funnel.
+lock: '!inline f/sales/send_1on1_team_scheduling_notice.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    deal_id:
+      type: number
+      description: Pipedrive deal ID to message.
+      default: null
+    dry_run:
+      type: boolean
+      description: Preview the Interakt payload without sending WhatsApp or writing to
+        Pipedrive.
+      default: false
+  required:
+    - deal_id

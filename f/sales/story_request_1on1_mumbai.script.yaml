@@ -1,0 +1,9 @@
+summary: Redirect - Mumbai Collective Story 1on1 request
+description: Redirects the Mumbai StoryMap bottom CTA to the post-GIS Typeform.
+lock: '!inline f/sales/story_request_1on1_mumbai.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+tag: sales-webhook

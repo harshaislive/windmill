@@ -1,0 +1,28 @@
+summary: Sync Facebook Ads dashboard metrics
+description: Fetches Facebook Ads campaign, creative, and comment metrics from
+  Meta and upserts date-wise rows into Windmill datatables.
+lock: '!inline f/facebook_ads_dashboard/sync_facebook_ads_metrics.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    end_date:
+      type: string
+      description: Optional YYYY-MM-DD end date. Defaults to today in Asia/Kolkata.
+      default: ''
+    include_community:
+      type: boolean
+      description: Whether to refresh the slower latest community comment snapshot in
+        this run.
+      default: false
+    lookback_days:
+      type: integer
+      description: Rolling number of days to refresh from Meta. Defaults to 30 to
+        capture conversion backfill.
+      default: 30
+    timezone:
+      type: string
+      description: Timezone used to decide the local end date.
+      default: Asia/Kolkata
+  required: []

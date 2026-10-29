@@ -1,0 +1,24 @@
+summary: ''
+description: ''
+lock: '!inline f/kms/retrieve_qdrant_chunks.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    department:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    limit:
+      type: integer
+      description: ''
+      default: 5
+    question:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+  required:
+    - question

@@ -1,0 +1,46 @@
+summary: Unsubscribe from Bewild Rice nurture
+description: Verifies a signed email link, suppresses future Rice Finder email
+  stages, updates Shopify marketing consent, and returns a branded confirmation
+  page.
+lock: '!inline f/bewild_lead_magnet/rice_nurture_unsubscribe.script.lock'
+has_preprocessor: true
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    confirm:
+      type: boolean
+      description: Must be true on the POST confirmation before consent is changed.
+      default: false
+    event:
+      type: object
+      description: Optional HTTP event wrapper supplied by the public trigger.
+      default: null
+      format: resource-http_event_like
+      properties:
+        body:
+          type: ''
+          description: ''
+        http:
+          type: object
+          description: ''
+          properties:
+            query:
+              type: object
+              description: ''
+              format: resource-record
+        queries:
+          type: object
+          description: ''
+          format: resource-record
+        query:
+          type: object
+          description: ''
+          format: resource-record
+    t:
+      type: string
+      description: Signed unsubscribe token from the email link.
+      default: ''
+      originalType: string
+  required: []

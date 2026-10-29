@@ -1,0 +1,11 @@
+summary: Hourly Mumbai Lead layout access check; no sends or CRM writes
+args: {}
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 * * * *
+script_path: f/old_leads_churn/check_mumbai_layout_gate
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

@@ -1,0 +1,32 @@
+summary: Admit one reviewed Mumbai prospect outside Zoho
+description: Defaults to preview. New prospects use the mail-only journal with their assigned owner. Existing legacy Leads retain guarded CRM verification. New Zoho Lead creation is disabled. Never sends email.
+lock: '!inline f/old_leads_churn/admit_mumbai_candidate.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    recipient_id:
+      type: integer
+      minimum: 1
+    dry_run:
+      type: boolean
+      default: true
+    reviewed_email:
+      type: string
+      default: ''
+    consent_confirmed:
+      type: boolean
+      default: false
+    active_sales_clear:
+      type: boolean
+      default: false
+    allow_crm_create:
+      type: boolean
+      default: false
+      description: Historical compatibility field. Cannot authorize new Zoho Leads under Harsha's current policy.
+    company_for_new_lead:
+      type: string
+      default: ''
+  required:
+    - recipient_id

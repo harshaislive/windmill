@@ -1,0 +1,9 @@
+summary: ''
+description: ''
+lock: '!inline f/marketing/youtube/youtube_dashboard__raw_app/wmill.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

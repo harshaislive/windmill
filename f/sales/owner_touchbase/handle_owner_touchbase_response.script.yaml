@@ -1,0 +1,22 @@
+summary: Handle owner 1on1 touchbase response
+description: Handles Yes, touched base and No, pending button responses from the
+  owner touchbase check. Logs the owner outcome in Pipedrive and queues the next
+  reminder when the owner says pending.
+lock: '!inline f/sales/owner_touchbase/handle_owner_touchbase_response.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Preview without writing Pipedrive activities or queueing reminders.
+      default: false
+    route:
+      type: object
+      description: Parsed Interakt route object from the inbound router.
+      default: null
+      format: resource-record
+  required:
+    - route
+tag: sales-webhook

@@ -1,0 +1,5 @@
+summary: KMS approved document intake
+description: Receives approved Dropbox document metadata from Codex and queues processing.
+lock: '!inline f/kms/process_approved_document.script.lock'
+kind: script
+schema: null

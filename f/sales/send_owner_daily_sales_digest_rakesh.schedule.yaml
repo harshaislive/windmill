@@ -1,0 +1,17 @@
+summary: 12C Schedule - Rakesh/Sravani daily sales digest at 9 AM
+description: Runs the Rakesh-only owner sales digest every day at 9 AM IST. The
+  digest covers Pipedrive deals received in the latest 6 PM to 6 PM window and
+  sends the same Rakesh-owned deal data to Rakesh and Sravani.
+args:
+  dry_run: false
+  max_deals: 1000
+  recipient_filter: rakesh
+cron_version: v2
+email: harsha@beforest.co
+enabled: false
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 9 * * *
+script_path: f/sales/send_owner_daily_sales_digest
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

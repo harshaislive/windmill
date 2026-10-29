@@ -1,0 +1,3 @@
+type: runnableByPath
+path: f/supabase/get_project_metrics_snapshots
+runType: script

@@ -1,0 +1,17 @@
+summary: Capture ManyChat button clicks
+description: Captures ManyChat External Request button-click events for
+  dashboard journey analytics.
+authentication_method: none
+authentication_resource_path: null
+http_method: post
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+route_path: marketing/manychat/button-click
+route_path_key: marketing/manychat/button-click
+script_path: f/marketing/manychat/capture_button_click
+static_asset_config: null
+workspaced_route: false
+wrap_body: true

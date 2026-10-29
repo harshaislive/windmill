@@ -1,0 +1,23 @@
+{
+  "summary": "Coffee Blossom Honey popup — isolated consented WhatsApp",
+  "description": "Public Beforest honey popup. Bewild credential only; one promised-story template per phone/campaign; no automatic retries, batches or nurture.",
+  "language": "bun",
+  "kind": "script",
+  "has_preprocessor": true,
+  "timeout": 60,
+  "delete_after_secs": 3600,
+  "visible_to_runner_only": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "input": {
+        "type": "object",
+        "description": "HTTP metadata supplied by the preprocessor; not a direct public body field."
+      }
+    },
+    "required": [
+      "input"
+    ]
+  },
+  "lock": "!inline f/bewild_lead_magnet/honey_popup.script.lock"
+}

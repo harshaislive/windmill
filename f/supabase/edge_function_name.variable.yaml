@@ -1,0 +1,3 @@
+description: Supabase Edge Function name. Set this to build the invoke URL from project_url.
+value: collect-layer3-metrics
+is_secret: false

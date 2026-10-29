@@ -1,0 +1,10 @@
+summary: Mirror verified Mumbai queue to tracker machine columns
+description: Updates only R:Z on the existing 79-row tracker and verifies A:Q did not change.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true

@@ -1,0 +1,6 @@
+summary: Inspect Supabase monitoring task
+description: Temporary task inspection.
+lock: '!inline
+  f/task_intelligence_system/inspect_supabase_monitoring_task.script.lock'
+kind: script
+schema: {}

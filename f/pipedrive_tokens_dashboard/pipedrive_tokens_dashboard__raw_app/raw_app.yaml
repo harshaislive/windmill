@@ -1,0 +1,6 @@
+summary: Beforest Pipedrive Token Usage Dashboard
+data:
+  datatable: main
+  tables:
+    - main/pipedrive_api_usage_events
+    - main/pipedrive_api_usage_dashboard_cache

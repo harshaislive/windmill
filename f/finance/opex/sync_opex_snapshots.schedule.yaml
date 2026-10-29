@@ -1,0 +1,15 @@
+summary: OPEX dashboard snapshot refresh
+description: Refreshes timestamped OPEX PostgreSQL snapshots from read-only Zoho Books three times daily.
+args:
+  collectives: []
+  to: ''
+  trigger_mode: scheduled
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 8,14,20 * * *
+script_path: f/finance/opex/sync_opex_snapshots
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

@@ -1,0 +1,83 @@
+summary: Dispatch Bewild rice nurture stages
+description: Checks Rice Finder lead age, consent, Shopify subscription and
+  rice-purchase exclusion before sending through guarded Maton Gmail, handing
+  email stages to Shopify Flow, or sending approved Interakt templates. Uses one
+  idempotent row per lead, stage and channel and skips overdue stages instead of
+  replaying them.
+lock: '!inline f/bewild_lead_magnet/dispatch_rice_nurture.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    bypass_window:
+      type: boolean
+      description: QA-only override. Never enable on the recurring schedule.
+      default: false
+    catchup_days:
+      type: integer
+      description: Number of daily catch-up buckets. Keep between 1 and 7.
+      default: 3
+    catchup_mode:
+      type: boolean
+      description: Spread stages already overdue at the catch-up start across
+        deterministic daily buckets; leads becoming due on or after the start
+        stay on normal due-stage logic.
+      default: false
+    catchup_start_date:
+      type: string
+      description: IST calendar date on which the bounded catch-up window begins
+        (YYYY-MM-DD).
+      default: ''
+      originalType: string
+    debug_lead_id:
+      type: string
+      description: Optional exact lead ID for a controlled preview.
+      default: ''
+      originalType: string
+    dry_run:
+      type: boolean
+      description: Preview decisions without adding Shopify tags or sending WhatsApp.
+      default: true
+    email_window_end:
+      type: string
+      default: 10:15
+      originalType: string
+    email_window_start:
+      type: string
+      default: 09:45
+      originalType: string
+    email_provider:
+      type: string
+      description: Use shopify_flow for the legacy handoff or maton_gmail for the verified orders@bewild.life sender.
+      default: shopify_flow
+      originalType: string
+    enable_email:
+      type: boolean
+      default: true
+    enable_whatsapp:
+      type: boolean
+      description: Keep false until approved templates are synced into Interakt.
+      default: false
+    enabled_stages_csv:
+      type: string
+      description: Comma-separated stage keys currently allowed to dispatch.
+      default: d03,d08,d14_mysore
+      originalType: string
+    limit:
+      type: integer
+      description: Maximum Rice Finder leads to inspect per run.
+      default: 250
+    max_email_sends:
+      type: integer
+      description: Hard per-run Maton Gmail send cap. Values above 25 are clamped.
+      default: 10
+    whatsapp_window_end:
+      type: string
+      default: 16:15
+      originalType: string
+    whatsapp_window_start:
+      type: string
+      default: 15:45
+      originalType: string
+  required: []

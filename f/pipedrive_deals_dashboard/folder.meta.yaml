@@ -1,0 +1,6 @@
+summary: Pipedrive deal snapshot dashboard
+display_name: pipedrive_deals_dashboard
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

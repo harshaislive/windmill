@@ -1,0 +1,10 @@
+summary: Fetch Pipedrive deal snapshot dashboard
+description: Reads the latest cached Pipedrive deal snapshot for the dashboard
+  without calling Pipedrive.
+lock: '!inline f/pipedrive_deals_dashboard/fetch_dashboard.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

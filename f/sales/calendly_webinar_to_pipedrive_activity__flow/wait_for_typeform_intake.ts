@@ -1,4 +1,4 @@
 export async function main() {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
-  return { waited_seconds: 5 };
+  await new Promise((resolve) => setTimeout(resolve, 120000));
+  return { waited_seconds: 120 };
 }

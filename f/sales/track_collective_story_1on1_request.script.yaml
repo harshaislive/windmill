@@ -1,0 +1,29 @@
+summary: 10E Action - track Collective Story 1on1 request
+description: Redirects StoryMap bottom 1on1 request CTAs to the correct post-GIS
+  Typeform. Logs a Pipedrive activity when deal context is present and forwards
+  hidden Typeform fields where available.
+lock: '!inline f/sales/track_collective_story_1on1_request.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    collective:
+      type: string
+    dry_run:
+      type: boolean
+      default: false
+    event:
+      type: object
+      default: null
+    pipedrive_deal_id:
+      type: string
+      default: ''
+    pipedrive_person_id:
+      type: string
+      default: ''
+    tracking_token:
+      type: string
+      default: ''
+  required: []
+tag: sales-webhook

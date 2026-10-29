@@ -1,0 +1,18 @@
+summary: Sync Pipedrive deal snapshot
+description: Fetches current Pipedrive deals once and stores a compact daily
+  snapshot in Windmill datatables for the dashboard.
+lock: '!inline f/pipedrive_deals_dashboard/sync_pipedrive_deal_snapshot.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Build the snapshot without writing it to the datatable.
+      default: false
+    max_deals:
+      type: number
+      description: Safety cap for deals fetched from Pipedrive.
+      default: 10000
+  required: []

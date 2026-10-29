@@ -1,0 +1,5 @@
+summary: Inspect task owner payload
+description: ''
+lock: '!inline f/task_intelligence_system/inspect_task_owner_payload.script.lock'
+kind: script
+schema: {}

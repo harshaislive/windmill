@@ -1,0 +1,7 @@
+summary: Automation workflow observability dashboard
+data:
+  datatable: main
+  tables:
+    - main/dashboard_workflow_registry
+    - main/dashboard_workflow_daily_metrics
+    - main/dashboard_workflow_failures

@@ -1,0 +1,7 @@
+summary: Read-only Zoho identity and opt-out audit for Mumbai queue
+description: Scans current CRM Leads and Contacts and reports aggregate exact-address risks. Makes no CRM writes.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}

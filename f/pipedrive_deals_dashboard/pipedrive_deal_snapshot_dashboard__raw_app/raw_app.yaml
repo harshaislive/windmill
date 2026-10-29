@@ -1,0 +1,5 @@
+summary: Beforest Pipedrive Deal Snapshot Dashboard
+data:
+  datatable: main
+  tables:
+    - main/pipedrive_deal_snapshot_cache_v2

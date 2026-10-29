@@ -1,0 +1,36 @@
+summary: Send collective brochure after Typeform or WhatsApp redirect
+description: Sends the relevant collective brochure immediately after a WhatsApp
+  inbound match, or as a 5-minute fallback after Typeform.
+lock: '!inline f/sales/send_brochure_after_typeform.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    collective_key:
+      type: string
+      default: ''
+      originalType: string
+    deal_id:
+      type: integer
+      default: 0
+    dry_run:
+      type: boolean
+      default: false
+    phone:
+      type: string
+      default: ''
+      originalType: string
+    source:
+      type: string
+      default: typeform_fallback
+      enum:
+        - typeform_fallback
+        - whatsapp_redirect_inbound
+        - manual
+      originalType: enum
+    submitted_at:
+      type: string
+      default: ''
+      originalType: string
+  required: []

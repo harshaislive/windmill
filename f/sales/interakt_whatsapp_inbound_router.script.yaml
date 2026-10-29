@@ -1,8 +1,10 @@
-summary: 05C Parser - classify Interakt WhatsApp response
-description: Parses the single Interakt webhook payload, extracts button/message
+summary: 05C Parser/logger - classify Interakt WhatsApp response
+description: Parses the single Interakt webhook payload, immediately logs every
+  accepted non-dry-run webhook into the append-only
+  main.interakt_inbound_webhook_raw_events datatable, extracts button/message
   intent and callback data, then classifies the message into a downstream route.
-  This is intentionally side-effect free so the first real Interakt payloads can
-  be inspected safely.
+  Analytics logging is fail-soft so sales routing can continue if the dashboard
+  datatable is temporarily unavailable.
 lock: '!inline f/sales/interakt_whatsapp_inbound_router.script.lock'
 kind: script
 schema:

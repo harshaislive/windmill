@@ -1,0 +1,10 @@
+summary: Hold and deduplicate Mumbai Sheet candidates
+description: Scans the live Sheet; new identities remain held pending CRM, reply, and consent checks. Never sends.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true

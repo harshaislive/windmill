@@ -104,12 +104,15 @@ Final first-stage behavior:
 
 ## Typeform Webhook
 
-Created on all four active `[In-use]` forms:
+Enabled on the five active primary forms and five post-Journey/post-brochure forms:
 
 - Tag: `windmill_pipedrive_intake`
-- URL: `https://windmill.devsharsha.live/api/r/typeform/pipedrive/intake`
-- Enabled: `false` while fixing first-run validation
+- URL: `https://flows.ops.beforest.co/api/r/typeform/pipedrive/intake`
+- Hyderabad primary exception: tag `windmill_pipedrive_intake_hyderabad`, URL `https://flows.ops.beforest.co/api/w/beforest-automations/jobs/run_wait_result/p/typeform/pipedrive/intake`
+- Enabled: `true`
 - SSL verification: `true`
 - Windmill trigger should be `async`, not `sync`, so Typeform receives an immediate response and does not cancel jobs after its HTTP timeout.
+
+All ten subscriptions were read back from Typeform and verified after the hostname migration on 2026-08-31. Disabled n8n subscriptions were not changed.
 
 Existing Phoenix webhooks were left untouched.

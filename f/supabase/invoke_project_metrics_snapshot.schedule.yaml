@@ -1,0 +1,15 @@
+summary: Invoke Supabase metrics snapshot Edge Function at 9 AM
+description: Runs daily at 9 AM IST. It POSTs to the Supabase Edge Function that
+  stores project_metrics_snapshots rows.
+args:
+  dry_run: false
+  timeout_seconds: 45
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 9 * * *
+script_path: f/supabase/invoke_project_metrics_snapshot
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

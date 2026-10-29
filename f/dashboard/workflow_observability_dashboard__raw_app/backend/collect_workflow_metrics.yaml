@@ -1,0 +1,3 @@
+type: runnableByPath
+path: f/dashboard/collect_workflow_metrics
+runType: script

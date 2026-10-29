@@ -1,0 +1,23 @@
+summary: Send owner 1on1 touchbase check
+description: Sends the approved owner_1on1_touchbase_check Interakt template,
+  with stop conditions for closed deals, scheduled meetings, duplicate attempts,
+  owner confirmation, and reminder limits.
+lock: '!inline f/sales/owner_touchbase/send_owner_touchbase_check.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    attempt:
+      type: number
+      description: Reminder attempt number.
+      default: 1
+    deal_id:
+      type: number
+      description: Pipedrive deal ID.
+    dry_run:
+      type: boolean
+      description: Preview without sending WhatsApp or writing activities.
+      default: false
+  required:
+    - deal_id

@@ -5,7 +5,7 @@ description: Runs `09A Scheduled - Zoom intro registrants to Pipedrive` every
 args: {}
 cron_version: v2
 email: harsha@beforest.co
-enabled: true
+enabled: false
 is_flow: false
 no_flow_overlap: true
 retry:

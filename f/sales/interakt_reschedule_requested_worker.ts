@@ -1,5 +1,32 @@
 import * as wmill from "windmill-client";
 
+
+type PipedriveUsageLogArgs = {
+  method: string;
+  rawEndpoint: string;
+  statusCode?: number;
+  success: boolean;
+  durationMs?: number;
+  rateLimitRemaining?: number;
+  rateLimitReset?: string;
+  retryAfter?: string;
+  errorMessage?: string;
+  requestFingerprint?: string;
+};
+
+async function logPipedriveApiUsage(_args: PipedriveUsageLogArgs) {
+  return;
+}
+
+function pipedriveRateLimitRemaining(response: Response): number | undefined {
+  const value = Number(response.headers.get("x-ratelimit-remaining") || response.headers.get("x-rate-limit-remaining"));
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function pipedriveEndpointForLog(url: URL): string {
+  return url.pathname;
+}
+
 const SERVICE_ACCOUNT_JSON_PATH = "f/sales/calendar_prebook_1on1/google_service_account_json";
 const OWNER_CALENDAR_MAP_PATH = "f/sales/calendar_prebook_1on1/owner_calendar_map";
 const OWNER_BOOKING_LINK_MAP_PATH = "f/sales/calendar_prebook_1on1/owner_booking_link_map";
@@ -28,10 +55,6 @@ const RESCHEDULE_LEAD_TEMPLATES: Record<string, { name: string; whatsappTemplate
   Vivekanand: {
     name: "collective_user_notavailable_resend_1on1_link_vivek",
     whatsappTemplateId: "2681894292197799",
-  },
-  Rakesh: {
-    name: "collective_user_notavailable_resend_1on1_link_rakesh",
-    whatsappTemplateId: "901082656114581",
   },
 };
 
@@ -62,6 +85,14 @@ type CalendarEventRef = {
   calendarEmail: string | null;
   eventId: string | null;
   source: "pipedrive_field" | "calendar_search" | "none";
+};
+
+type PipedriveActivity = {
+  id?: number;
+  subject?: string;
+  type?: string;
+  note?: string;
+  done?: boolean;
 };
 
 function asString(value: unknown): string {
@@ -131,12 +162,25 @@ async function pipedriveToken() {
 async function pipedriveV2(method: string, path: string, body?: Record<string, unknown>): Promise<any> {
   const url = new URL(`https://${DEFAULT_PIPEDRIVE_DOMAIN}.pipedrive.com/api/v2/${path}`);
   url.searchParams.set("api_token", await pipedriveToken());
+  const startedAt = Date.now();
   const response = await fetch(url, {
     method,
     headers: body ? { "content-type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive v2 ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -146,12 +190,25 @@ async function pipedriveV2(method: string, path: string, body?: Record<string, u
 async function pipedriveV1(method: string, path: string, body?: Record<string, unknown>): Promise<any> {
   const url = new URL(`https://${DEFAULT_PIPEDRIVE_DOMAIN}.pipedrive.com/api/v1/${path}`);
   url.searchParams.set("api_token", await pipedriveToken());
+  const startedAt = Date.now();
   const response = await fetch(url, {
     method,
     headers: body ? { "content-type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive v1 ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -194,6 +251,11 @@ function ownerDisplayName(owner: string): string {
   if (owner === "Rakesh") return "Sai Rakesh";
   if (owner === "Vivekanand") return "Vivekanand";
   return owner;
+}
+
+function leadFacingHostName(owner: string): string {
+  if (owner === "Rakesh") return "one of our team members";
+  return ownerDisplayName(owner);
 }
 
 function personId(deal: Deal): number | null {
@@ -357,6 +419,43 @@ async function createPipedriveNote(dealId: number, content: string) {
   return await pipedriveV1("POST", "notes", { deal_id: dealId, content });
 }
 
+async function getOpenOneOnOneActivities(deal: Deal): Promise<PipedriveActivity[]> {
+  const activities = await pipedriveV1("GET", `deals/${deal.id}/activities?done=0`).catch(() => []);
+  const dealTitle = asString(deal.title).toLowerCase();
+  return (activities || []).filter((activity: PipedriveActivity) => {
+    const subject = asString(activity.subject).toLowerCase();
+    const note = asString(activity.note).toLowerCase();
+    return (
+      subject.startsWith("1-on-1 call with ") &&
+      (!dealTitle || subject.includes(dealTitle)) &&
+      (asString(activity.type) === "meeting" || note.includes("prebooked with"))
+    );
+  });
+}
+
+async function closeStaleOneOnOneActivities(deal: Deal, dryRun: boolean) {
+  const activities = await getOpenOneOnOneActivities(deal);
+  if (dryRun) {
+    return {
+      dry_run: true,
+      planned_activity_ids: activities.map((activity) => Number(activity.id)).filter(Boolean),
+    };
+  }
+
+  const closed = [];
+  for (const activity of activities) {
+    const activityId = Number(activity.id);
+    if (!activityId) continue;
+    const updated = await pipedriveV1("PUT", `activities/${activityId}`, {
+      done: 1,
+      subject: "Cancelled 1-on-1 call",
+      note: "Lead asked to reschedule. This old prebooked slot is no longer active.",
+    });
+    closed.push({ id: activityId, subject: updated?.subject || "Cancelled 1-on-1 call" });
+  }
+  return { dry_run: false, closed_activity_ids: closed.map((activity) => activity.id), closed };
+}
+
 async function createPipedriveActivity(
   dealId: number,
   subject: string,
@@ -390,6 +489,10 @@ function safeJson(value: unknown): string {
   return JSON.stringify(value, null, 2).replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
 }
 
+function escapeHtml(value: string): string {
+  return value.replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
+}
+
 async function buildReschedulePlan(deal: Deal, owner: string, bookingLinks: Record<string, string>) {
   const template = RESCHEDULE_LEAD_TEMPLATES[owner];
   const bookingLink = asString(bookingLinks[owner] || bookingLinks.default);
@@ -405,8 +508,59 @@ async function buildReschedulePlan(deal: Deal, owner: string, bookingLinks: Reco
     raw_phone_present: Boolean(phone),
     body_values: [] as string[],
     button_values: { "1": [bookingLink] },
+    booking_link: bookingLink,
     callback_data: `pipedrive_deal:${deal.id}:1on1_reschedule_booking_link`,
   };
+}
+
+function manualRescheduleMessage(deal: Deal, owner: string, plan: NonNullable<Awaited<ReturnType<typeof buildReschedulePlan>>>) {
+  return [
+    `Hi ${deal.title},`,
+    "",
+    "No worries, we have cancelled the earlier pre-booked call.",
+    "",
+    `Please choose a fresh 1-on-1 slot with ${leadFacingHostName(owner)} here:`,
+    plan.booking_link,
+    "",
+    "Please book this as soon as possible so we can hold a convenient slot for you.",
+  ].join("\n");
+}
+
+async function createManualWhatsAppFailureActivity(
+  deal: Deal,
+  owner: string,
+  plan: NonNullable<Awaited<ReturnType<typeof buildReschedulePlan>>> | null,
+  reason: string,
+  fallbackBookingLink = "",
+) {
+  const manualMessage = plan
+    ? manualRescheduleMessage(deal, owner, plan)
+    : [
+        `Hi ${deal.title},`,
+        "",
+        "We have cancelled the earlier pre-booked call.",
+        fallbackBookingLink
+          ? `Please choose a fresh 1-on-1 slot with ${leadFacingHostName(owner)} here:\n${fallbackBookingLink}`
+          : "Please reply here and we will help you book a fresh 1-on-1 slot.",
+      ].join("\n");
+  return await createPipedriveActivity(
+    deal.id,
+    "WhatsApp failed - send manually",
+    [
+      "Reschedule acknowledgement WhatsApp failed. Please send this manually from WhatsApp Web.",
+      `Reason: ${escapeHtml(reason)}`,
+      plan?.template_name ? `Template: ${escapeHtml(plan.template_name)}` : "",
+      "",
+      "<strong>Copy-paste message</strong>",
+      `<pre>${escapeHtml(manualMessage)}</pre>`,
+      "<strong>Manual steps</strong>",
+      "1. Open the lead in WhatsApp Web.",
+      "2. Paste and send the message above.",
+      "3. Confirm the old calendar invite is cancelled.",
+      "4. Mark this Pipedrive activity as done after sending.",
+    ].filter(Boolean).join("<br>"),
+    { personId: personId(deal), done: 0 },
+  );
 }
 
 async function sendInteraktTemplate(plan: NonNullable<Awaited<ReturnType<typeof buildReschedulePlan>>>) {
@@ -470,7 +624,20 @@ export async function main(route: Record<string, unknown>, dry_run = false) {
   const calendarEmail = ownerMap[owner] || ownerMap.default;
   if (!calendarEmail) throw new Error(`No owner calendar configured for ${owner}.`);
 
+  const staleCallActivities = await closeStaleOneOnOneActivities(deal, dry_run);
+  const ownerBookingLink = asString(bookingLinks[owner] || "");
+  const repeatedManualPlan = await buildReschedulePlan(deal, owner, bookingLinks);
+
   if (alreadyProcessed(deal)) {
+    const repeatedManualActivity = dry_run
+      ? null
+      : await createManualWhatsAppFailureActivity(
+          deal,
+          owner,
+          repeatedManualPlan,
+          repeatedManualPlan ? "Repeated reschedule request after deal was already awaiting." : "Repeated reschedule request; no approved booking-link template is available.",
+          ownerBookingLink,
+        );
     return {
       handled: true,
       action: "reschedule_requested",
@@ -478,6 +645,11 @@ export async function main(route: Record<string, unknown>, dry_run = false) {
       deal_id: deal.id,
       owner,
       label_id: ONE_ON_ONE_AWAITING_LABEL_ID,
+      stale_call_activities: staleCallActivities,
+      manual_whatsapp_activity_id: Number((repeatedManualActivity as any)?.id || (repeatedManualActivity as any)?.data?.id) || null,
+      manual_task_planned: dry_run,
+      manual_booking_link_present: Boolean(ownerBookingLink),
+      whatsapp: repeatedManualPlan,
       dry_run,
     };
   }
@@ -513,6 +685,7 @@ export async function main(route: Record<string, unknown>, dry_run = false) {
         label_ids: [ONE_ON_ONE_AWAITING_LABEL_ID],
         clear_fields: Object.values(DEAL_FIELDS).filter((field) => field !== DEAL_FIELDS.phone),
       },
+      stale_call_activities: staleCallActivities,
       whatsapp: whatsappPlan,
       note_preview: noteContent,
     };
@@ -520,7 +693,19 @@ export async function main(route: Record<string, unknown>, dry_run = false) {
 
   await updateDealForReschedule(deal.id);
   const note = await createPipedriveNote(deal.id, noteContent);
-  const whatsappResult = whatsappPlan ? await sendInteraktTemplate(whatsappPlan) : { sent: false, skipped: true, reason: "missing_template_or_booking_link" };
+  let whatsappResult: any = whatsappPlan ? null : { sent: false, skipped: true, reason: "missing_template_or_booking_link" };
+  let manualWhatsAppActivity: any = null;
+  if (whatsappPlan) {
+    try {
+      whatsappResult = await sendInteraktTemplate(whatsappPlan);
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      whatsappResult = { sent: false, failed: true, reason };
+      manualWhatsAppActivity = await createManualWhatsAppFailureActivity(deal, owner, whatsappPlan, reason, ownerBookingLink);
+    }
+  } else {
+    manualWhatsAppActivity = await createManualWhatsAppFailureActivity(deal, owner, whatsappPlan, "Missing template or owner booking link.", ownerBookingLink);
+  }
   const calendarAudit = await createPipedriveActivity(
     deal.id,
     cancelResult.canceled
@@ -540,6 +725,10 @@ export async function main(route: Record<string, unknown>, dry_run = false) {
         [
           "Sent the owner booking link for a fresh 1on1 slot.",
           `Owner: ${ownerDisplayName(owner)}`,
+          `Template: ${whatsappPlan?.template_name || "not available"}`,
+          "",
+          "<strong>Message sent</strong>",
+          `<pre>${escapeHtml(whatsappPlan ? manualRescheduleMessage(deal, owner, whatsappPlan) : `Hi ${deal.title},\n\nPlease reply here and we will help you book a fresh 1-on-1 slot.`)}</pre>`,
         ].join("<br>"),
         { personId: personId(deal) },
       )
@@ -553,9 +742,11 @@ export async function main(route: Record<string, unknown>, dry_run = false) {
     owner,
     label_id: ONE_ON_ONE_AWAITING_LABEL_ID,
     calendar_cancel: cancelResult,
+    stale_call_activities: staleCallActivities,
     note_id: Number(note?.id) || null,
     calendar_audit_activity_id: Number((calendarAudit as any)?.id || (calendarAudit as any)?.data?.id) || null,
     whatsapp_audit_activity_id: Number((whatsappAudit as any)?.id || (whatsappAudit as any)?.data?.id) || null,
+    manual_whatsapp_activity_id: Number((manualWhatsAppActivity as any)?.id || (manualWhatsAppActivity as any)?.data?.id) || null,
     whatsapp_sent: Boolean((whatsappResult as any)?.sent),
     whatsapp_result: whatsappResult,
     dry_run: false,

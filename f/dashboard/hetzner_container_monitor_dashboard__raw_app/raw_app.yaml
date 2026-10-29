@@ -1,0 +1,8 @@
+summary: Hetzner container monitor dashboard
+public: true
+data:
+  datatable: main
+  tables:
+    - main/hetzner_windmill_monitor_snapshots
+    - main/hetzner_windmill_monitor_project_snapshots
+    - main/hetzner_windmill_monitor_container_snapshots

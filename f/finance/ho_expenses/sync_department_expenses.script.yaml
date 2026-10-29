@@ -1,0 +1,26 @@
+summary: Sync HO department expense snapshots
+description: Fetches read-only Department-tagged Zoho Books actuals and budgets
+  and upserts monthly snapshots into separate Windmill tables.
+lock: '!inline f/finance/ho_expenses/sync_department_expenses.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    departments:
+      type: array
+      description: Optional department names. Empty syncs all maintained departments.
+      default: []
+      items:
+        type: string
+      originalType: string[]
+    full_refresh:
+      type: boolean
+      description: ''
+      default: false
+    to:
+      type: string
+      description: Optional YYYY-MM-DD report end date. Empty uses today.
+      default: ''
+      originalType: string
+  required: []

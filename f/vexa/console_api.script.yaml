@@ -1,0 +1,35 @@
+summary: ''
+description: ''
+lock: '!inline f/vexa/console_api.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    action:
+      type: string
+      description: ''
+      default: overview
+      enum:
+        - overview
+        - send_now
+        - send_queued
+        - skip
+        - unskip
+        - stop_bot
+        - transcript
+        - library
+        - meeting_detail
+        - audio_chunk
+        - toggle_calendar
+        - set_setting
+        - scan_now
+        - dispatch_now
+        - check_access
+      originalType: enum
+    payload:
+      type: object
+      description: ''
+      default: {}
+      properties: {}
+  required: []

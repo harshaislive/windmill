@@ -1,0 +1,6 @@
+summary: Bewild lead magnet automations
+display_name: bewild_lead_magnet
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

@@ -1,0 +1,9 @@
+summary: ''
+description: ''
+lock: '!inline f/beforest_10percent_analytics/get_dashboard_data_v2.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

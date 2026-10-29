@@ -1,0 +1,6 @@
+summary: Task intelligence dashboard backend v2
+description: Fetches monthly task intelligence dashboard data with standalone
+  month tag support.
+lock: '!inline f/task_intelligence_system/fetch_dashboard_v2.script.lock'
+kind: script
+schema: {}

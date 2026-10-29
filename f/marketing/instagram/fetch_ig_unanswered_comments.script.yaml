@@ -1,0 +1,42 @@
+summary: IG unanswered comments queue for Beforest
+description: Scans recent Instagram media comments and returns comments that do
+  not have a reply from the Beforest Instagram account.
+lock: '!inline f/marketing/instagram/fetch_ig_unanswered_comments.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dashboard_passcode:
+      type: string
+      description: Dashboard passcode required for public app access.
+      default: ''
+      originalType: string
+    facebook_token_variable_path:
+      type: string
+      description: Windmill variable path containing the long-lived Facebook token.
+      default: f/marketing/instagram/facebook_api_token
+      originalType: string
+    ig_username:
+      type: string
+      description: Instagram username to select from connected accounts.
+      default: beforestfarming
+      originalType: string
+    lookback_days:
+      type: number
+      description: Number of recent days to scan.
+      default: 30
+    max_comments_per_media:
+      type: number
+      description: Maximum comments to scan per media object.
+      default: 100
+    max_media:
+      type: number
+      description: Maximum recent media objects to scan.
+      default: 60
+    page_name:
+      type: string
+      description: Facebook page name connected to the Instagram account.
+      default: Beforest
+      originalType: string
+  required: []

@@ -1,0 +1,3 @@
+description: Mail-only nurture for individually reviewed prospects. No Zoho Lead creation; replies await Harsha review.
+value: 'false'
+is_secret: false

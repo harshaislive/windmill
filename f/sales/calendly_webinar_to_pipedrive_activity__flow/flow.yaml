@@ -41,3 +41,4 @@ schema:
         writing to Pipedrive or registering the invitee in Zoom.
       default: false
   required: []
+tag: sales-webhook

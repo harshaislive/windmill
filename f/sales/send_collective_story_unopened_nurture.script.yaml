@@ -1,0 +1,26 @@
+summary: 10C Worker - Collective Journey second-form nurture
+description: Sends the 7-step alternate-day WhatsApp nurture sequence for deals
+  that have received or opened the Collective Journey but have not submitted the
+  post-Journey Typeform. Stops when the post-GIS Typeform submission is logged
+  and dedupes each step with Pipedrive activities.
+lock: '!inline f/sales/send_collective_story_unopened_nurture.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Preview due sends without sending WhatsApp or writing Pipedrive
+        activities.
+      default: false
+    max_deals:
+      type: integer
+      description: Maximum open Pipedrive deals to scan.
+      default: 500
+    max_sends:
+      type: integer
+      description: Maximum WhatsApp messages to send in one run.
+      default: 50
+  required: []
+tag: sales-webhook

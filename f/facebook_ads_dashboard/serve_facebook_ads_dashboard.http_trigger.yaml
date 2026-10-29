@@ -1,0 +1,16 @@
+summary: Public Facebook Ads dashboard
+description: Public no-login route for the team-gated Beforest Facebook Ads dashboard.
+authentication_method: none
+authentication_resource_path: null
+http_method: get
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+route_path: facebook-ads/dashboard
+route_path_key: facebook-ads/dashboard
+script_path: f/facebook_ads_dashboard/serve_facebook_ads_dashboard
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

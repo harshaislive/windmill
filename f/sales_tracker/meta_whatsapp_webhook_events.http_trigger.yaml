@@ -1,0 +1,17 @@
+{
+  "wrap_body": false,
+  "mode": "enabled",
+  "http_method": "post",
+  "is_static_website": false,
+  "is_flow": false,
+  "permissioned_as": "u/harsha",
+  "workspaced_route": false,
+  "path": "f/sales_tracker/meta_whatsapp_webhook_events",
+  "route_path": "sales-tracker/meta/whatsapp",
+  "raw_string": true,
+  "request_type": "sync",
+  "authentication_resource_path": "f/sales_tracker/meta_whatsapp_signature_auth",
+  "script_path": "f/sales_tracker/meta_whatsapp_webhook",
+  "authentication_method": "signature",
+  "summary": "Signed Meta WhatsApp delivery and reply capture"
+}

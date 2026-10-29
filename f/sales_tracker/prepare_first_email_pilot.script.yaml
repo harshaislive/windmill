@@ -1,0 +1,12 @@
+summary: Read-only first-email candidate and sender preflight
+description: Reads SMTP authentication, mailbox history and active Mumbai campaign/stop state. Selects ten oldest eligible unique candidates per collective. No sends or writes.
+kind: script
+schema:
+  type: object
+  properties:
+    candidates:
+      type: array
+      items:
+        type: object
+      default: []
+  required: []

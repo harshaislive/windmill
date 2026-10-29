@@ -1,0 +1,11 @@
+summary: Mumbai nurture tracker read-only dashboard data
+description: Returns queue, verified sends, reply handoffs, capacity and layout gate. No CRM or Sheet writes or emails.
+kind: script
+schema:
+  type: object
+  properties:
+    dashboard_passcode:
+      type: string
+      default: ''
+      description: Dashboard access password, checked before any data read.
+  required: []

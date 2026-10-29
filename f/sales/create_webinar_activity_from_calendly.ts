@@ -1,15 +1,93 @@
 import * as wmill from "windmill-client";
 
+
+type PipedriveUsageLogArgs = {
+  method: string;
+  rawEndpoint: string;
+  statusCode?: number;
+  success: boolean;
+  durationMs?: number;
+  rateLimitRemaining?: number;
+  rateLimitReset?: string;
+  retryAfter?: string;
+  errorMessage?: string;
+  requestFingerprint?: string;
+};
+
+async function logPipedriveApiUsage(_args: PipedriveUsageLogArgs) {
+  return;
+}
+
+function pipedriveRateLimitRemaining(response: Response): number | undefined {
+  const value = Number(response.headers.get("x-ratelimit-remaining") || response.headers.get("x-rate-limit-remaining"));
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function pipedriveEndpointForLog(url: URL): string {
+  return url.pathname;
+}
+
 const PIPEDRIVE_RESOURCE_PATH = "f/sales/typeform_to_pipedrive_intake/pipedrive";
 const PIPEDRIVE_VARIABLE_PATH = "f/collectives/zoom_collective_to_pipedrive/pipedrive_api_key";
 const DEFAULT_PIPEDRIVE_DOMAIN = "beforest";
+const LEGACY_WEBINAR_ENABLED_VARIABLE_PATH = "f/sales/legacy_webinar_enabled";
+const CALENDLY_ZOOM_REGISTRATION_ENABLED_VARIABLE_PATH = "f/sales/calendly_zoom_registration_enabled";
 const BEFOREST_ADMIN_USER_ID = 18891506;
 const SCHEDULED_WEBINAR_PENDING_LABEL_ID = 111;
 const ACTIVITY_TYPE = "meeting";
 const DEAL_MEETING_URL_FIELD = "c818768b64d54270c74b931b4581082b543c8571";
+const DEAL_INITIAL_EVENT_CALENDLY_LINK_FIELD = "d05a896b54bd98d72748efcfe2ffe0f588851256";
 const DEAL_MEETING_REFERENCE_ID_FIELD = "cd1b8c89ded44fccbf04ded59928cc9fc3ae0e50";
 const DEAL_LOOKUP_ATTEMPTS = 12;
 const DEAL_LOOKUP_DELAY_MS = 5000;
+const RECENT_TYPEFORM_DEAL_WINDOW_HOURS = 48;
+const RECENT_WEBINAR_DEAL_SCAN_LIMIT = 500;
+const TYPEFORM_DEAL_FIELD_KEYS = [
+  "46cfa94fdedfb3774a05d957645221c5b9a118b4",
+  "69d6858e6d37494e9bb3071b42e52c07ddbb1687",
+  "8f498f1556792f1153e10c7093e25da491147c60",
+  "e285b674e27b01c94d0125d63a983ac63ea85650",
+  "d0fcb559d53d555a5dafef583501276906e6bad3",
+  "4037a223e67a517cb398e2ec6af5362922c76ce7",
+  "3e696ca795b810d5a5b7c145398448ea7d398961",
+  "44f2f24c7755ade7e67b73e5b92283bdab78b60e",
+  "424828659a3b1c06dabdefbd99934eca9aa0e18a",
+  "eebb37e264955ef2bbd3586e7cb1ed098f4ef33f",
+  "aa6cd8a5c81b948c7dc1dea6b61f45d172b1f1fe",
+  "2f98a2aad11770dcc6b8eee9f49fc48d669aaeba",
+  "d05a896b54bd98d72748efcfe2ffe0f588851256",
+  "cf9fc01d7f779c5a5f9b9c76c07cdd17cfcec470",
+  "7f1ebc80670dad0d9f6ea3d5f2585c923395305a",
+  "2f592ab838e053d66de919b9b186e55e983747c9",
+  "cb54d93a5681001707fd6976cd47bb9a24192ca4",
+  "1b69322bc0548794459e0a3a60fa8ff81f532ab0",
+  "9b1ccbaa2a51bcd10ae8524587a38794e7caa7b7",
+  "4a293cd83f60d6a2783ebd31c6b9fc532afba76b",
+  "d8d76010c6a29236c8fde3f3c7e6c3286060ddac",
+  "172d9955f789201330bc962e7503d3f2b5379d21",
+  "41259152d5d87a08599c6897bcf8750a9466f354",
+  "7b2122b4e95d5ca1b6fce5a5e3052c8fb0ea083f",
+  "96127352313e205db3cc8ba81f977345b9bbb7a2",
+  "d337cd4762160ca5b6c611a4f612d23e162ea054",
+  "5f9a97741164c7ecbad1fc1a7d43c1da1a74a652",
+  "438b6a662a7d503c27ecd05191329cbe50cc7aef",
+  "331445973474871c99c9c26bcbfa333d73f47090",
+  "6c098c2350c74a9dddb3dd09c3282d7d27bad342",
+];
+
+async function legacyWebinarEnabled(): Promise<boolean> {
+  return (await wmill.getVariable(LEGACY_WEBINAR_ENABLED_VARIABLE_PATH).catch(() => "")).toLowerCase() === "true";
+}
+
+async function calendlyZoomRegistrationEnabled(): Promise<boolean> {
+  return (
+    await wmill.getVariable(CALENDLY_ZOOM_REGISTRATION_ENABLED_VARIABLE_PATH).catch(() => "")
+  ).toLowerCase() === "true";
+}
+
+async function webinarRegistrationPathEnabled(): Promise<boolean> {
+  return (await legacyWebinarEnabled()) || (await calendlyZoomRegistrationEnabled());
+}
 const ZOOM_ACCOUNT_ID_VARIABLE_PATH = "f/collectives/zoom_collective_to_pipedrive/zoom_account_id";
 const ZOOM_AUTHORIZATION_BASIC_VARIABLE_PATH = "f/collectives/zoom_collective_to_pipedrive/zoom_authorization_basic";
 const ZOOM_USER_EMAIL = "connect@beforest.co";
@@ -19,6 +97,7 @@ const INTERAKT_BASE_URL_PATH = "f/sales/calendar_prebook_1on1/interakt_base_url"
 const WEBINAR_CONFIRMATION_TEMPLATE_NAME = "collective_webinar_confirmation";
 const WEBINAR_CONFIRMATION_TEMPLATE_ID = "1652138732429446";
 const WEBINAR_REMINDER_SCRIPT_PATH = "f/sales/send_webinar_reminders";
+const WEBINAR_ATTENDANCE_SCRIPT_PATH = "f/sales/sync_webinar_attendance_and_prebook";
 const WEBINAR_REMINDER_OFFSETS = [
   { key: "3d", label: "3 days before", offsetMinutes: 72 * 60 },
   { key: "24h", label: "24 hours before", offsetMinutes: 24 * 60 },
@@ -33,8 +112,8 @@ type PipedriveConfig = {
 type CollectiveConfig = {
   label: string;
   subject: string;
-  pipelineId: number;
-  ownerId: number;
+  pipelineId: number | null;
+  ownerId: number | null;
 };
 
 type ZoomMeeting = {
@@ -54,11 +133,18 @@ type ZoomRegistration = {
   join_url: string;
 };
 
+type PreCreateDealMatch = {
+  dealSummary: any;
+  person: any;
+  reason: string;
+};
+
 const COLLECTIVES: CollectiveConfig[] = [
   { label: "Mumbai", subject: "Mumbai Collective Webinar", pipelineId: 2, ownerId: 22251956 },
   { label: "Bhopal", subject: "Bhopal Collective Webinar", pipelineId: 4, ownerId: 22251956 },
   { label: "Hammiyala", subject: "Hammiyala Collective Webinar", pipelineId: 1, ownerId: 13490118 },
   { label: "Poomaale", subject: "Poomaale Collective Webinar", pipelineId: 3, ownerId: 13490118 },
+  { label: "Hyderabad", subject: "Hyderabad Collective Webinar", pipelineId: 6, ownerId: 22251956 },
 ];
 
 class WebinarActivityError extends Error {
@@ -77,8 +163,68 @@ function safeJson(value: unknown): string {
   return JSON.stringify(value, null, 2).replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
 }
 
+function escapeHtml(value: unknown): string {
+  return String(value ?? "").replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
+}
+
 function normalizeEmail(value: unknown): string {
   return asString(value).toLowerCase();
+}
+
+function normalizeName(value: unknown): string {
+  return asString(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizePhoneDigits(value: unknown): string {
+  const digits = asString(value).replace(/\D/g, "");
+  if (digits.length > 10 && digits.startsWith("91")) return digits.slice(-10);
+  return digits.length >= 10 ? digits.slice(-10) : digits;
+}
+
+function emailLocalPart(value: unknown): string {
+  return normalizeEmail(value).split("@", 1)[0] || "";
+}
+
+function emailDomain(value: unknown): string {
+  return normalizeEmail(value).split("@")[1] || "";
+}
+
+function editDistanceAtMostOne(left: string, right: string): boolean {
+  if (Math.abs(left.length - right.length) > 1) return false;
+  let i = 0;
+  let j = 0;
+  let edits = 0;
+  while (i < left.length && j < right.length) {
+    if (left[i] === right[j]) {
+      i += 1;
+      j += 1;
+      continue;
+    }
+    edits += 1;
+    if (edits > 1) return false;
+    if (left.length > right.length) i += 1;
+    else if (right.length > left.length) j += 1;
+    else {
+      i += 1;
+      j += 1;
+    }
+  }
+  return edits + (left.length - i) + (right.length - j) <= 1;
+}
+
+function emailsLikelySame(left: string, right: string): boolean {
+  const normalizedLeft = normalizeEmail(left);
+  const normalizedRight = normalizeEmail(right);
+  if (!normalizedLeft || !normalizedRight) return false;
+  if (normalizedLeft === normalizedRight) return true;
+  const leftLocal = emailLocalPart(normalizedLeft);
+  const rightLocal = emailLocalPart(normalizedRight);
+  if (!leftLocal || leftLocal !== rightLocal) return false;
+  return editDistanceAtMostOne(emailDomain(normalizedLeft), emailDomain(normalizedRight));
 }
 
 function asNumber(value: unknown): number | null {
@@ -236,6 +382,10 @@ function detectCollective(eventName: string): CollectiveConfig {
   return collective;
 }
 
+function hasCrmMapping(collective: CollectiveConfig): collective is CollectiveConfig & { pipelineId: number; ownerId: number } {
+  return collective.pipelineId !== null && collective.ownerId !== null;
+}
+
 function pipedriveDueDateTimeParts(date: Date): { dueDate: string; dueTime: string } {
   const iso = date.toISOString();
   return {
@@ -275,12 +425,26 @@ async function pipedriveRequest(
     if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, String(value));
   }
 
+  const startedAt = Date.now();
+
   const response = await fetch(url, {
     method,
     headers: options.body ? { "content-type": "application/json" } : undefined,
     body: options.body ? JSON.stringify(options.body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new WebinarActivityError(`Pipedrive ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -379,6 +543,46 @@ async function getPersonDeals(config: PipedriveConfig, personId: number): Promis
   return payload.data || [];
 }
 
+async function getPipelineDeals(config: PipedriveConfig, pipelineId: number): Promise<any[]> {
+  const payload = await pipedriveRequest(config, "GET", "deals", {
+    apiVersion: "v1",
+    params: {
+      status: "all_not_deleted",
+      pipeline_id: pipelineId,
+      limit: RECENT_WEBINAR_DEAL_SCAN_LIMIT,
+      sort: "add_time DESC",
+    },
+  });
+  return payload.data || [];
+}
+
+function personIdFromDeal(deal: any): number | null {
+  return idNumber(deal?.person_id?.value) ??
+    idNumber(deal?.person_id?.id) ??
+    idNumber(deal?.person_id);
+}
+
+async function getPerson(config: PipedriveConfig, personId: number): Promise<any> {
+  const payload = await pipedriveRequest(config, "GET", `persons/${personId}`);
+  return payload.data;
+}
+
+function personEmails(person: any): string[] {
+  return uniqueStrings([
+    person?.email,
+    ...(Array.isArray(person?.email) ? person.email.map((entry: any) => entry?.value ?? entry) : []),
+    ...(Array.isArray(person?.emails) ? person.emails.map((entry: any) => entry?.value ?? entry) : []),
+  ].map(normalizeEmail));
+}
+
+function personPhones(person: any): string[] {
+  return uniqueStrings([
+    person?.phone,
+    ...(Array.isArray(person?.phone) ? person.phone.map((entry: any) => entry?.value ?? entry) : []),
+    ...(Array.isArray(person?.phones) ? person.phones.map((entry: any) => entry?.value ?? entry) : []),
+  ].map(normalizePhoneDigits));
+}
+
 function labelIds(deal: any): number[] {
   const raw = deal.label_ids ?? deal.labels ?? deal.label;
   const values = Array.isArray(raw) ? raw : [raw];
@@ -398,30 +602,116 @@ function dealMeetingUrl(deal: any): string {
   return asString(deal?.[DEAL_MEETING_URL_FIELD] ?? deal?.custom_fields?.[DEAL_MEETING_URL_FIELD]);
 }
 
+function dealInitialEventCalendlyLink(deal: any): string {
+  return asString(deal?.[DEAL_INITIAL_EVENT_CALENDLY_LINK_FIELD] ?? deal?.custom_fields?.[DEAL_INITIAL_EVENT_CALENDLY_LINK_FIELD]);
+}
+
 function dealMeetingReferenceId(deal: any): string {
   return asString(deal?.[DEAL_MEETING_REFERENCE_ID_FIELD] ?? deal?.custom_fields?.[DEAL_MEETING_REFERENCE_ID_FIELD]);
+}
+
+function dealCustomFieldValue(deal: any, fieldKey: string): string {
+  return asString(deal?.[fieldKey] ?? deal?.custom_fields?.[fieldKey]);
+}
+
+function typeformFieldCount(deal: any): number {
+  return TYPEFORM_DEAL_FIELD_KEYS.filter((fieldKey) => dealCustomFieldValue(deal, fieldKey)).length;
+}
+
+function isRecentDeal(deal: any, hours: number): boolean {
+  const addedAt = dealTimestamp({ add_time: deal?.add_time || deal?.created_at });
+  if (!addedAt) return false;
+  const ageMs = Date.now() - addedAt;
+  return ageMs >= 0 && ageMs <= hours * 60 * 60 * 1000;
+}
+
+function recentTypeformDealMatches(deal: any): boolean {
+  return isRecentDeal(deal, RECENT_TYPEFORM_DEAL_WINDOW_HOURS) &&
+    typeformFieldCount(deal) > 0;
+}
+
+function dealNameMatches(deal: any, calendly: ReturnType<typeof extractCalendlyDetails>): boolean {
+  const calendlyName = normalizeName(calendly.name);
+  if (!calendlyName) return false;
+  const dealNames = [
+    deal?.title,
+    deal?.person_name,
+    deal?.person_id?.name,
+  ].map(normalizeName).filter(Boolean);
+  return dealNames.some((name) => name === calendlyName);
+}
+
+function preCreateMatchReason(
+  deal: any,
+  person: any,
+  calendly: ReturnType<typeof extractCalendlyDetails>,
+): string | null {
+  const calendlyPhone = normalizePhoneDigits(calendly.phone);
+  const calendlyEmail = normalizeEmail(calendly.email);
+  const phoneMatches = calendlyPhone && personPhones(person).includes(calendlyPhone);
+  if (phoneMatches) return "normalized_phone";
+
+  const emailMatches = personEmails(person).some((email) => emailsLikelySame(email, calendlyEmail));
+  if (emailMatches) return "email_or_email_typo";
+
+  if (dealNameMatches(deal, calendly)) return "name_collective_recent_typeform";
+  return null;
+}
+
+async function findRecentTypeformDealBeforeCreate(
+  config: PipedriveConfig,
+  collective: CollectiveConfig & { pipelineId: number },
+  calendly: ReturnType<typeof extractCalendlyDetails>,
+): Promise<PreCreateDealMatch | null> {
+  for (let attempt = 1; attempt <= DEAL_LOOKUP_ATTEMPTS; attempt += 1) {
+    const deals = (await getPipelineDeals(config, collective.pipelineId))
+      .filter(recentTypeformDealMatches);
+
+    for (const deal of deals) {
+      const personId = personIdFromDeal(deal);
+      if (!personId) continue;
+      const person = await getPerson(config, personId).catch(() => null);
+      if (!person) continue;
+      const reason = preCreateMatchReason(deal, person, calendly);
+      if (reason) return { dealSummary: deal, person, reason };
+    }
+
+    if (attempt === DEAL_LOOKUP_ATTEMPTS) break;
+    await sleep(DEAL_LOOKUP_DELAY_MS);
+  }
+  return null;
 }
 
 function pickMatchingDeal(deals: any[], collective: CollectiveConfig, calendly: ReturnType<typeof extractCalendlyDetails>): any {
   const pipelineMatches = deals.filter((deal) => asNumber(deal.pipeline_id) === collective.pipelineId);
   const identifiers = calendlyIdentifiers(calendly.relatedUrls);
   const dealsWithCalendlyMeetingUrl = pipelineMatches.filter((deal) => {
-    const meetingUrl = dealMeetingUrl(deal).toLowerCase();
-    return meetingUrl.includes("calendly.com") || identifiers.some((identifier) => meetingUrl.includes(identifier));
+    const urls = [
+      dealMeetingUrl(deal),
+      dealInitialEventCalendlyLink(deal),
+    ].map((value) => value.toLowerCase());
+    return urls.some((url) =>
+      url.includes("calendly.com") || identifiers.some((identifier) => url.includes(identifier))
+    );
   });
   const urlMatches = identifiers.length
     ? dealsWithCalendlyMeetingUrl.filter((deal) => {
-      const meetingUrl = dealMeetingUrl(deal).toLowerCase();
-      return identifiers.some((identifier) => meetingUrl.includes(identifier));
+      const urls = [
+        dealMeetingUrl(deal),
+        dealInitialEventCalendlyLink(deal),
+      ].map((value) => value.toLowerCase());
+      return urls.some((url) => identifiers.some((identifier) => url.includes(identifier)));
     })
     : [];
-  if (identifiers.length && dealsWithCalendlyMeetingUrl.length && !urlMatches.length) {
-    throw new WebinarActivityError(
-      `No ${collective.label} pipeline deal has the matching Calendly booking ID for this invitee.`,
-    );
-  }
   const pendingMatches = pipelineMatches.filter((deal) => labelIds(deal).includes(SCHEDULED_WEBINAR_PENDING_LABEL_ID));
-  const candidates = urlMatches.length ? urlMatches : pendingMatches.length ? pendingMatches : pipelineMatches;
+  const recentTypeformMatches = pipelineMatches.filter(recentTypeformDealMatches);
+  const candidates = urlMatches.length
+    ? urlMatches
+    : recentTypeformMatches.length
+      ? recentTypeformMatches
+      : pendingMatches.length
+        ? pendingMatches
+        : pipelineMatches;
 
   if (!candidates.length) {
     throw new WebinarActivityError(
@@ -530,7 +820,12 @@ async function createDeal(
       pipeline_id: collective.pipelineId,
       status: "open",
       label_ids: [SCHEDULED_WEBINAR_PENDING_LABEL_ID],
-      custom_fields: meetingUrl ? { [DEAL_MEETING_URL_FIELD]: meetingUrl } : undefined,
+      custom_fields: meetingUrl
+        ? {
+          [DEAL_MEETING_URL_FIELD]: meetingUrl,
+          [DEAL_INITIAL_EVENT_CALENDLY_LINK_FIELD]: meetingUrl,
+        }
+        : undefined,
     },
   });
   return payload.data;
@@ -570,6 +865,7 @@ async function ensureDeal(
         pipeline_id: collective.pipelineId,
         label_ids: [SCHEDULED_WEBINAR_PENDING_LABEL_ID],
         [DEAL_MEETING_URL_FIELD]: calendly.inviteeUri || calendly.eventUri,
+        [DEAL_INITIAL_EVENT_CALENDLY_LINK_FIELD]: calendly.inviteeUri || calendly.eventUri,
       },
       created: false,
       plannedCreate: true,
@@ -646,6 +942,28 @@ async function updateActivity(
     },
   });
   return payload.data;
+}
+
+async function addDealNote(config: PipedriveConfig, dealId: number, content: string): Promise<any> {
+  const payload = await pipedriveRequest(config, "POST", "notes", {
+    apiVersion: "v1",
+    body: {
+      deal_id: dealId,
+      content,
+    },
+  });
+  return payload.data;
+}
+
+function preCreateMatchNote(match: PreCreateDealMatch, calendly: ReturnType<typeof extractCalendlyDetails>): string {
+  return [
+    "Calendly webinar registration matched to this existing Typeform deal before creating a new deal.",
+    `Match reason: ${escapeHtml(match.reason)}`,
+    `Calendly name: ${escapeHtml(calendly.name)}`,
+    `Calendly email: ${escapeHtml(calendly.email)}`,
+    `Calendly phone: ${escapeHtml(calendly.phone || "")}`,
+    `Calendly invitee: ${escapeHtml(calendly.inviteeUri || calendly.eventUri)}`,
+  ].join("<br>");
 }
 
 async function getZoomAccessToken(): Promise<string> {
@@ -881,6 +1199,7 @@ async function createWebinarConfirmationActivity(
   activityId: number,
   webinarIso: string,
   plan: ReturnType<typeof buildWebinarConfirmationPlan>,
+  accessLink: string,
 ) {
   const now = new Date();
   const payload = await pipedriveRequest(config, "POST", "activities", {
@@ -895,6 +1214,60 @@ async function createWebinarConfirmationActivity(
       note: [
         "Sent webinar confirmation on WhatsApp.",
         `Webinar activity: ${activityId}`,
+        `Template: ${plan.template_name}`,
+        "",
+        "<strong>Message sent</strong>",
+        `<pre>${escapeHtml(manualWebinarConfirmationMessage(plan, accessLink))}</pre>`,
+      ].join("<br>"),
+    },
+  });
+  return payload.data;
+}
+
+function manualWebinarConfirmationMessage(
+  plan: ReturnType<typeof buildWebinarConfirmationPlan>,
+  accessLink: string,
+): string {
+  const [firstName, collectiveName, webinarDate, webinarTime] = plan.body_values;
+  return [
+    `Hi ${firstName}, your ${collectiveName} webinar registration is confirmed.`,
+    `Date: ${webinarDate}`,
+    `Time: ${webinarTime}`,
+    accessLink ? `Join link: ${accessLink}` : "Please check your email/calendar for the webinar link.",
+    "See you there.",
+  ].join("\n");
+}
+
+async function createManualWebinarConfirmationActivity(
+  config: PipedriveConfig,
+  dealId: number,
+  activityId: number,
+  plan: ReturnType<typeof buildWebinarConfirmationPlan>,
+  reason: string,
+  accessLink: string,
+) {
+  const now = new Date();
+  const phone = "fullPhoneNumber" in plan.recipient
+    ? plan.recipient.fullPhoneNumber
+    : `+${plan.recipient.countryCode || ""}${plan.recipient.phoneNumber || ""}`;
+  const payload = await pipedriveRequest(config, "POST", "activities", {
+    apiVersion: "v1",
+    body: {
+      deal_id: dealId,
+      user_id: BEFOREST_ADMIN_USER_ID,
+      subject: "WhatsApp failed - send manually",
+      type: "task",
+      done: 0,
+      due_date: now.toISOString().slice(0, 10),
+      note: [
+        "Webinar confirmation did not send automatically.",
+        `Reason: ${escapeHtml(reason)}`,
+        `Send to: ${escapeHtml(phone)}`,
+        `Template: ${escapeHtml(plan.template_name)}`,
+        `Webinar activity: ${activityId}`,
+        "Copy this message into WhatsApp Web:",
+        `<pre>${escapeHtml(manualWebinarConfirmationMessage(plan, accessLink))}</pre>`,
+        "Manual steps: send the message, confirm the Zoom link is included, then mark this activity done.",
       ].join("<br>"),
     },
   });
@@ -985,15 +1358,55 @@ async function sendWebinarConfirmationIfNeeded(
     return { sent: false, skipped: true, reason: "already_logged", whatsapp: plan };
   }
 
-  const whatsapp = await sendInteraktTemplate(plan);
-  const activity = (whatsapp as any)?.sent
-    ? await createWebinarConfirmationActivity(config, Number(deal.id), activityId, webinarIso, plan)
-    : null;
-  return {
-    ...whatsapp,
-    whatsapp: plan,
-    activity_id: activity?.id ? Number(activity.id) : null,
-  };
+  try {
+    const whatsapp = await sendInteraktTemplate(plan);
+    if (!(whatsapp as any)?.sent) {
+      const reason = (whatsapp as any)?.reason || "not_sent";
+      const manualActivity = await createManualWebinarConfirmationActivity(
+        config,
+        Number(deal.id),
+        activityId,
+        plan,
+        reason,
+        dealMeetingUrl(deal),
+      );
+      return {
+        ...whatsapp,
+        whatsapp: plan,
+        manual_activity_id: Number(manualActivity?.id) || null,
+      };
+    }
+    const activity = await createWebinarConfirmationActivity(
+      config,
+      Number(deal.id),
+      activityId,
+      webinarIso,
+      plan,
+      dealMeetingUrl(deal),
+    );
+    return {
+      ...whatsapp,
+      whatsapp: plan,
+      activity_id: activity?.id ? Number(activity.id) : null,
+    };
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error);
+    const manualActivity = await createManualWebinarConfirmationActivity(
+      config,
+      Number(deal.id),
+      activityId,
+      plan,
+      reason,
+      dealMeetingUrl(deal),
+    );
+    return {
+      sent: false,
+      failed: true,
+      reason,
+      whatsapp: plan,
+      manual_activity_id: Number(manualActivity?.id) || null,
+    };
+  }
 }
 
 async function registerZoomRegistrant(
@@ -1142,16 +1555,71 @@ async function scheduleWebinarReminderJobs(
   return scheduled;
 }
 
-export async function main(calendly_payload: unknown, dry_run = false) {
+async function ensureWebinarAttendanceJobs(
+  zoomRegistration: ZoomRegistration,
+  webinarStart: Date,
+  dryRun: boolean,
+) {
+  if (!zoomRegistration?.meeting_id) {
+    return {
+      status: "skipped",
+      reason: "missing_zoom_meeting_id",
+      meeting_id: null,
+    };
+  }
+
+  const jobId = await wmill.runScriptByPathAsync(WEBINAR_ATTENDANCE_SCRIPT_PATH, {
+    mode: "ensure_meeting_jobs",
+    dry_run: dryRun,
+    meeting_id: String(zoomRegistration.meeting_id),
+    meeting_topic: zoomRegistration.meeting_topic,
+    meeting_start_time: zoomRegistration.meeting_start_time || webinarStart.toISOString(),
+    meeting_duration_minutes: 120,
+  }, 0);
+
+  return {
+    status: "queued",
+    job_id: jobId,
+    meeting_id: String(zoomRegistration.meeting_id),
+  };
+}
+
+export async function main(calendly_payload: unknown, dry_run = false, schedule_attendance_checks = false) {
+  if (!(await webinarRegistrationPathEnabled())) {
+    return {
+      dry_run,
+      status: "disabled",
+      reason: "Calendly-to-Zoom webinar registration is disabled. Set f/sales/calendly_zoom_registration_enabled=true for the contained registration/reminder path, or f/sales/legacy_webinar_enabled=true for the older full legacy path.",
+    };
+  }
   const calendly = extractCalendlyDetails(calendly_payload);
   const collective = detectCollective(calendly.eventName);
+  if (!hasCrmMapping(collective)) {
+    const zoomRegistration = await ensureZoomRegistration(collective, calendly, null, dry_run);
+    return {
+      dry_run,
+      status: dry_run ? "would_register_zoom_only" : zoomRegistration.status,
+      action: "zoom_only_no_crm_mapping",
+      invitee_email: calendly.email,
+      collective: collective.label,
+      subject: collective.subject,
+      crm_skipped: true,
+      crm_skip_reason: "no_pipedrive_pipeline_mapping",
+      zoom: zoomRegistration,
+    };
+  }
   const { dueDate, dueTime } = pipedriveDueDateTimeParts(calendly.start);
   const config = await loadPipedriveConfig();
-  const ensuredPerson = await ensurePerson(config, calendly, collective, dry_run);
+  const preCreateMatch = await findRecentTypeformDealBeforeCreate(config, collective, calendly);
+  const ensuredPerson = preCreateMatch
+    ? { person: preCreateMatch.person, created: false, plannedCreate: false }
+    : await ensurePerson(config, calendly, collective, dry_run);
   const person = ensuredPerson.person;
   const leadPhone = primaryPhoneFromPerson(person);
   const personId = idNumber(person.id);
-  const ensuredDeal = await ensureDeal(config, person, collective, calendly, dry_run);
+  const ensuredDeal = preCreateMatch
+    ? { dealSummary: preCreateMatch.dealSummary, created: false, plannedCreate: false }
+    : await ensureDeal(config, person, collective, calendly, dry_run);
   const dealSummary = ensuredDeal.dealSummary;
   const dealId = idNumber(dealSummary.id);
   if (!dealId && !(dry_run && ensuredDeal.plannedCreate)) {
@@ -1181,6 +1649,14 @@ export async function main(calendly_payload: unknown, dry_run = false) {
     planned_create_person: ensuredPerson.plannedCreate,
     created_deal: ensuredDeal.created,
     planned_create_deal: ensuredDeal.plannedCreate,
+    pre_create_match: preCreateMatch
+      ? {
+        matched: true,
+        reason: preCreateMatch.reason,
+        deal_id: idNumber(preCreateMatch.dealSummary?.id),
+        person_id: idNumber(preCreateMatch.person?.id),
+      }
+      : { matched: false, reason: "", deal_id: null, person_id: null },
     zoom: zoomRegistration,
   };
 
@@ -1204,6 +1680,9 @@ export async function main(calendly_payload: unknown, dry_run = false) {
           true,
         ),
         reminder_jobs: await scheduleWebinarReminderJobs(planned.deal_id, calendly.start, true),
+        attendance_jobs: schedule_attendance_checks
+          ? await ensureWebinarAttendanceJobs(zoomRegistration, calendly.start, true)
+          : { status: "skipped", reason: "schedule_attendance_checks_false" },
       },
     };
   }
@@ -1233,6 +1712,12 @@ export async function main(calendly_payload: unknown, dry_run = false) {
       false,
     );
     const reminderJobs = await scheduleWebinarReminderJobs(Number(updatedDeal.id), calendly.start, false);
+    const attendanceJobs = schedule_attendance_checks
+      ? await ensureWebinarAttendanceJobs(zoomRegistration, calendly.start, false)
+      : { status: "skipped", reason: "schedule_attendance_checks_false" };
+    if (preCreateMatch) {
+      await addDealNote(config, Number(updatedDeal.id), preCreateMatchNote(preCreateMatch, calendly));
+    }
     return {
       dry_run: false,
       status: "updated_existing_activity",
@@ -1240,6 +1725,7 @@ export async function main(calendly_payload: unknown, dry_run = false) {
       updated_deal_id: Number(updatedDeal.id),
       webinar_confirmation: webinarConfirmation,
       reminder_jobs: reminderJobs,
+      attendance_jobs: attendanceJobs,
       ...planned,
     };
   }
@@ -1257,6 +1743,12 @@ export async function main(calendly_payload: unknown, dry_run = false) {
     false,
   );
   const reminderJobs = await scheduleWebinarReminderJobs(Number(updatedDeal.id), calendly.start, false);
+  const attendanceJobs = schedule_attendance_checks
+    ? await ensureWebinarAttendanceJobs(zoomRegistration, calendly.start, false)
+    : { status: "skipped", reason: "schedule_attendance_checks_false" };
+  if (preCreateMatch) {
+    await addDealNote(config, Number(updatedDeal.id), preCreateMatchNote(preCreateMatch, calendly));
+  }
 
   return {
     dry_run: false,
@@ -1265,6 +1757,7 @@ export async function main(calendly_payload: unknown, dry_run = false) {
     updated_deal_id: Number(updatedDeal.id),
     webinar_confirmation: webinarConfirmation,
     reminder_jobs: reminderJobs,
+    attendance_jobs: attendanceJobs,
     ...planned,
   };
 }

@@ -1,0 +1,16 @@
+summary: Public Beforest OPEX dashboard
+description: Public no-login route protected by the dashboard's server-side passcode.
+authentication_method: none
+authentication_resource_path: null
+http_method: get
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+route_path: finance/opex/dashboard
+route_path_key: finance/opex/dashboard
+script_path: f/finance/opex/serve_opex_dashboard
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

@@ -1,0 +1,25 @@
+summary: Bewild rice guide WhatsApp delivery worker
+description: Sends pending Bewild rice recipe finder WhatsApp follow-ups through
+  Interakt. The worker sends the locked guide URL with the matched recipe result
+  so the guide opens only from the delivered link.
+lock: '!inline f/bewild_lead_magnet/send_rice_guide_delivery.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    debug_followup_id:
+      type: string
+      description: Optional exact follow-up id to preview or send only one row.
+      default: ''
+      originalType: string
+    dry_run:
+      type: boolean
+      description: Preview pending rice guide messages without sending WhatsApp or
+        updating follow-up rows.
+      default: true
+    limit:
+      type: integer
+      description: Maximum pending WhatsApp rice guide follow-ups to process.
+      default: 25
+  required: []

@@ -1,0 +1,17 @@
+summary: Reconcile Vivek Calendly bookings four times daily
+description: Checks Vivek's Bhopal and Mumbai Calendly bookings at 8:37 AM, 11:37 AM, 3:37 PM, and 7:37 PM IST and syncs only confident matches to Pipedrive.
+args:
+  dry_run: false
+  lookback_days: 7
+  lookahead_days: 60
+  max_events: 250
+  max_writes: 50
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 37 8,11,15,19 * * *
+script_path: f/sales/reconcile_vivek_calendly_bookings
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

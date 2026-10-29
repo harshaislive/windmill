@@ -1,5 +1,32 @@
 import * as wmill from "windmill-client";
 
+
+type PipedriveUsageLogArgs = {
+  method: string;
+  rawEndpoint: string;
+  statusCode?: number;
+  success: boolean;
+  durationMs?: number;
+  rateLimitRemaining?: number;
+  rateLimitReset?: string;
+  retryAfter?: string;
+  errorMessage?: string;
+  requestFingerprint?: string;
+};
+
+async function logPipedriveApiUsage(_args: PipedriveUsageLogArgs) {
+  return;
+}
+
+function pipedriveRateLimitRemaining(response: Response): number | undefined {
+  const value = Number(response.headers.get("x-ratelimit-remaining") || response.headers.get("x-rate-limit-remaining"));
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function pipedriveEndpointForLog(url: URL): string {
+  return url.pathname;
+}
+
 const PIPEDRIVE_VARIABLE_PATH = "f/collectives/zoom_collective_to_pipedrive/pipedrive_api_key";
 const INTERAKT_API_KEY_PATH = "f/sales/calendar_prebook_1on1/interakt_api_key";
 const INTERAKT_BASE_URL_PATH = "f/sales/calendar_prebook_1on1/interakt_base_url";
@@ -21,7 +48,7 @@ const PIPEDRIVE_OWNER_ALIASES: Record<number, string> = {
 
 const OWNER_PHONE_NUMBERS: Record<string, string> = {
   Vivekanand: "+916396252216",
-  Rakesh: "+918527494761",
+  Rakesh: "+918919151882",
 };
 
 type Deal = {
@@ -69,12 +96,25 @@ async function pipedriveV1(method: string, path: string, body?: Record<string, u
   for (const [key, value] of Object.entries(query || {})) {
     if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, String(value));
   }
+  const startedAt = Date.now();
   const response = await fetch(url, {
     method,
     headers: body ? { "content-type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive v1 ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -132,6 +172,11 @@ function ownerDisplayName(owner: string): string {
   if (owner === "Rakesh") return "Sai Rakesh";
   if (owner === "Vivekanand") return "Vivekanand";
   return owner;
+}
+
+function attendanceCheckRecipientName(owner: string): string {
+  if (owner === "Rakesh") return "Sai Rakesh";
+  return ownerDisplayName(owner);
 }
 
 function dealField(deal: Deal, key: string): unknown {
@@ -200,14 +245,62 @@ async function createAttendanceCheckActivity(plan: AttendanceCheckPlan) {
     done: 1,
     due_date: now.toISOString().slice(0, 10),
     note: [
-      `Asked ${ownerDisplayName(plan.owner)} whether the 1on1 happened.`,
+      `Asked ${attendanceCheckRecipientName(plan.owner)} whether the 1on1 happened.`,
       `Meeting: ${plan.meeting_datetime}`,
+      `Template: ${plan.template_name}`,
+      "",
+      "<strong>Message sent</strong>",
+      `<pre>${escapeHtml(manualOwnerAttendanceMessage(plan))}</pre>`,
     ].join("<br>"),
   });
 }
 
 function safeJson(value: unknown): string {
   return JSON.stringify(value, null, 2).replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
+}
+
+function escapeHtml(value: string): string {
+  return value.replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
+}
+
+function manualOwnerAttendanceMessage(plan: AttendanceCheckPlan): string {
+  const meeting = new Date(plan.meeting_datetime);
+  const dateText = Number.isNaN(meeting.getTime()) ? "the scheduled date" : formatDateForWhatsApp(meeting, DEFAULT_TIMEZONE);
+  const timeText = Number.isNaN(meeting.getTime()) ? "the scheduled time" : formatTimeForWhatsApp(meeting, DEFAULT_TIMEZONE);
+  return [
+    `Hi ${attendanceCheckRecipientName(plan.owner)},`,
+    "",
+    `Did ${plan.deal_title} attend the 1-on-1 call scheduled on ${dateText} at ${timeText}?`,
+    "",
+    "Please reply with one of these:",
+    "Attended",
+    "Not Attended",
+  ].join("\n");
+}
+
+async function createManualWhatsAppFailureActivity(plan: AttendanceCheckPlan, reason: string) {
+  return await pipedriveV1("POST", "activities", {
+    deal_id: plan.deal_id,
+    user_id: BEFOREST_ADMIN_USER_ID,
+    subject: "WhatsApp failed - send manually",
+    type: "task",
+    done: 0,
+    due_date: new Date().toISOString().slice(0, 10),
+    note: [
+      "Owner attendance check WhatsApp failed. Please send this manually from WhatsApp Web.",
+      `Reason: ${escapeHtml(reason)}`,
+      `Template: ${escapeHtml(plan.template_name)}`,
+      `Send to: ${escapeHtml(attendanceCheckRecipientName(plan.owner))}`,
+      "",
+      "<strong>Copy-paste message</strong>",
+      `<pre>${escapeHtml(manualOwnerAttendanceMessage(plan))}</pre>`,
+      "<strong>Manual steps</strong>",
+      "1. Send the message above to the owner.",
+      "2. If they reply Attended, set the deal to attended using the owner-attended flow/action.",
+      "3. If they reply Not Attended, set the deal to no-show and send the rebook link.",
+      "4. Mark this Pipedrive activity as done after follow-up.",
+    ].join("<br>"),
+  });
 }
 
 function assertWhatsAppReady(plan: AttendanceCheckPlan) {
@@ -278,7 +371,7 @@ async function buildPlan(
     recipient: interaktRecipient(phone),
     raw_phone_present: Boolean(phone),
     body_values: [
-      ownerDisplayName(owner),
+      attendanceCheckRecipientName(owner),
       deal.title,
       formatDateForWhatsApp(meeting, timezone),
       formatTimeForWhatsApp(meeting, timezone),
@@ -331,10 +424,21 @@ export async function main(
       skipped.push({ ...plan, reason: "already_logged" });
       continue;
     }
-    assertWhatsAppReady(plan);
-    const whatsapp = await sendInteraktTemplate(plan);
-    const activity = await createAttendanceCheckActivity(plan);
-    sent.push({ ...plan, whatsapp, activity_id: activity?.data?.id || activity?.id || null });
+    try {
+      assertWhatsAppReady(plan);
+      const whatsapp = await sendInteraktTemplate(plan);
+      const activity = await createAttendanceCheckActivity(plan);
+      sent.push({ ...plan, whatsapp, activity_id: activity?.data?.id || activity?.id || null });
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      const activity = await createManualWhatsAppFailureActivity(plan, reason);
+      skipped.push({
+        ...plan,
+        reason: "whatsapp_failed_manual_task_created",
+        error: reason,
+        manual_activity_id: activity?.data?.id || activity?.id || null,
+      });
+    }
   }
 
   return {

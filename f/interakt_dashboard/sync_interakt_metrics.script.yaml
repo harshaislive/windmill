@@ -1,0 +1,27 @@
+summary: Sync Interakt WhatsApp dashboard metrics
+description: Fetches Interakt WhatsApp campaign metrics from the Interakt API
+  and upserts normalized campaign rows into Windmill datatables.
+lock: '!inline f/interakt_dashboard/sync_interakt_metrics.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    campaigns_path:
+      type: string
+      description: Optional Interakt API path for campaign reports. Leave empty to try
+        common report endpoints.
+      default: ''
+    end_date:
+      type: string
+      description: Optional YYYY-MM-DD end date for campaign/report fetches.
+      default: ''
+    start_date:
+      type: string
+      description: Optional YYYY-MM-DD start date for campaign/report fetches.
+      default: ''
+    timezone:
+      type: string
+      description: Timezone used for sync metadata.
+      default: Asia/Kolkata
+  required: []

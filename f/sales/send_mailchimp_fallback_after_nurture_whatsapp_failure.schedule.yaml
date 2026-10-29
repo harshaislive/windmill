@@ -1,0 +1,17 @@
+summary: 12A Schedule - Mailchimp fallback for failed nurture WhatsApps
+description: Runs a daily rescue window for Collective Journey day-wise nurture WhatsApp messages that failed delivery and have not been resolved through inbound WhatsApp, manual owner follow-up, post-brochure submission, later successful WhatsApp, or a prior email fallback.
+args:
+  dry_run: false
+  days: 7
+  max_deals: 1000
+  max_emails: 250
+  send_campaigns: true
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 10 * * *
+script_path: f/sales/send_mailchimp_fallback_after_nurture_whatsapp_failure
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

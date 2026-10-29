@@ -1,0 +1,16 @@
+summary: One fixed Community-to-Harsha original Email 01 Gmail QA
+description: Preview by default. One-shot attempt requires a separate approved QA key and exact payload hash. No prospect queue or Zoho calls.
+kind: script
+schema:
+  type: object
+  properties:
+    phase:
+      type: string
+      enum: [preview, send, reconcile_sent, reconcile_reply]
+      default: preview
+    approved_payload_sha256:
+      type: string
+      default: ''
+    record:
+      type: boolean
+      default: false

@@ -1,0 +1,36 @@
+summary: Mailchimp fallback after nurture WhatsApp delivery failure
+description: Finds Collective Journey nurture steps where WhatsApp delivery
+  failed, no inbound WhatsApp/manual follow-up/post-brochure submission happened
+  afterward, and no fallback email was already logged; then batches eligible
+  leads into Mailchimp campaigns by collective and nurture day.
+lock: '!inline
+  f/sales/send_mailchimp_fallback_after_nurture_whatsapp_failure.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    days:
+      type: number
+      description: Lookback window for failed nurture WhatsApp activities.
+      default: 7
+    dry_run:
+      type: boolean
+      description: Preview eligible nurture failures and Mailchimp batch groups
+        without writing to Mailchimp or Pipedrive.
+      default: true
+    max_deals:
+      type: number
+      description: Maximum recent open Pipedrive deals to scan.
+      default: 1000
+    max_emails:
+      type: number
+      description: Maximum eligible contacts to include in one scheduled run.
+      default: 250
+    send_campaigns:
+      type: boolean
+      description: If true, send the Mailchimp campaigns immediately after creating
+        the batch segment and content.
+      default: true
+  required: []
+tag: sales-webhook

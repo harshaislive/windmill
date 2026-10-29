@@ -1,0 +1,5 @@
+summary: Create task intelligence data tables
+description: ''
+lock: '!inline f/task_intelligence_system/setup_data_tables.script.lock'
+kind: script
+schema: {}

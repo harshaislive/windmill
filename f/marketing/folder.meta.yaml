@@ -1,0 +1,6 @@
+summary: LinkedIn marketing analytics dashboard and snapshot sync
+display_name: marketing
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

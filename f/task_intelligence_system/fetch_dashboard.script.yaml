@@ -1,0 +1,5 @@
+summary: Task intelligence dashboard backend
+description: Fetches monthly task intelligence dashboard data from Windmill datatables.
+lock: '!inline f/task_intelligence_system/fetch_dashboard.script.lock'
+kind: script
+schema: {}

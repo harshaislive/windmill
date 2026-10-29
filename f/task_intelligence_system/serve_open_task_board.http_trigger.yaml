@@ -1,0 +1,16 @@
+summary: Public open task dashboard
+description: Passcode-gated read-only view of team Zoho tasks classified with Jev.
+authentication_method: none
+authentication_resource_path: null
+http_method: get
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+route_path: task-intelligence/open-board
+route_path_key: task-intelligence/open-board
+script_path: f/task_intelligence_system/serve_open_task_board
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

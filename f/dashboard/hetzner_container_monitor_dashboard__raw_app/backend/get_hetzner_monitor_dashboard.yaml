@@ -1,0 +1,3 @@
+type: runnableByPath
+path: f/dashboard/get_hetzner_monitor_dashboard
+runType: script

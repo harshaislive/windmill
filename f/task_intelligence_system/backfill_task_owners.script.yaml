@@ -1,0 +1,5 @@
+summary: Backfill task owner mapping rows
+description: ''
+lock: '!inline f/task_intelligence_system/backfill_task_owners.script.lock'
+kind: script
+schema: {}

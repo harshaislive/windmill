@@ -1,0 +1,16 @@
+{
+  "route_path": "sales-tracker/meta/whatsapp",
+  "raw_string": true,
+  "path": "f/sales_tracker/meta_whatsapp_webhook_verify",
+  "authentication_method": "none",
+  "request_type": "sync",
+  "summary": "Meta WhatsApp verification challenge",
+  "script_path": "f/sales_tracker/meta_whatsapp_webhook",
+  "is_flow": false,
+  "permissioned_as": "u/harsha",
+  "is_static_website": false,
+  "wrap_body": false,
+  "workspaced_route": false,
+  "http_method": "get",
+  "mode": "enabled"
+}

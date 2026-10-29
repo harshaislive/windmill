@@ -9,20 +9,30 @@ You are a helpful assistant that can help with Windmill scripts, flows, apps, an
 - Current sales automation coverage, QA results, and backlog are tracked in `workflow_sales/Windmill Sales Automation QA and Backlog.md`. Check and update that file before adding or changing sales automations.
 - Team-facing sales automation documentation lives in `workflow_sales/team_handoff/`. Start with `workflow_sales/team_handoff/README.md` before changing the sales funnel.
 
+## Continuous Learning
+
+This repo preserves operational memory in `data/learning/`; see `docs/CONTINUOUS_LEARNING_SYSTEM.md` for the full writeback rules.
+
+- Use `data/learning/daily/` for work logs, `incidents/` for failures or regressions, `decisions/` for meaningful user/Codex choices, `learnings/` for reusable lessons, and `patterns/` for proven implementation or ops patterns.
+- Use `data/tracking/` for durable execution state, exports, or audit inputs that future runs may need to reconcile.
+- After meaningful work, write back only the durable facts future agents need: what changed, why, proof, risks, and next behavior.
+- Before risky work, read the relevant docs, recent incidents, decisions, learnings, and patterns first.
+- Apply five lenses before acting: engineer for Windmill correctness, operator for execution reliability, CFO for waste prevention, PM for priority and user impact, and archivist for durable memory.
+
 ## Live Sales Automation Index
 
 The current Beforest sales funnel is split into these Windmill items:
 
 - `01A` trigger / `01B` action / `01C` worker: Typeform to Pipedrive intake and product mapping at `f/sales/typeform_to_pipedrive_intake` and `f/sales/map_deal_product_from_collective`.
-- `02A` trigger / `02B` guard: Pipedrive label webhook routes `1on1 - TBC` to calendar prebook and `Scheduled Webinar Awaiting` to webinar CTA at `f/sales/pipedrive_1on1_tbc_to_calendar_prebook`.
-- `03A` action: owner calendar prebook and 1on1 WhatsApp at `f/sales/calendar_prebook_1on1`.
-- `04A` trigger / `04B` flow / `04C` action: Calendly webinar booking to Zoom/Pipedrive/confirmation at `f/sales/calendly_webinar_to_pipedrive_activity` and `f/sales/create_webinar_activity_from_calendly`.
+- `02A` trigger / `02B` guard / `02C` worker: Pipedrive label webhook routes `1on1 - TBC` to the team scheduling notice at `f/sales/send_1on1_team_scheduling_notice` and `GIS Awaiting` to GIS StoryMap CTA at `f/sales/pipedrive_1on1_tbc_to_calendar_prebook`.
+- `03A` action: legacy/internal owner calendar prebook and 1on1 WhatsApp at `f/sales/calendar_prebook_1on1`; not called for fit intake leads in the GIS-only funnel.
+- `04A` trigger / `04B` flow / `04C` action: legacy Calendly webinar booking to Zoom/Pipedrive/confirmation at `f/sales/calendly_webinar_to_pipedrive_activity` and `f/sales/create_webinar_activity_from_calendly`; disabled for the GIS-only funnel unless `f/sales/legacy_webinar_enabled=true`.
 - `05A` trigger / `05B` flow / `05C-05G` workers: Interakt inbound WhatsApp router and 1on1 response handlers.
 - `06A/06B`: 1on1 reminder worker and schedule at `f/sales/send_1on1_reminders`.
 - `07A/07B`: owner attendance check worker and schedule at `f/sales/send_owner_attendance_checks`.
-- `08A`: webinar reminder worker at `f/sales/send_webinar_reminders`; fallback schedule `08Z` is disabled.
-- `09A/09B`: Zoom intro registrants to Pipedrive sync at `f/collectives/zoom_collective_to_pipedrive`.
-- `10A`: unfit/awaiting webinar registration CTA sender at `f/sales/send_webinar_registration_cta`.
+- `08A`: legacy webinar reminder worker at `f/sales/send_webinar_reminders`; fallback schedule `08Z` is disabled and the worker is guarded for the GIS-only funnel.
+- `09A/09B`: legacy Zoom intro registrants to Pipedrive sync at `f/collectives/zoom_collective_to_pipedrive`; schedule disabled for the GIS-only funnel.
+- `10A/10B`: GIS StoryMap CTA sender and open tracker at `f/sales/send_gis_story_cta` and `f/sales/track_gis_story_open`.
 
 Pipedrive activity standard: automation audit activities belong to Beforest Admin (`connect@beforest.co`, user ID `18891506`) and use short, human-readable subjects such as `Typeform received`, `Calendar invite created`, and `WhatsApp failed to deliver`. Real scheduled calls/webinars remain owner-owned open activities.
 
@@ -85,3 +95,9 @@ For specific guidance, ALWAYS use the skills listed below.
 - `.claude/skills/schedules/SKILL.md` - MUST use when configuring schedules.
 - `.claude/skills/resources/SKILL.md` - MUST use when managing resources.
 - `.claude/skills/cli-commands/SKILL.md` - MUST use when using the CLI.
+
+For every Google Sheets creation or write operation, use Maton/API Gateway with the `google-sheets` app route connected to `harsha@beforest.co`; never create or import spreadsheets through the connected Google Drive app unless Harsha explicitly requests it.
+
+## Older material (D: drive)
+This repo moved from `/mnt/d/AI Apps/windmill` to `~/Work/windmill` on 2026-10-29 (cloned, then all uncommitted work copied over; git remote `dcopy` = the D: original). Left on D: because of size, in `/mnt/d/AI Apps/windmill/`: `local/` (lead_pipeline, 813 MB), `sites/`, `outputs/` (Pipedrive snapshots, audits), `data/`, `snapshots/`, `tmp/`, `.codex-backups/`. Related: `/mnt/d/AI Apps/interakt_worker/`, `/mnt/d/AI Apps/hetzner_to_windmill_dockerwise/`.
+Open only when a task needs it; copy what you use into this repo. Never copy lead/customer data dumps or `.env` files into git. `/mnt/d` = D: drive (office PC; may be missing on other PCs).

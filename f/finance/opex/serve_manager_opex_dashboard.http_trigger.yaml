@@ -1,0 +1,16 @@
+summary: Public manager OPEX dashboard
+description: Public no-login route protected by the dashboard's manager email access gate.
+authentication_method: none
+authentication_resource_path: null
+http_method: get
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+route_path: finance/opex/manager-dashboard
+route_path_key: finance/opex/manager-dashboard
+script_path: f/finance/opex/serve_manager_opex_dashboard
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

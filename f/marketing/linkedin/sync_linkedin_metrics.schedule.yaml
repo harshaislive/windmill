@@ -1,0 +1,20 @@
+summary: Daily LinkedIn dashboard metric sync
+description: Runs the LinkedIn metrics sync every day at 7:00 AM Asia/Kolkata.
+args:
+  dry_run: false
+  end_date: ''
+  lookback_days: 30
+  timezone: Asia/Kolkata
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+retry:
+  constant:
+    attempts: 2
+    seconds: 300
+schedule: 0 0 7 * * *
+script_path: f/marketing/linkedin/sync_linkedin_metrics
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

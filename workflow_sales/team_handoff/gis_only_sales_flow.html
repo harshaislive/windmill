@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GIS-Only Sales Funnel Flow</title>
+  <style>
+    :root {
+      --ink: #171717;
+      --muted: #5f6368;
+      --line: #252525;
+      --paper: #ffffff;
+      --surface: #fafafa;
+      --typeform: #e8f2ff;
+      --windmill: #edf7ec;
+      --pipedrive: #fff3cf;
+      --interakt: #ffe9ee;
+      --gis: #e8f6f2;
+      --disabled: #eeeeee;
+      --risk: #ffe5db;
+      --ok: #e6f6df;
+      --shadow: 6px 6px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px),
+        var(--paper);
+      background-size: 24px 24px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    main {
+      width: min(1380px, calc(100vw - 32px));
+      margin: 28px auto 64px;
+    }
+
+    header {
+      border: 2px solid var(--line);
+      background: rgba(255,255,255,0.94);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 920px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      padding: 5px 9px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .typeform { background: var(--typeform); }
+    .windmill { background: var(--windmill); }
+    .pipedrive { background: var(--pipedrive); }
+    .interakt { background: var(--interakt); }
+    .gis { background: var(--gis); }
+    .disabled { background: var(--disabled); }
+    .ok { background: var(--ok); }
+    .risk { background: var(--risk); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(230px, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    section {
+      border: 2px solid var(--line);
+      background: rgba(255,255,255,0.96);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      min-height: 100%;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .step {
+      border: 1.5px solid var(--line);
+      padding: 13px;
+      margin: 0 0 12px;
+      background: var(--surface);
+      position: relative;
+    }
+
+    .step:last-child { margin-bottom: 0; }
+
+    .step strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .arrow {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 800;
+      margin: -4px 0 8px;
+      font-size: 20px;
+    }
+
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .routes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 9px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th { background: var(--surface); }
+
+    code {
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+      background: rgba(0,0,0,0.06);
+      padding: 1px 4px;
+    }
+
+    .note {
+      border-left: 5px solid var(--line);
+      padding: 12px 14px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(2, minmax(240px, 1fr)); }
+      .routes { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      main { width: min(100vw - 20px, 1380px); margin-top: 16px; }
+      header, section { padding: 14px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>GIS-Only Sales Funnel</h1>
+      <p class="subtitle">
+        The webinar path is replaced by a Collective Journey-first path. Leads either qualify for team-managed conversation follow-up, or they are sent the relevant Collective Journey and asked to request a conversation from the form at the end of the brochure.
+      </p>
+      <div class="legend">
+        <span class="pill typeform">Typeform</span>
+        <span class="pill windmill">Windmill</span>
+        <span class="pill pipedrive">Pipedrive</span>
+        <span class="pill interakt">WhatsApp / Interakt</span>
+        <span class="pill gis">Collective Journey</span>
+        <span class="pill disabled">Disabled legacy</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section>
+        <h2>1. Intake</h2>
+        <div class="step typeform">
+          <strong>Primary collective Typeforms</strong>
+          <p>Bhopal, Mumbai, Poomaale 2.0, and Hammiyala intake forms send submissions to Windmill.</p>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="step windmill">
+          <strong><code>f/sales/typeform_to_pipedrive_intake</code></strong>
+          <p>Parses answers, normalizes contact fields, resolves the collective, and checks the why-join answer.</p>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="step pipedrive">
+          <strong>Same-deal update priority</strong>
+          <p>Hidden <code>pipedrive_deal_id</code> wins. Then response-token guard, then same person/contact in same collective. New deal only if no safe match exists.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>2. Routing Decision</h2>
+        <div class="step ok">
+          <strong>Meaningful why-join + fit</strong>
+          <p>Deal gets existing <code>1on1 TBC</code> label and receives a team scheduling notice. No calendar slot is prebooked automatically.</p>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="step gis">
+          <strong>Blank, missing, or filler why-join</strong>
+          <p>Deal is labelled <code>GIS Awaiting</code>. No Calendly or Zoom link is sent.</p>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="step gis">
+          <strong>Unfit or manual fallback</strong>
+          <p>Deal is labelled <code>GIS Awaiting</code>. Azure uncertainty now falls back to GIS rather than webinar.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>3. Pipedrive Guard</h2>
+        <div class="step pipedrive">
+          <strong>Deal label webhook</strong>
+          <p>Pipedrive sends deal changes to the legacy route <code>pipedrive/1on1/tbc/prebook</code>. The route name is old; the live action is the team scheduling notice.</p>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="step windmill">
+          <strong><code>f/sales/pipedrive_1on1_tbc_to_calendar_prebook</code></strong>
+          <p>If <code>1on1 TBC</code>, it queues the 1on1 team scheduling notice. If <code>GIS Awaiting</code>, it queues the GIS CTA sender.</p>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="step interakt">
+          <strong><code>f/sales/send_1on1_team_scheduling_notice</code></strong>
+          <p>Sends a concise WhatsApp note saying one of the team members will message directly to schedule the 1on1.</p>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="step interakt">
+          <strong><code>f/sales/send_gis_story_cta</code></strong>
+          <p>Builds a signed tracking token, sends the WhatsApp template, logs <code>GIS story link sent</code>, and applies <code>GIS Sent</code>.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>4. WhatsApp CTA</h2>
+        <div class="step interakt">
+          <strong>Template</strong>
+          <p><code>collective_story_initial_cta_v3</code></p>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="step interakt">
+          <strong>Message intent</strong>
+          <p>Go through the Collective Journey in full first. Request a conversation from the form at the end of the brochure.</p>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="step windmill">
+          <strong>Button URL</strong>
+          <p><code>https://windmill.devsharsha.live/api/r/sales/gis/open?t={{token}}</code></p>
+        </div>
+      </section>
+
+      <section class="wide">
+        <h2>5. GIS Open Tracking And Post-GIS Request</h2>
+        <div class="routes">
+          <div class="step windmill">
+            <strong>Open tracker</strong>
+            <p><code>f/sales/track_gis_story_open</code> verifies the signed token, redirects to ArcGIS, and best-effort logs <code>GIS story opened</code> plus <code>GIS Opened</code>. Deleted Pipedrive deals must not block the lead from opening the Journey.</p>
+          </div>
+          <div class="step gis">
+            <strong>Collective Journey</strong>
+            <p>The lead goes through the Collective Journey. The bottom CTA sends them to the matching post-GIS Typeform.</p>
+          </div>
+          <div class="step typeform">
+            <strong>Post-GIS Typeform</strong>
+            <p>Journey bottom CTAs use fixed Windmill redirect URLs under <code>sales/gis/request-1on1/{collective}</code>, then forward <code>collective</code>, <code>source=collective_story</code>, and <code>story_cta=bottom_1on1_request</code> into Typeform.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wide">
+        <h2>6. Collective Journey Second-Form Nurture</h2>
+        <div class="routes">
+          <div class="step pipedrive">
+            <strong>Audience</strong>
+            <p>Deals with <code>GIS Sent</code> or <code>GIS Opened</code> that have not submitted the post-Journey Typeform. Opening the journey does not stop the sequence.</p>
+          </div>
+          <div class="step interakt">
+            <strong>Cadence</strong>
+            <p>Seven alternate-day WhatsApp follow-ups on Day 2, 4, 6, 8, 10, 12, and 14 after the first Collective Journey send.</p>
+          </div>
+          <div class="step windmill">
+            <strong><code>f/sales/send_collective_story_unopened_nurture</code></strong>
+            <p>Uses tracked buttons, collective-specific context lines, and Pipedrive activities to dedupe every follow-up step. The sequence stops after <code>Post-GIS Typeform submitted</code>.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wide">
+        <h2>Routing Matrix</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Lead input / condition</th>
+              <th>Pipedrive label</th>
+              <th>WhatsApp action</th>
+              <th>Next step</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Meaningful why-join answer and fit classification</td>
+              <td><code>1on1 TBC</code></td>
+              <td>Send 1on1 team scheduling notice</td>
+              <td>Team member messages directly to schedule the 1on1</td>
+            </tr>
+            <tr>
+              <td>Missing, blank, or filler why-join answer</td>
+              <td><code>GIS Awaiting</code></td>
+              <td>Send Collective Journey CTA only</td>
+              <td>Lead reads GIS and requests 1on1 at story bottom</td>
+            </tr>
+            <tr>
+              <td>Meaningful answer but unfit or manual fallback</td>
+              <td><code>GIS Awaiting</code></td>
+              <td>Send Collective Journey CTA only</td>
+              <td>No webinar, no Calendly, no Zoom</td>
+            </tr>
+            <tr>
+              <td>Post-GIS Typeform with valid hidden deal ID</td>
+              <td>Updates same existing deal</td>
+              <td>Normal downstream 1on1 path if fit</td>
+              <td>No duplicate deal</td>
+            </tr>
+            <tr>
+              <td>Post-GIS Typeform without hidden deal ID</td>
+              <td>Fallback match by token/contact/collective</td>
+              <td>Normal downstream path after safe match</td>
+              <td>New deal only when no safe match exists</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Collective GIS Links</h2>
+        <div class="step gis"><strong>Bhopal</strong><p><code>7d523cb1f7c34589b60f313a98995339</code></p></div>
+        <div class="step gis"><strong>Mumbai</strong><p><code>901566160aa943b995ec0a63b4a988d4</code></p></div>
+        <div class="step gis"><strong>Poomaale 2.0</strong><p><code>2f614dbb2bb14156bbe9d0c1a2cd9f1c</code></p></div>
+        <div class="step gis"><strong>Hammiyala</strong><p><code>a6f1ff07326a4dc0905f2030b6b267f5</code></p></div>
+      </section>
+
+      <section>
+        <h2>Post-GIS Typeforms</h2>
+        <div class="step typeform"><strong>Bhopal</strong><p><code>i1b6g9ZU</code></p></div>
+        <div class="step typeform"><strong>Mumbai</strong><p><code>s9YSmglR</code></p></div>
+        <div class="step typeform"><strong>Poomaale 2.0</strong><p><code>Prnzj8zH</code></p></div>
+        <div class="step typeform"><strong>Hammiyala</strong><p><code>RqtSprR9</code></p></div>
+      </section>
+
+      <section>
+        <h2>Live Labels</h2>
+        <div class="step pipedrive"><strong>GIS Awaiting</strong><p><code>120</code></p></div>
+        <div class="step pipedrive"><strong>GIS Sent</strong><p><code>121</code></p></div>
+        <div class="step pipedrive"><strong>GIS Opened</strong><p><code>122</code></p></div>
+      </section>
+
+      <section>
+        <h2>Disabled Legacy Paths</h2>
+        <div class="step disabled"><strong>Calendly webinar webhook</strong><p><code>f/sales/calendly_webinar_to_pipedrive_activity</code> disabled.</p></div>
+        <div class="step disabled"><strong>Webinar attendance sync</strong><p><code>f/sales/sync_webinar_attendance_and_prebook</code> schedule disabled.</p></div>
+        <div class="step disabled"><strong>Zoom registrant import</strong><p><code>f/collectives/zoom_collective_to_pipedrive</code> schedule disabled.</p></div>
+        <div class="step disabled"><strong>Automatic 1on1 prebook</strong><p><code>f/sales/calendar_prebook_1on1</code> is no longer called for fit intake leads.</p></div>
+      </section>
+
+      <section class="wide">
+        <h2>Operational Notes</h2>
+        <div class="note">
+          Windmill/Pipedrive click tracking is the operational source of truth for whether a lead opened the Collective Journey. ArcGIS or GA4 analytics can still be used for aggregate reading behavior, but the CRM state comes from the signed Windmill redirect.
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

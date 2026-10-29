@@ -1,0 +1,22 @@
+summary: Get workflow dashboard metrics
+description: Reads dashboard datatables and returns summary, workflow, failure,
+  and trend metrics for the observability app.
+lock: '!inline f/dashboard/get_dashboard_metrics.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    days:
+      type: integer
+      description: Number of days to include in trend/failure view.
+      default: 7
+    metric_date:
+      type: string
+      description: Optional YYYY-MM-DD dashboard date. Defaults to today in Asia/Kolkata.
+      default: ''
+    timezone:
+      type: string
+      description: Timezone used to decide the local metric day.
+      default: Asia/Kolkata
+  required: []

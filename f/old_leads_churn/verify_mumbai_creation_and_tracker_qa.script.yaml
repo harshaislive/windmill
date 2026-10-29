@@ -1,0 +1,9 @@
+summary: ''
+description: ''
+lock: '!inline f/old_leads_churn/verify_mumbai_creation_and_tracker_qa.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

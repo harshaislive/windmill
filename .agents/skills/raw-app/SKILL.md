@@ -256,3 +256,16 @@ Tell the user they can run these commands (do NOT run them yourself):
 4. **Use descriptive IDs** - `get_user.ts` not `a.ts`
 5. **Always whitelist tables** - add to `data.tables` before querying
 6. **Generate locks** - tell the user to run `wmill generate-metadata` after adding/modifying backend runnables
+
+## Public Passcode Dashboards
+
+Use this pattern when a dashboard raw app must be shareable without Windmill login, especially if `public: true` and `custom_path` still show login, not found, or a blank page.
+
+1. Keep the existing raw app as the UI source of truth. Do not recreate the dashboard UI unless the user explicitly asks for a redesign.
+2. Add `public: true` and a stable `custom_path` in the raw app YAML first, then push the raw app. If the app shell loads blank, verify the public app/resource endpoints; a `public_resource` response of `null` means the public bundle is not being served.
+3. For a reliable public link, create an HTTP GET trigger in the same existing folder, with `authentication_method: none`, `request_type: sync`, `workspaced_route: false`, and a clear route like `facebook-ads/dashboard`.
+4. The route script should return `{ windmill_content_type: "text/html; charset=utf-8", result: html }`. Add a `preprocessor(event)` that forwards `event.query` into `main(query)` for date filters and API shims.
+5. Build the existing raw app with Vite and embed the compiled CSS/JS in the route response, or serve equivalent assets from the route. Preserve the raw app's passcode gate and localStorage key so users see the same experience.
+6. Provide a tiny public `window.wmill.backend.<runnable>` shim before loading the bundle. The shim should call the same HTTP route with a private query marker such as `__wmill_public_api=fetch_dashboard`, pass through date args, and return JSON.
+7. In the route script, when the query marker is present, call the same data/backend logic used by the app and return `{ windmill_content_type: "application/json; charset=utf-8", result: payload }`. Match the raw app's expected data shape exactly.
+8. Verify both live paths: the HTML route returns `text/html` and no Windmill login/shell text, and the JSON shim route returns the expected dashboard fields. Use a browser smoke test to confirm the passcode screen and app UI render.

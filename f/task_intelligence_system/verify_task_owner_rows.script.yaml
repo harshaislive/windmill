@@ -1,0 +1,5 @@
+summary: Verify task owner mapping rows
+description: ''
+lock: '!inline f/task_intelligence_system/verify_task_owner_rows.script.lock'
+kind: script
+schema: {}

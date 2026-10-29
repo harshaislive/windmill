@@ -1,8 +1,12 @@
+import * as wmill from "windmill-client";
+
 type Action =
   | "reschedule_requested"
   | "attendance_confirmed"
   | "owner_attended"
   | "owner_not_attended"
+  | "owner_touchbase_confirmed"
+  | "owner_touchbase_pending"
   | "message_failed"
   | "ignored";
 
@@ -11,6 +15,8 @@ const ACTION_WORKERS: Record<Action, string> = {
   attendance_confirmed: "f/sales/interakt_attendance_confirmed_worker",
   owner_attended: "f/sales/interakt_owner_attended_worker",
   owner_not_attended: "f/sales/interakt_owner_no_show_worker",
+  owner_touchbase_confirmed: "f/sales/owner_touchbase/handle_owner_touchbase_response",
+  owner_touchbase_pending: "f/sales/owner_touchbase/handle_owner_touchbase_response",
   message_failed: "f/sales/interakt_ignored_message_worker",
   ignored: "f/sales/interakt_ignored_message_worker",
 };
@@ -70,6 +76,8 @@ const CONTEXT_KEYS = new Set([
   "Deal - Status",
   "Deal - Pipeline",
 ]);
+
+type AnalyticsContext = ReturnType<typeof findContext>;
 
 function normalizeText(value: unknown): string {
   return String(value ?? "")
@@ -150,13 +158,21 @@ function firstMatchingText(payload: unknown) {
       normalized.includes("confirm attendance") ||
       normalized.includes("attendance confirmed") ||
       normalized === "attended" ||
-      normalized.includes("not attended")
+      normalized.includes("not attended") ||
+      normalized.includes("yes touched base") ||
+      normalized.includes("no pending") ||
+      normalized.includes("touched base")
     );
   }) ?? keyed[0] ?? null;
 }
 
-function inferAction(buttonText: string | null): Action {
+function inferAction(buttonText: string | null, callbackData: string | null = null): Action {
   const normalized = normalizeText(buttonText);
+  if (normalizeText(callbackData).includes("owner touchbase check")) {
+    if (normalized.includes("no") || normalized.includes("pending")) return "owner_touchbase_pending";
+    if (normalized.includes("yes") || normalized.includes("touched base")) return "owner_touchbase_confirmed";
+    return "ignored";
+  }
   if (
     normalized.includes("reschedule call") ||
     normalized.includes("rescehdule call") ||
@@ -196,7 +212,16 @@ function parseTemplateName(rawTemplate: string | null) {
   }
 }
 
-function inferWebhookAction(payload: unknown, buttonText: string | null): Action {
+function parseRawTemplate(rawTemplate: string | null) {
+  if (!rawTemplate) return null;
+  try {
+    return JSON.parse(rawTemplate);
+  } catch {
+    return null;
+  }
+}
+
+function inferWebhookAction(payload: unknown, buttonText: string | null, callbackData: string | null): Action {
   const type = normalizeText(webhookType(payload));
   const messageStatus = normalizeText(String(valueAtPath(payload, ["data", "message", "message_status"]) ?? ""));
   const isInteraktStatusWebhook = type.startsWith("message api ") || type.startsWith("message campaign ");
@@ -208,7 +233,7 @@ function inferWebhookAction(payload: unknown, buttonText: string | null): Action
     return "message_failed";
   }
   if (isInteraktStatusWebhook) return "ignored";
-  return inferAction(buttonText);
+  return inferAction(buttonText, callbackData);
 }
 
 function findCallbackData(payload: unknown) {
@@ -231,11 +256,32 @@ function findDealId(payload: unknown, callbackData: string | null) {
   return match?.[1] ? Number(match[1]) : null;
 }
 
-function findPhone(payload: unknown) {
-  const value = collectStringsByKey(payload, PHONE_KEYS)[0];
+function canonicalPhone(rawPhone: unknown, rawCountryCode: unknown = "+91") {
+  const value = String(rawPhone ?? "").trim();
   if (!value) return null;
   const digits = value.replace(/\D/g, "");
+  if (!digits) return null;
+  if (digits.length === 12 && digits.startsWith("91")) return digits;
+  if (digits.length === 11 && digits.startsWith("0")) return `91${digits.slice(1)}`;
+  if (digits.length === 10) {
+    const countryDigits = String(rawCountryCode ?? "+91").replace(/\D/g, "") || "91";
+    return `${countryDigits}${digits}`;
+  }
   return digits.length >= 10 ? digits : value;
+}
+
+function findPhone(payload: unknown) {
+  const customerChannelPhone = valueAtPath(payload, ["data", "customer", "channel_phone_number"]);
+  const customerPhone = valueAtPath(payload, ["data", "customer", "phone_number"]);
+  const customerCountryCode = valueAtPath(payload, ["data", "customer", "country_code"]);
+  const explicitFull = collectStringsByKey(payload, new Set(["fullPhoneNumber", "wa_id", "waId", "channel_phone_number"]))[0];
+  const localPhone = collectStringsByKey(payload, new Set(["phoneNumber", "phone_number", "phone", "customerPhone"]))[0];
+  return (
+    canonicalPhone(customerChannelPhone, customerCountryCode) ||
+    canonicalPhone(explicitFull, customerCountryCode) ||
+    canonicalPhone(customerPhone, customerCountryCode) ||
+    canonicalPhone(localPhone, customerCountryCode)
+  );
 }
 
 function findContext(payload: unknown) {
@@ -254,6 +300,7 @@ function findContext(payload: unknown) {
     channel_error_code: valueAtPath(payload, ["data", "message", "channel_error_code"]) || values.channel_error_code,
     channel_failure_reason: valueAtPath(payload, ["data", "message", "channel_failure_reason"]) || values.channel_failure_reason,
     template_name: parseTemplateName(typeof rawTemplate === "string" ? rawTemplate : values.raw_template),
+    raw_template: typeof rawTemplate === "string" ? rawTemplate : values.raw_template,
     received_at: values.received_at_utc || values.created_at || values.timestamp,
     delivered_at: values.delivered_at_utc,
     seen_at: values.seen_at_utc,
@@ -262,6 +309,138 @@ function findContext(payload: unknown) {
     deal_hint_status: values["Deal - Status"],
     deal_hint_pipeline: values["Deal - Pipeline"],
   };
+}
+
+function templateCategory(rawTemplate: unknown) {
+  const parsed = parseRawTemplate(typeof rawTemplate === "string" ? rawTemplate : null);
+  return typeof parsed?.category === "string" ? parsed.category : null;
+}
+
+function campaignId(payload: unknown) {
+  const value = valueAtPath(payload, ["data", "message", "campaign_id"]);
+  return value == null ? null : String(value);
+}
+
+function campaignName(payload: unknown) {
+  const value = valueAtPath(payload, ["data", "message", "campaign_name"]);
+  return value == null ? null : String(value);
+}
+
+function customerId(payload: unknown) {
+  const value = valueAtPath(payload, ["data", "customer", "id"]) || valueAtPath(payload, ["data", "message", "customer", "id"]);
+  return value == null ? null : String(value);
+}
+
+function eventTimestamp(payload: unknown, context: AnalyticsContext) {
+  return String(
+    context.seen_at ||
+      context.delivered_at ||
+      context.received_at ||
+      valueAtPath(payload, ["data", "message", "created_at"]) ||
+      valueAtPath(payload, ["timestamp"]) ||
+      new Date().toISOString(),
+  );
+}
+
+function dateInTimezone(date = new Date(), timezone = "Asia/Kolkata") {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const get = (type: string) => parts.find((part) => part.type === type)?.value || "";
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+async function payloadHash(payload: unknown) {
+  const bytes = new TextEncoder().encode(JSON.stringify(payload ?? null));
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function ensureInteraktAnalyticsTables() {
+  const sql = wmill.datatable("main");
+  await sql`
+    CREATE TABLE IF NOT EXISTS interakt_inbound_webhook_raw_events (
+      raw_event_id TEXT PRIMARY KEY,
+      received_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      event_timestamp TIMESTAMPTZ,
+      event_date DATE NOT NULL DEFAULT ((NOW() AT TIME ZONE 'Asia/Kolkata')::DATE),
+      source_path TEXT NOT NULL DEFAULT 'f/sales/interakt_whatsapp_inbound',
+      webhook_type TEXT,
+      action TEXT,
+      planned_worker TEXT,
+      message_status TEXT,
+      message_id TEXT,
+      campaign_id TEXT,
+      campaign_name TEXT,
+      template_name TEXT,
+      category TEXT,
+      customer_id TEXT,
+      phone_number TEXT,
+      callback_data TEXT,
+      deal_id BIGINT,
+      button_text TEXT,
+      dry_run BOOLEAN NOT NULL DEFAULT FALSE,
+      payload_sha256 TEXT NOT NULL,
+      idempotency_key TEXT,
+      headers JSONB NOT NULL DEFAULT '{}'::JSONB,
+      query JSONB NOT NULL DEFAULT '{}'::JSONB,
+      raw_payload JSONB NOT NULL DEFAULT '{}'::JSONB,
+      router_context JSONB NOT NULL DEFAULT '{}'::JSONB,
+      source_synced_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `.execute();
+  await sql`CREATE INDEX IF NOT EXISTS idx_interakt_raw_received_at ON interakt_inbound_webhook_raw_events (received_at DESC)`.execute();
+  await sql`CREATE INDEX IF NOT EXISTS idx_interakt_raw_message_id ON interakt_inbound_webhook_raw_events (message_id)`.execute();
+  await sql`CREATE INDEX IF NOT EXISTS idx_interakt_raw_deal_id ON interakt_inbound_webhook_raw_events (deal_id)`.execute();
+  await sql`CREATE INDEX IF NOT EXISTS idx_interakt_raw_event_type ON interakt_inbound_webhook_raw_events (webhook_type, message_status, action)`.execute();
+}
+
+async function logIncomingWebhookEvent(args: {
+  payload: unknown;
+  headers: Record<string, string>;
+  query: Record<string, string>;
+  dryRun: boolean;
+  action: Action;
+  dealId: number | null;
+  buttonText: string | null;
+  callbackData: string | null;
+  phone: string | null;
+  context: AnalyticsContext;
+}) {
+  await ensureInteraktAnalyticsTables();
+  const sql = wmill.datatable("main");
+  const hash = await payloadHash(args.payload);
+  const timestamp = eventTimestamp(args.payload, args.context);
+  const parsedTimestamp = new Date(timestamp);
+  const eventTimestampIso = Number.isNaN(parsedTimestamp.getTime()) ? new Date().toISOString() : parsedTimestamp.toISOString();
+  const messageId = args.context.message_id ? String(args.context.message_id) : null;
+  const idempotencyKey = [
+    messageId || "no-message-id",
+    args.context.webhook_type || "unknown",
+    args.context.message_status || "no-status",
+    eventTimestampIso,
+    hash.slice(0, 16),
+  ].join(":");
+  const rawEventId = crypto.randomUUID();
+  await sql`
+    INSERT INTO interakt_inbound_webhook_raw_events (
+      raw_event_id, received_at, event_timestamp, event_date, webhook_type, action, planned_worker,
+      message_status, message_id, campaign_id, campaign_name, template_name, category, customer_id,
+      phone_number, callback_data, deal_id, button_text, dry_run, payload_sha256, idempotency_key,
+      headers, query, raw_payload, router_context, source_synced_at
+    ) VALUES (
+      ${rawEventId}, NOW(), ${eventTimestampIso}::TIMESTAMPTZ, (${eventTimestampIso}::TIMESTAMPTZ AT TIME ZONE 'Asia/Kolkata')::DATE,
+      ${String(args.context.webhook_type || "")}, ${args.action}, ${ACTION_WORKERS[args.action]},
+      ${args.context.message_status ? String(args.context.message_status) : null}, ${messageId}, ${campaignId(args.payload)}, ${campaignName(args.payload)},
+      ${args.context.template_name ? String(args.context.template_name) : null}, ${templateCategory(args.context.raw_template)}, ${customerId(args.payload)},
+      ${args.phone}, ${args.callbackData}, ${args.dealId}::BIGINT, ${args.buttonText}, ${args.dryRun}, ${hash}, ${idempotencyKey},
+      ${args.headers || {}}, ${args.query || {}}, ${args.payload || {}}, ${args.context || {}}, NOW()
+    )
+  `.execute();
+  return { raw_event_id: rawEventId, table: "main.interakt_inbound_webhook_raw_events", idempotency_key: idempotencyKey };
 }
 
 function summarizeShape(value: unknown, depth = 0): unknown {
@@ -288,13 +467,36 @@ export async function main(
   const buttonText = firstMatchingText(payload);
   const callbackData = findCallbackData(payload);
   const dealId = findDealId(payload, callbackData);
-  const action = inferWebhookAction(payload, buttonText);
+  const action = inferWebhookAction(payload, buttonText, callbackData);
   const context = findContext(payload);
+  let analyticsLog: Record<string, unknown> | null = null;
+  let analyticsLogError = "";
+  if (!dry_run) {
+    try {
+      analyticsLog = await logIncomingWebhookEvent({
+        payload,
+        headers,
+        query,
+        dryRun: dry_run,
+        action,
+        dealId,
+        buttonText,
+        callbackData,
+        phone: findPhone(payload),
+        context,
+      });
+    } catch (error) {
+      analyticsLogError = error instanceof Error ? error.message : String(error);
+      console.warn("Interakt webhook analytics log skipped", analyticsLogError);
+    }
+  }
 
   return {
     received: true,
     action,
     planned_worker: ACTION_WORKERS[action],
+    analytics_log: analyticsLog,
+    analytics_log_error: analyticsLogError || null,
     deal_id: dealId,
     button_text: buttonText,
     callback_data: callbackData,

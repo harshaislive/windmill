@@ -1,0 +1,12 @@
+summary: Verify one exact Mumbai nurture message in Gmail Sent
+description: Read-only mailbox evidence. Advances journal only after exact message ID, addresses and approved content match. Never sends.
+kind: script
+schema:
+  type: object
+  required: [send_id]
+  properties:
+    send_id:
+      type: integer
+    dry_run:
+      type: boolean
+      default: true

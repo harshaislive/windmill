@@ -1,0 +1,6 @@
+summary: Preview twenty exact fresh Mumbai recipients for human review
+description: Proposes up to five clear rows per sender from a bounded sixty-row pool. Reads current Harsha Sheets source and cached-token CRM searches only. Never approves, admits, refreshes OAuth, creates records or sends.
+kind: script
+schema:
+  type: object
+  properties: {}

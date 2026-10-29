@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "windmill-client": "latest",
+    "libphonenumber-js": "latest"
+  }
+}
+//bun.lock
+{
+  "lockfileVersion": 2,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "dependencies": {
+        "libphonenumber-js": "latest",
+        "windmill-client": "latest",
+      },
+    },
+  },
+  "packages": {
+    "libphonenumber-js": ["libphonenumber-js@1.13.12", "", {}, "sha512-uLVeV1c9OTk6qkdqnj+mpMD+ZdnZ0szVyWu58HwMmpwkHA1gCEkyjd3veZQXDnuw9KEwSRjcc9B1pS9XKIN1fA=="],
+
+    "windmill-client": ["windmill-client@1.806.0", "", {}, "sha512-197UuOCR/dRbuNHETahjyW6KAIkvdfBnsYteOy3SVXByuMLtww8zCkBPpGlwG4hP/SoIlNIWFfDDZbemqJ1z7Q=="],
+  }
+}

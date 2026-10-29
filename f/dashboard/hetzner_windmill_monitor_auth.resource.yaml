@@ -1,0 +1,6 @@
+description: API key auth for the Hetzner Windmill monitor collector. The server
+  sends this value in the X-Monitor-Secret header.
+value:
+  api_key_header: X-Monitor-Secret
+  api_key_secret: $var:f/dashboard/hetzner_windmill_monitor_secret
+resource_type: api_key_auth

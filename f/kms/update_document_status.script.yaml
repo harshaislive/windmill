@@ -1,0 +1,5 @@
+summary: ''
+description: ''
+lock: '!inline f/kms/update_document_status.script.lock'
+kind: script
+schema: null

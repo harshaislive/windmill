@@ -16,6 +16,12 @@ Dry-run means:
 
 Exception: some dry-runs still read live external systems such as Pipedrive, Calendly availability, Google Calendar free/busy, and Zoom meeting lists.
 
+### Vivek Calendly reconciliation
+
+Run `f/sales/reconcile_vivek_calendly_bookings` with `dry_run=true`, `lookback_days=7`, `lookahead_days=60`, and `max_writes=0` before changing its matching rules. A safe result lists masked invitee emails and reports matched, ambiguous, unmatched, canceled, and out-of-scope records without writing.
+
+Live matching is restricted to open Vivek-owned deals in Mumbai pipeline `2` and Bhopal pipeline `4`. UTM campaign selects the pipeline; without UTM, exactly one eligible deal must remain. After a live run, repeat the dry-run and verify `update_deal=false`, `create_call_activity=false`, and `create_audit_activity=false` for the synced booking. Hammiyala/Poomaale must never appear as candidates.
+
 ## Common Test Commands
 
 Typeform intake dry-run:
@@ -28,7 +34,7 @@ $data = @{ body = $payload; dry_run = $true } | ConvertTo-Json -Depth 100 -Compr
 wmill script run f/sales/typeform_to_pipedrive_intake -d $data -s
 ```
 
-1on1 calendar prebook dry-run:
+Legacy/internal 1on1 calendar prebook dry-run (not called by the live fit-lead route):
 
 ```powershell
 wmill script run f/sales/calendar_prebook_1on1 -d '{"deal_id":12662,"dry_run":true,"send_whatsapp":false}' -s
@@ -69,6 +75,16 @@ $payload = @{
   }
 }
 $data = @{ calendly_payload = $payload; dry_run = $true } | ConvertTo-Json -Depth 100 -Compress
+wmill script run f/sales/create_webinar_activity_from_calendly -d $data -s
+```
+
+Contained Calendly-to-Zoom live run after approval:
+
+```powershell
+# Precondition: Windmill variable f/sales/calendly_zoom_registration_enabled is set to true.
+# Keep schedule_attendance_checks false so only Zoom registration, Pipedrive update,
+# confirmation WhatsApp, and one-off reminder jobs run.
+$data = @{ calendly_payload = $payload; dry_run = $false; schedule_attendance_checks = $false } | ConvertTo-Json -Depth 100 -Compress
 wmill script run f/sales/create_webinar_activity_from_calendly -d $data -s
 ```
 
@@ -149,7 +165,7 @@ If Azure fit failed:
 - Look for open Pipedrive activity subject `Review fit manually`.
 - Human should inspect Typeform answers and set the correct label/stage.
 
-### 1on1 Did Not Prebook
+### Fit 1on1 Did Not Send The Team Scheduling Notice
 
 Check deal:
 
@@ -161,13 +177,23 @@ Check Windmill:
 
 - `02A` Pipedrive webhook job exists.
 - `02B` did not return ignored.
-- `03A` dry-run finds a slot.
+- `02C` sent `collective_1on1_team_scheduling_notice` and logged `1on1 team scheduling notice sent`.
+- The owner touchbase queue was created for 24 hours later.
 
-If no slot:
+Do not expect `02B` to call `03A` or prebook a calendar slot. `03A` is now internal/manual only.
 
-- Deal should move to label `105` 1on1 Awaiting.
-- Lead should receive booking link fallback.
-- Beforest Admin should see audit activity.
+### Vivek Calendly Booking Did Not Sync
+
+Check:
+
+- The booking uses the configured Vivek event type.
+- Invitee email exactly matches a Pipedrive person attached to an open Vivek-owned deal.
+- Bhopal uses `utm_campaign=bhopal` and pipeline `4`; Mumbai uses `utm_campaign=mumbai` and pipeline `2`.
+- If UTM is missing, exactly one eligible Bhopal/Mumbai deal remains.
+- The `14B` schedule is enabled and the latest job ran at one of 8:37 AM, 11:37 AM, 3:37 PM, or 7:37 PM IST.
+- A dry-run reports the record as `matched`, not `ambiguous`, `unmatched`, or `out_of_scope`.
+
+After a successful live sync, confirm the deal has a `calendly:` meeting reference, the meeting datetime, an open Vivek-owned activity, and the done `Vivek Calendly booking synced` admin activity. This reference is also the Bhopal/Mumbai nurture stop signal.
 
 ### Reschedule Did Not Work
 
@@ -176,7 +202,7 @@ Check:
 - Interakt inbound webhook signed request reached `05A`.
 - Router classified action as `reschedule_requested`.
 - Callback data includes `pipedrive_deal:<id>`.
-- Pipedrive meeting reference ID contains a Google Calendar event reference.
+- For legacy Google Calendar bookings, Pipedrive meeting reference ID contains the calendar event reference. Vivek Calendly cancellations/reschedules are handled separately by `14A` using the `calendly:` reference.
 
 If calendar event was not found, the worker still logs an admin audit activity with cancel result.
 
@@ -218,7 +244,7 @@ If automation failed before label transition:
 If automation failed after external action but before audit:
 
 - Do not blindly rerun without checking side effects.
-- Check Google Calendar, Interakt, Zoom, and Pipedrive fields.
+- Check the relevant source first: Vivek Calendly for Bhopal/Mumbai brochure bookings, the Rakesh post-brochure Typeform for Hammiyala/Poomaale, then Interakt and Pipedrive fields. Check Google Calendar/Zoom only for legacy or explicitly gated paths.
 - If safe, rerun with explicit `dry_run:false` only on the narrow worker.
 
 If duplicate Pipedrive deals exist:

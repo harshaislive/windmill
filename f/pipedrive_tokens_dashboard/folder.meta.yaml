@@ -1,0 +1,6 @@
+summary: Pipedrive Token Usage Dashboard
+display_name: pipedrive_tokens_dashboard
+extra_perms:
+  u/harsha: true
+owners:
+  - u/harsha

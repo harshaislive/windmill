@@ -1,0 +1,9 @@
+summary: ''
+description: ''
+lock: '!inline f/sales_tracker/check_first_email_pilot_replies.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

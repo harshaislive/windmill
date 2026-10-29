@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beforest Sales Funnel Live Blueprint</title>
+  <style>
+    :root {
+      --ink: #16211d;
+      --muted: #5e6a63;
+      --paper: #fbfaf5;
+      --white: #ffffff;
+      --line: #22332d;
+      --soft: #eef2ec;
+      --typeform: #e8f2ff;
+      --windmill: #e8f6df;
+      --whatsapp: #dcf7e6;
+      --pipedrive: #fff1cc;
+      --mailchimp: #ffe8d8;
+      --owner: #f0e8ff;
+      --danger: #ffe4e8;
+      --shadow: 0 14px 34px rgba(22, 33, 29, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      line-height: 1.45;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(rgba(34, 51, 45, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 51, 45, 0.05) 1px, transparent 1px),
+        var(--paper);
+      background-size: 24px 24px;
+    }
+
+    main {
+      width: min(1240px, calc(100vw - 32px));
+      margin: 28px auto 64px;
+    }
+
+    header,
+    section {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: var(--shadow);
+    }
+
+    header {
+      padding: 28px;
+    }
+
+    .eyebrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--soft);
+      padding: 5px 10px;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 0;
+      font-size: clamp(34px, 5.5vw, 68px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+    }
+
+    .lead {
+      max-width: 980px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    section {
+      margin-top: 22px;
+      overflow: hidden;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .section-note {
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: var(--white);
+      padding: 14px;
+      min-height: 100%;
+    }
+
+    .card p,
+    .card li,
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    li + li {
+      margin-top: 5px;
+    }
+
+    .flow-wrap {
+      padding: 18px;
+      overflow-x: auto;
+    }
+
+    .mermaid-shell {
+      padding: 18px;
+      overflow-x: auto;
+      background: var(--white);
+    }
+
+    .mermaid {
+      min-width: 1180px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: #fffefa;
+    }
+
+    .mermaid svg {
+      max-width: none;
+    }
+
+    .flow {
+      min-width: 1080px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .lane-title {
+      border: 1px solid var(--line);
+      background: var(--ink);
+      color: var(--white);
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .node {
+      position: relative;
+      min-height: 118px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      padding: 12px;
+    }
+
+    .node.typeform { background: var(--typeform); }
+    .node.windmill { background: var(--windmill); }
+    .node.whatsapp { background: var(--whatsapp); }
+    .node.pipedrive { background: var(--pipedrive); }
+    .node.mailchimp { background: var(--mailchimp); }
+    .node.owner { background: var(--owner); }
+    .node.danger { background: var(--danger); }
+
+    .node h3 {
+      padding-right: 28px;
+    }
+
+    .step {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--white);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .connector::before,
+    .connector::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+      opacity: 0.55;
+      margin: 0 8px;
+    }
+
+    .span-2 {
+      grid-column: span 2;
+    }
+
+    .span-3 {
+      grid-column: span 3;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      border-top: 1px solid var(--line);
+    }
+
+    .timeline:first-child {
+      border-top: 0;
+    }
+
+    .time {
+      padding: 12px 14px;
+      border-right: 1px solid var(--line);
+      background: var(--soft);
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .time-detail {
+      padding: 12px 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--soft);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      background: rgba(22, 33, 29, 0.08);
+      padding: 2px 4px;
+    }
+
+    a {
+      color: var(--ink);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+    }
+
+    .status-item {
+      padding: 14px;
+      border-right: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .status-item:last-child {
+      border-right: 0;
+    }
+
+    .status-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .status-value {
+      margin-top: 4px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 860px) {
+      main {
+        width: min(100vw - 20px, 760px);
+      }
+
+      header {
+        padding: 20px;
+      }
+
+      .grid.three,
+      .grid.two,
+      .status-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-note {
+        margin-top: 8px;
+        text-align: left;
+      }
+
+      .status-item {
+        border-right: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+
+      .time {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    @media print {
+      body {
+        background: var(--white);
+      }
+
+      main {
+        width: 100%;
+        margin: 0;
+      }
+
+      header,
+      section {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .flow-wrap {
+        overflow: visible;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">
+        <span class="pill">Live blueprint</span>
+        <span class="pill">Updated 06 Jul 2026</span>
+        <span class="pill">Typeform + Windmill + Pipedrive + Interakt + Mailchimp</span>
+      </div>
+      <h1>Beforest sales funnel: brochure, WhatsApp, nurture, and fallback flow</h1>
+      <p class="lead">This is the operating map for what happens after a collective Typeform is submitted. The core rule is simple: every eligible lead should get the right collective brochure/Journey, the owner should see exactly what happened in Pipedrive, and failed WhatsApp delivery should have a backup path.</p>
+    </header>
+
+    <section>
+      <div class="section-head">
+        <h2>At A Glance</h2>
+        <p class="section-note">Use this section when explaining the flow quickly before going into the detailed chart.</p>
+      </div>
+      <div class="status-strip">
+        <div class="status-item">
+          <div class="status-label">Primary intake</div>
+          <div class="status-value">Typeform to Pipedrive</div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">Immediate user action</div>
+          <div class="status-value">Redirect to WhatsApp</div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">Main asset</div>
+          <div class="status-value">Canva brochure links</div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">Fallback</div>
+          <div class="status-value">Interakt + Mailchimp</div>
+        </div>
+      </div>
+      <div class="grid three">
+        <article class="card">
+          <h3>1. User submits primary Typeform</h3>
+          <p>Windmill creates or updates the Pipedrive person/deal, maps the collective, logs the Typeform details, and applies the correct route: 1on1-fit or brochure-first.</p>
+        </article>
+        <article class="card">
+          <h3>2. Typeform ending opens WhatsApp</h3>
+          <p>The Typeform ending redirects to <code>wa.me/918977945351</code> with a prefilled message. Fit and brochure-first endings can use different text, but both point to WhatsApp.</p>
+        </article>
+        <article class="card">
+          <h3>3. Brochure delivery is protected</h3>
+          <p>If the user sends the WhatsApp message, Interakt inbound triggers brochure delivery. If they do not send it, Windmill sends the brochure after the fallback window.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Detailed Flowchart</h2>
+        <p class="section-note">Mermaid-style operating blueprint. Read top to bottom; branches show what happens when a user sends or does not send the WhatsApp message.</p>
+      </div>
+      <div class="mermaid-shell">
+        <pre class="mermaid">
+flowchart TD
+  A["Primary collective Typeform submitted"] --> B["Windmill intake<br/>typeform_to_pipedrive_intake"]
+  B --> C["Create or update Pipedrive person + deal<br/>map collective/product<br/>log Typeform received"]
+  C --> D{"Route after fit check"}
+
+  D -->|Fit for 1on1| E["Set 1on1 TBC<br/>team scheduling notice path"]
+  E --> F["Owner/team sees scheduling context<br/>calendar prebook is not default"]
+
+  D -->|Unfit or brochure-first| G["Set Lead In + GIS/Brochure-compatible state"]
+
+  D --> H["Typeform ending redirects to WhatsApp<br/>wa.me/918977945351 with prefilled message"]
+  H --> I{"Did user tap Send in WhatsApp?"}
+
+  I -->|Yes| J["Interakt inbound webhook received"]
+  J --> K["Resolve latest recent open deal<br/>by phone + collective + time"]
+  K --> L{"Brochure already sent?"}
+  L -->|No| M["Send correct collective brochure<br/>through Interakt"]
+  L -->|Yes| N["Do not duplicate brochure"]
+  M --> O["Log in Pipedrive<br/>Brochure sent after WhatsApp redirect"]
+  N --> O
+
+  I -->|No or no inbound found| P["5-minute fallback job runs"]
+  P --> Q{"Inbound WhatsApp after Typeform submitted_at?"}
+  Q -->|Yes| K
+  Q -->|No| R["Send brochure fallback template<br/>through Interakt"]
+  R --> S["Log in Pipedrive<br/>Brochure fallback sent after Typeform"]
+
+  O --> T["Tracked brochure URL"]
+  S --> T
+  T --> U["Redirect to approved Canva brochure"]
+  U --> V["Brochure opened logged<br/>GIS Opened compatibility kept"]
+
+  U --> W["Bottom CTA: post-brochure Typeform"]
+  W --> X["Windmill post-brochure intake"]
+  X --> Y["Update same Pipedrive deal where possible<br/>log Post-brochure Typeform submitted"]
+  Y --> Z["Create owner task + send acknowledgement<br/>Owner name will reach out soon"]
+  Z --> AA["Owner reaches out"]
+
+  V --> AB["Daily Journey nurture until post-brochure form"]
+  AB --> AC["Day 2 / 4 / 6 / 8 / 10 / 12 / 14 WhatsApp follow-ups"]
+  AC --> AD{"WhatsApp delivered?"}
+  AD -->|Yes| AE["Log nurture send in Pipedrive<br/>wait for next due day"]
+  AD -->|No| AF["Log WhatsApp failed to deliver"]
+  AF --> AG["10 AM daily Mailchimp fallback"]
+  AG --> AH{"Valid email and no skip condition?"}
+  AH -->|Yes| AI["Create grouped Mailchimp campaign<br/>by collective + nurture day<br/>direct Canva link only"]
+  AH -->|No| AJ["Skip recipient or manual review<br/>no silent failure"]
+  AI --> AK["Log Email fallback sent via Mailchimp<br/>nurture day_XX"]
+  AJ --> AL["Log failed or skipped reason"]
+  AK --> AA
+  AL --> AA
+
+  X --> AM["Stop Journey nurture for that deal"]
+  AM -.-> AB
+
+  C --> AN{"Missing phone or ambiguous match?"}
+  AN -->|Yes| AO["Create Pipedrive manual-review task<br/>do not attempt blind WhatsApp send"]
+  AN -->|No| H
+
+  classDef typeform fill:#e8f2ff,stroke:#22332d,color:#16211d
+  classDef windmill fill:#e8f6df,stroke:#22332d,color:#16211d
+  classDef pipedrive fill:#fff1cc,stroke:#22332d,color:#16211d
+  classDef whatsapp fill:#dcf7e6,stroke:#22332d,color:#16211d
+  classDef mailchimp fill:#ffe8d8,stroke:#22332d,color:#16211d
+  classDef owner fill:#f0e8ff,stroke:#22332d,color:#16211d
+  classDef decision fill:#ffffff,stroke:#22332d,color:#16211d
+  classDef danger fill:#ffe4e8,stroke:#22332d,color:#16211d
+
+  class A,H,W typeform
+  class B,K,P,X,AB,AC,AM windmill
+  class C,G,O,S,V,Y,AK,AL pipedrive
+  class J,M,N,R,T,U,AE,AF whatsapp
+  class AG,AI mailchimp
+  class F,Z,AA owner
+  class D,I,L,Q,AD,AH,AN decision
+  class AO,AJ danger
+        </pre>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Timing And Automation Schedule</h2>
+        <p class="section-note">These are the live timing rules that matter for sales operations.</p>
+      </div>
+      <div>
+        <div class="timeline">
+          <div class="time">Immediately</div>
+          <div class="time-detail">Typeform webhook creates/updates Pipedrive, logs intake, and queues the brochure fallback. Typeform itself redirects the user to WhatsApp.</div>
+        </div>
+        <div class="timeline">
+          <div class="time">After inbound WhatsApp</div>
+          <div class="time-detail">Interakt webhook resolves the deal by phone and sends the correct brochure if not already sent.</div>
+        </div>
+        <div class="timeline">
+          <div class="time">After 5 minutes</div>
+          <div class="time-detail">If no WhatsApp inbound was received after Typeform submission, Windmill sends the brochure fallback through Interakt and logs the result.</div>
+        </div>
+        <div class="timeline">
+          <div class="time">8 AM, 12 PM, 7 PM, 10 PM</div>
+          <div class="time-detail">Mailchimp fallback for primary Typeform leads whose WhatsApp brochure delivery failed and still has no inbound WhatsApp/manual resolution.</div>
+        </div>
+        <div class="timeline">
+          <div class="time">10 AM daily</div>
+          <div class="time-detail">Mailchimp fallback for failed day-wise Journey nurture WhatsApps, grouped by collective and nurture day.</div>
+        </div>
+        <div class="timeline">
+          <div class="time">10:30 AM daily</div>
+          <div class="time-detail">Collective Journey nurture sends day 2/4/6/8/10/12/14 follow-ups for active deals until post-brochure form is submitted.</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>What Sales Should See In Pipedrive</h2>
+        <p class="section-note">These activity subjects are intentionally human-readable so the owner knows exactly what happened.</p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Pipedrive signal</th>
+            <th>Meaning for owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Primary Typeform</td>
+            <td><code>Typeform received</code></td>
+            <td>Lead filled intake; deal/person data, route, collective, and fit context should be in the note.</td>
+          </tr>
+          <tr>
+            <td>WhatsApp redirect completed</td>
+            <td><code>Brochure sent after WhatsApp redirect</code></td>
+            <td>User actually messaged on WhatsApp; brochure was sent from inbound handling.</td>
+          </tr>
+          <tr>
+            <td>WhatsApp redirect not completed</td>
+            <td><code>Brochure fallback sent after Typeform</code></td>
+            <td>User did not send the WhatsApp message; Windmill still sent the brochure.</td>
+          </tr>
+          <tr>
+            <td>Brochure opened</td>
+            <td><code>Brochure opened</code></td>
+            <td>User clicked the tracked brochure link and reached the Canva page.</td>
+          </tr>
+          <tr>
+            <td>Day-wise nurture sent</td>
+            <td><code>Collective Journey second-form follow-up sent</code></td>
+            <td>Lead is still being nudged to submit the post-brochure Typeform.</td>
+          </tr>
+          <tr>
+            <td>Nurture WhatsApp failed</td>
+            <td><code>WhatsApp failed to deliver</code></td>
+            <td>WhatsApp could not be delivered; email fallback can pick it up.</td>
+          </tr>
+          <tr>
+            <td>Nurture email fallback</td>
+            <td><code>Email fallback sent via Mailchimp - nurture day_XX</code></td>
+            <td>Failed nurture WhatsApp was rescued by email with the direct Canva brochure link.</td>
+          </tr>
+          <tr>
+            <td>Post-brochure Typeform</td>
+            <td><code>Post-brochure Typeform submitted</code></td>
+            <td>User asked for follow-up after reading the brochure; nurture stops and owner should reach out.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Edge Cases Covered</h2>
+        <p class="section-note">These guards are what keep the system from double-sending or hiding failures.</p>
+      </div>
+      <div class="grid two">
+        <article class="card">
+          <h3>No phone number</h3>
+          <p>Windmill does not attempt a WhatsApp send. It creates a Pipedrive manual-review activity so the owner knows the lead needs manual handling.</p>
+        </article>
+        <article class="card">
+          <h3>Multiple deals with same phone</h3>
+          <p>The resolver prefers the latest recent open deal in the same collective. If matching is ambiguous, the safe outcome is manual review rather than a blind send.</p>
+        </article>
+        <article class="card">
+          <h3>User replies after fallback</h3>
+          <p>Inbound is logged but brochure send is deduped by Pipedrive activity, so the lead should not get duplicate brochure messages.</p>
+        </article>
+        <article class="card">
+          <h3>Post-brochure form submitted early</h3>
+          <p>The post-brochure path stops Journey nurture and sends the owner acknowledgement instead of continuing fallback nudges.</p>
+        </article>
+        <article class="card">
+          <h3>Closed or deleted deal</h3>
+          <p>Workers stop or skip sends after checking the deal state, reducing waste and avoiding messages for stale deals.</p>
+        </article>
+        <article class="card">
+          <h3>Template, email, or API failure</h3>
+          <p>Failures are logged back to Pipedrive as manual-send or email-fallback-failed activities, so the owner can still act.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Live Windmill Items</h2>
+        <p class="section-note">Reference paths for technical checks and handoff.</p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>Windmill path</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Primary and post-brochure intake</td>
+            <td><code>f/sales/typeform_to_pipedrive_intake</code></td>
+            <td>Typeform parsing, Pipedrive create/update, fit routing, fallback scheduling, post-brochure acknowledgement.</td>
+          </tr>
+          <tr>
+            <td>Brochure sender</td>
+            <td><code>f/sales/send_brochure_after_typeform</code></td>
+            <td>Sends the correct collective brochure through Interakt and logs source-specific Pipedrive activity.</td>
+          </tr>
+          <tr>
+            <td>Interakt inbound router</td>
+            <td><code>f/sales/interakt_whatsapp_inbound</code></td>
+            <td>Handles user messages and existing button routes: reschedule, attendance, owner attended, owner no-show.</td>
+          </tr>
+          <tr>
+            <td>Brochure tracker</td>
+            <td><code>f/sales/track_gis_story_open</code></td>
+            <td>Validates tracking token, redirects to Canva, logs brochure open.</td>
+          </tr>
+          <tr>
+            <td>Journey nurture</td>
+            <td><code>f/sales/send_collective_story_unopened_nurture</code></td>
+            <td>Runs day 2/4/6/8/10/12/14 follow-ups until post-brochure form is submitted.</td>
+          </tr>
+          <tr>
+            <td>Primary WhatsApp email fallback</td>
+            <td><code>f/sales/send_mailchimp_fallback_after_whatsapp_failure</code></td>
+            <td>Four daily Mailchimp rescue windows for Typeform brochure WhatsApp failures.</td>
+          </tr>
+          <tr>
+            <td>Nurture WhatsApp email fallback</td>
+            <td><code>f/sales/send_mailchimp_fallback_after_nurture_whatsapp_failure</code></td>
+            <td>Daily 10 AM Mailchimp rescue for failed day-wise nurture WhatsApps.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Canva Brochure Links Used</h2>
+        <p class="section-note">Customer-facing links should be Canva links, not old StoryMap links.</p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Collective</th>
+            <th>Brochure link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mumbai</td>
+            <td><a href="https://www.canva.com/design/DAFy6m9o82w/M9Q02GvniE7SsQs0D9k-pw/view?utm_content=DAFy6m9o82w&amp;utm_campaign=designshare&amp;utm_medium=link2&amp;utm_source=uniquelinks&amp;utlId=h7eabae59da">Mumbai brochure</a></td>
+          </tr>
+          <tr>
+            <td>Hyderabad</td>
+            <td><a href="https://www.canva.com/design/DAEtWW1aqhU/CvJ4odXV4OLuBaHyAXHzxA/view?utm_content=DAEtWW1aqhU&amp;utm_campaign=designshare&amp;utm_medium=link2&amp;utm_source=uniquelinks&amp;utlId=hb2d0772275">Hyderabad brochure</a></td>
+          </tr>
+          <tr>
+            <td>Hammiyala</td>
+            <td><a href="https://www.canva.com/design/DAGnglQsmYw/4wsRRhbVKmKuRk3SX1Q28A/view?utm_content=DAGnglQsmYw&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=viewer">Hammiyala brochure</a></td>
+          </tr>
+          <tr>
+            <td>Bhopal</td>
+            <td><a href="https://www.canva.com/design/DAFA7pBf2Ps/dzZecTicRzkdUan3yQd5cQ/view">Bhopal brochure</a></td>
+          </tr>
+          <tr>
+            <td>Poomaale 2.0</td>
+            <td><a href="https://www.canva.com/design/DAESin37d1A/HipyO_KPA4eOLfnzQd33qg/view?utm_content=DAESin37d1A&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=editor">Poomaale 2.0 brochure</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: "loose",
+      theme: "base",
+      themeVariables: {
+        fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif",
+        primaryColor: "#e8f6df",
+        primaryTextColor: "#16211d",
+        primaryBorderColor: "#22332d",
+        lineColor: "#22332d",
+        secondaryColor: "#fff1cc",
+        tertiaryColor: "#fbfaf5",
+        noteBkgColor: "#fff1cc",
+        noteTextColor: "#16211d"
+      },
+      flowchart: {
+        curve: "basis",
+        htmlLabels: true,
+        nodeSpacing: 36,
+        rankSpacing: 54
+      }
+    });
+  </script>
+</body>
+</html>

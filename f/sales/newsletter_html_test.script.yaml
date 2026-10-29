@@ -1,0 +1,11 @@
+summary: Send isolated Mailchimp HTML tests to one recipient
+description: Creates draft campaigns and sends HTML test actions only.
+lock: '!inline newsletter_html_test.script.lock'
+kind: script
+language: bun
+inputs:
+  - name: recipient
+    type: string
+  - name: newsletters
+    type: object
+    array: true

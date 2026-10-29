@@ -1,0 +1,7 @@
+summary: Mumbai nurture tracker
+public: true
+custom_path: mumbai-churn-tracker
+data:
+  datatable: main
+  # All data comes from the password-protected reader, with no public SQL access.
+  tables: []

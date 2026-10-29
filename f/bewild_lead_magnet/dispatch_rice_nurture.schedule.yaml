@@ -1,0 +1,26 @@
+summary: Bewild Rice Finder nurture dispatcher
+description: Staged disabled for review. When explicitly enabled after dry-run approval, it runs every 15 minutes and hands approved email stages to Shopify Flow. A bounded three-day catch-up window starts 2026-08-19; stages already overdue at the start are bucketed while newly due leads continue normally. WhatsApp remains disabled until approved templates are synced into Interakt.
+args:
+  dry_run: true
+  limit: 250
+  enabled_stages_csv: d03,d08,d14_mysore
+  enable_email: true
+  enable_whatsapp: false
+  email_window_start: '09:45'
+  email_window_end: '10:15'
+  whatsapp_window_start: '15:45'
+  whatsapp_window_end: '16:15'
+  bypass_window: false
+  debug_lead_id: ''
+  catchup_mode: true
+  catchup_start_date: '2026-08-19'
+  catchup_days: 3
+cron_version: v2
+email: harsha@beforest.co
+enabled: false
+is_flow: false
+no_flow_overlap: true
+schedule: 0 */15 * * * *
+script_path: f/bewild_lead_magnet/dispatch_rice_nurture
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

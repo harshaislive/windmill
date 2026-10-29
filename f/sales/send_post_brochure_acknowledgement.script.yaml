@@ -1,0 +1,16 @@
+summary: Send post-brochure Typeform acknowledgement
+description: Acknowledges post-brochure Typeform submissions and names the owner
+  who will reach out.
+lock: '!inline f/sales/send_post_brochure_acknowledgement.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    deal_id:
+      type: number
+      default: 0
+    dry_run:
+      type: boolean
+      default: false
+tag: sales-webhook

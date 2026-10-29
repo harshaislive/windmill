@@ -1,0 +1,13 @@
+summary: Hourly execution intelligence report generation
+args:
+  datatable_name: main
+  include_task_details: true
+cron_version: v2
+email: harsha@beforest.co
+enabled: false
+is_flow: false
+no_flow_overlap: false
+schedule: 0 10 * * * *
+script_path: f/task_intelligence_system/reports/send_execution_report
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

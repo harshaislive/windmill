@@ -1,0 +1,8 @@
+summary: Interakt WhatsApp campaign intelligence dashboard
+data:
+  datatable: main
+  tables:
+    - main/interakt_campaign_metrics
+    - main/interakt_sync_runs
+    - main/interakt_webhook_events
+    - main/interakt_webhook_sync_runs

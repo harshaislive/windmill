@@ -1,0 +1,13 @@
+summary: YouTube Analytics Dashboard
+data:
+  tables:
+    - main/youtube_sync_runs
+    - main/youtube_daily_metrics
+    - main/youtube_top_videos
+    - main/youtube_traffic_sources
+    - main/youtube_audience_demographics
+    - main/youtube_device_metrics
+    - main/youtube_playback_locations
+    - main/youtube_subscriber_split
+    - main/youtube_country_metrics
+public: true

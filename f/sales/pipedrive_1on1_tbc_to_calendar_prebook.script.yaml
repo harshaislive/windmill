@@ -1,9 +1,9 @@
-summary: 02B Guard - label-triggered 1on1/webinar next step
+summary: 02B Guard - label-triggered 1on1/GIS next step
 description: Receives Pipedrive deal-change webhooks after intake or manual CRM
   updates. If the deal has label `1on1 - TBC`, is in an Initial Event Scheduled
-  stage, and has no meeting date or meeting URL, it invokes the calendar
-  prebooking script. If the deal has label `Scheduled Webinar Awaiting`, it sends
-  the webinar registration CTA. Otherwise it safely returns ignored.
+  stage, and has no meeting date or meeting URL, it sends the team scheduling
+  notice instead of prebooking a calendar slot. If the deal has label `GIS
+  Awaiting`, it sends the GIS StoryMap CTA. Otherwise it safely returns ignored.
 lock: '!inline f/sales/pipedrive_1on1_tbc_to_calendar_prebook.script.lock'
 kind: script
 schema:
@@ -14,10 +14,10 @@ schema:
       type: object
       description: Pipedrive webhook payload.
       default: null
-      format: resource-pipedrive_webhook_body
     dry_run:
       type: boolean
-      description: Check eligibility and preview calendar slot without creating an event.
+      description: Check eligibility and preview the WhatsApp notice without sending it.
       default: false
   required:
     - body
+tag: sales-webhook

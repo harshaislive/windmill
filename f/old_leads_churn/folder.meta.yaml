@@ -1,0 +1,6 @@
+summary: Mumbai Collective nurture, delivery disabled pending gates
+display_name: old_leads_churn
+owners:
+  - u/harsha
+extra_perms:
+  u/harsha: true

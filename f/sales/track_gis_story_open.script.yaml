@@ -1,0 +1,24 @@
+summary: 10B Action - track GIS story open
+description: Validates signed GIS StoryMap tracking tokens, updates the
+  Pipedrive deal to GIS Opened, logs a done Pipedrive activity, and redirects
+  the lead to the ArcGIS StoryMap.
+lock: '!inline f/sales/track_gis_story_open.script.lock'
+has_preprocessor: true
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Validate token and preview tracking without writing to Pipedrive.
+      default: false
+    event:
+      type: object
+      description: Wrapped HTTP event, used by the public trigger to read query.t.
+      default: null
+    t:
+      type: string
+      description: Signed GIS tracking token.
+  required: []
+tag: sales-webhook

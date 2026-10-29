@@ -1,0 +1,6 @@
+summary: Beforest Task Intelligence Dashboard
+data:
+  datatable: main
+  tables:
+    - task_intel_tasks
+    - task_intel_task_owners

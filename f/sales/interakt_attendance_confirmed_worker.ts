@@ -1,5 +1,32 @@
 import * as wmill from "windmill-client";
 
+
+type PipedriveUsageLogArgs = {
+  method: string;
+  rawEndpoint: string;
+  statusCode?: number;
+  success: boolean;
+  durationMs?: number;
+  rateLimitRemaining?: number;
+  rateLimitReset?: string;
+  retryAfter?: string;
+  errorMessage?: string;
+  requestFingerprint?: string;
+};
+
+async function logPipedriveApiUsage(_args: PipedriveUsageLogArgs) {
+  return;
+}
+
+function pipedriveRateLimitRemaining(response: Response): number | undefined {
+  const value = Number(response.headers.get("x-ratelimit-remaining") || response.headers.get("x-rate-limit-remaining"));
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function pipedriveEndpointForLog(url: URL): string {
+  return url.pathname;
+}
+
 const SERVICE_ACCOUNT_JSON_PATH = "f/sales/calendar_prebook_1on1/google_service_account_json";
 const OWNER_CALENDAR_MAP_PATH = "f/sales/calendar_prebook_1on1/owner_calendar_map";
 const INTERAKT_API_KEY_PATH = "f/sales/calendar_prebook_1on1/interakt_api_key";
@@ -118,12 +145,25 @@ async function pipedriveToken() {
 async function pipedriveV2(method: string, path: string, body?: Record<string, unknown>): Promise<any> {
   const url = new URL(`https://${DEFAULT_PIPEDRIVE_DOMAIN}.pipedrive.com/api/v2/${path}`);
   url.searchParams.set("api_token", await pipedriveToken());
+  const startedAt = Date.now();
   const response = await fetch(url, {
     method,
     headers: body ? { "content-type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive v2 ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -133,12 +173,25 @@ async function pipedriveV2(method: string, path: string, body?: Record<string, u
 async function pipedriveV1(method: string, path: string, body?: Record<string, unknown>): Promise<any> {
   const url = new URL(`https://${DEFAULT_PIPEDRIVE_DOMAIN}.pipedrive.com/api/v1/${path}`);
   url.searchParams.set("api_token", await pipedriveToken());
+  const startedAt = Date.now();
   const response = await fetch(url, {
     method,
     headers: body ? { "content-type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive v1 ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -181,6 +234,11 @@ function ownerDisplayName(owner: string): string {
   if (owner === "Rakesh") return "Sai Rakesh";
   if (owner === "Vivekanand") return "Vivekanand";
   return owner;
+}
+
+function leadFacingHostName(owner: string): string {
+  if (owner === "Rakesh") return "one of our team members";
+  return ownerDisplayName(owner);
 }
 
 function parseCalendarRef(raw: string): CalendarEventRef {
@@ -328,7 +386,7 @@ async function buildAttendancePlan(deal: Deal, owner: string, meetingDateValue?:
     raw_phone_present: Boolean(phone),
     body_values: [
       deal.title,
-      ownerDisplayName(owner),
+      leadFacingHostName(owner),
       formatMeetingDate(meetingDateValue ?? dealField(deal, DEAL_FIELDS.oneOnOneMeetingDateTime)),
     ],
     callback_data: `pipedrive_deal:${deal.id}:1on1_attendance_confirmed`,
@@ -407,6 +465,45 @@ function safeJson(value: unknown): string {
   return JSON.stringify(value, null, 2).replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
 }
 
+function escapeHtml(value: string): string {
+  return value.replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
+}
+
+function manualAttendanceConfirmationMessage(plan: Awaited<ReturnType<typeof buildAttendancePlan>>) {
+  return [
+    `Hi ${plan.body_values[0]},`,
+    "",
+    `Thanks for confirming. Your 1-on-1 call with ${plan.body_values[1]} is noted for ${plan.body_values[2]}.`,
+    "",
+    "Please reply here if you need anything before the call.",
+  ].join("\n");
+}
+
+async function createManualWhatsAppFailureActivity(
+  deal: Deal,
+  plan: Awaited<ReturnType<typeof buildAttendancePlan>>,
+  reason: string,
+) {
+  return await createPipedriveActivity(
+    deal.id,
+    "WhatsApp failed - send manually",
+    [
+      "Attendance confirmation WhatsApp failed. Please send this manually from WhatsApp Web.",
+      `Reason: ${escapeHtml(reason)}`,
+      `Template: ${escapeHtml(plan.template_name)}`,
+      "",
+      "<strong>Copy-paste message</strong>",
+      `<pre>${escapeHtml(manualAttendanceConfirmationMessage(plan))}</pre>`,
+      "<strong>Manual steps</strong>",
+      "1. Open the lead in WhatsApp Web.",
+      "2. Paste and send the message above.",
+      "3. Mark this Pipedrive activity as done after sending.",
+      "4. If WhatsApp Web also fails, call the lead or ask the owner to follow up.",
+    ].join("<br>"),
+    { personId: personId(deal), done: 0 },
+  );
+}
+
 export async function main(route: Record<string, unknown>, dry_run = false) {
   const resolved = await resolveDeal(route || {});
   if (!resolved.deal) {
@@ -472,7 +569,15 @@ export async function main(route: Record<string, unknown>, dry_run = false) {
 
   await updateDealForAttendance(deal.id);
   const note = await createPipedriveNote(deal.id, noteContent);
-  const whatsappResult = await sendInteraktTemplate(plan);
+  let whatsappResult: any;
+  let manualWhatsAppActivity: any = null;
+  try {
+    whatsappResult = await sendInteraktTemplate(plan);
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error);
+    whatsappResult = { sent: false, failed: true, reason };
+    manualWhatsAppActivity = await createManualWhatsAppFailureActivity(deal, plan, reason);
+  }
   const inboundAudit = await createPipedriveActivity(
     deal.id,
     "Attendance confirmed on WhatsApp",
@@ -489,6 +594,10 @@ export async function main(route: Record<string, unknown>, dry_run = false) {
         [
           "Sent a short confirmation back to the lead.",
           `Owner: ${ownerDisplayName(owner)}`,
+          `Template: ${plan.template_name}`,
+          "",
+          "<strong>Message sent</strong>",
+          `<pre>${escapeHtml(manualAttendanceConfirmationMessage(plan))}</pre>`,
         ].join("<br>"),
         { personId: personId(deal) },
       )
@@ -504,6 +613,7 @@ export async function main(route: Record<string, unknown>, dry_run = false) {
     note_id: Number(note?.id) || null,
     inbound_audit_activity_id: Number((inboundAudit as any)?.id || (inboundAudit as any)?.data?.id) || null,
     whatsapp_audit_activity_id: Number((whatsappAudit as any)?.id || (whatsappAudit as any)?.data?.id) || null,
+    manual_whatsapp_activity_id: Number((manualWhatsAppActivity as any)?.id || (manualWhatsAppActivity as any)?.data?.id) || null,
     whatsapp_sent: Boolean((whatsappResult as any)?.sent),
     whatsapp_result: whatsappResult,
     dry_run: false,

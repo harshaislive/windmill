@@ -1,0 +1,17 @@
+summary: Public Mumbai churn tracker
+description: Public page with server-side password protection for all tracker data.
+authentication_method: none
+authentication_resource_path: null
+http_method: get
+is_flow: false
+is_static_website: false
+mode: enabled
+permissioned_as: u/harsha
+raw_string: false
+request_type: sync
+route_path: mumbai-churn/dashboard
+route_path_key: mumbai-churn/dashboard
+script_path: f/old_leads_churn/serve_mumbai_churn_dashboard
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

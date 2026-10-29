@@ -1,0 +1,22 @@
+summary: 11A Schedule - Mailchimp fallback for direct WhatsApp failed leads
+description: Safety-net rescue windows for direct Typeform WhatsApp failures.
+  Direct senders queue targeted fallback emails after 45 minutes; this schedule
+  catches anything missed without polling Pipedrive all day.
+args:
+  days: 7
+  dry_run: false
+  fallback_delay_minutes: 45
+  max_deals: 500
+  max_emails: 100
+  quiet_end_hour_ist: 8
+  quiet_start_hour_ist: 22
+  send_campaigns: true
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 0 8,12,19,22 * * *
+script_path: f/sales/send_mailchimp_fallback_after_whatsapp_failure
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

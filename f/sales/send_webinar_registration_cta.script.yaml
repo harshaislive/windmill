@@ -11,9 +11,11 @@ schema:
     deal_id:
       type: number
       description: Pipedrive deal ID.
+      default: null
     dry_run:
       type: boolean
-      description: Preview the Interakt payload without sending WhatsApp or writing Pipedrive activity.
+      description: Preview the Interakt payload without sending WhatsApp or writing
+        Pipedrive activity.
       default: false
   required:
     - deal_id

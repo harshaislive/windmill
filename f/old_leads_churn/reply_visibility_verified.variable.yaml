@@ -1,0 +1,3 @@
+description: Four read-only IMAP lanes authenticated; two actual internal replies correlated and recorded. Recheck inbox live before each send.
+value: 'true'
+is_secret: false

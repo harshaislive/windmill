@@ -1,0 +1,28 @@
+summary: Receive Hetzner Windmill monitor snapshot
+description: Receives authenticated host and Docker health snapshots from the
+  Hetzner server collector and stores them in the main Windmill datatable.
+lock: '!inline f/dashboard/hetzner_windmill_monitor.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    body:
+      type: object
+      description: Monitor payload posted by the Hetzner collector.
+      default: null
+    dry_run:
+      type: boolean
+      description: Parse and summarize the payload without writing a datatable row.
+      default: false
+    headers:
+      type: object
+      description: HTTP request headers passed by the Windmill trigger.
+      default: {}
+      format: resource-record
+    query:
+      type: object
+      description: HTTP query parameters passed by the Windmill trigger.
+      default: {}
+      format: resource-record
+  required: []

@@ -1,0 +1,12 @@
+summary: Send one reviewed Mumbai nurture step directly from its mailbox
+description: Mail-only queue. Atomic cap and suppression guards; never creates a CRM person. Default no-send preview.
+kind: script
+schema:
+  type: object
+  required: [send_id]
+  properties:
+    send_id:
+      type: integer
+    dry_run:
+      type: boolean
+      default: true

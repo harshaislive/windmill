@@ -1,0 +1,18 @@
+summary: Manual first-call WhatsApp test to Harsha's approved test number only
+description: >-
+  One fixed batch of three approved Flow templates to 918374283166. Dry run by
+  default. Execute requires the exact approved batch. A durable per-template
+  journal prevents repeats; uncertain outcomes halt without retry. No prospect
+  outreach, schedules, CRM writes or Sheet writes. Delivery and reply capture
+  require separate evidence.
+kind: script
+schema:
+  type: object
+  properties:
+    execute:
+      type: boolean
+      default: false
+    approval_batch:
+      type: string
+      default: ''
+  required: []

@@ -1,0 +1,50 @@
+summary: Capture ManyChat button clicks
+description: Captures ManyChat External Request button-click events and stores
+  them in the Windmill datatable manychat_button_click_events.
+lock: '!inline f/marketing/manychat/capture_button_click.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    body:
+      type: object
+      description: ManyChat External Request JSON body.
+      default: null
+      properties:
+        automation_name:
+          type: string
+        button_text:
+          type: string
+        button_type:
+          type: string
+        clicked_at:
+          type: string
+        contact_id:
+          type: string
+        destination:
+          type: string
+        email:
+          type: string
+        event_id:
+          type: string
+        event_type:
+          type: string
+        first_name:
+          type: string
+        flow_name:
+          type: string
+        instagram_username:
+          type: string
+        last_name:
+          type: string
+        message_name:
+          type: string
+        next_step:
+          type: string
+        phone:
+          type: string
+        subscriber_id:
+          type: string
+  required:
+    - body

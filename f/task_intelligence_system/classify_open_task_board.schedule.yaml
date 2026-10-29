@@ -1,0 +1,12 @@
+summary: Classify current open Zoho tasks for the team with Jev
+args:
+  limit: 200
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 10 * * * *
+script_path: f/task_intelligence_system/classify_open_task_board
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

@@ -1,5 +1,32 @@
 import * as wmill from "windmill-client";
 
+
+type PipedriveUsageLogArgs = {
+  method: string;
+  rawEndpoint: string;
+  statusCode?: number;
+  success: boolean;
+  durationMs?: number;
+  rateLimitRemaining?: number;
+  rateLimitReset?: string;
+  retryAfter?: string;
+  errorMessage?: string;
+  requestFingerprint?: string;
+};
+
+async function logPipedriveApiUsage(_args: PipedriveUsageLogArgs) {
+  return;
+}
+
+function pipedriveRateLimitRemaining(response: Response): number | undefined {
+  const value = Number(response.headers.get("x-ratelimit-remaining") || response.headers.get("x-rate-limit-remaining"));
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function pipedriveEndpointForLog(url: URL): string {
+  return url.pathname;
+}
+
 const PIPEDRIVE_VARIABLE_PATH = "f/collectives/zoom_collective_to_pipedrive/pipedrive_api_key";
 const INTERAKT_API_KEY_PATH = "f/sales/calendar_prebook_1on1/interakt_api_key";
 const INTERAKT_BASE_URL_PATH = "f/sales/calendar_prebook_1on1/interakt_base_url";
@@ -78,6 +105,7 @@ type ReminderPlan = {
   deal_title: string;
   owner: string;
   meeting_datetime: string;
+  meeting_url: string;
   reminder_key: string;
   reminder_label: string;
   target_at: string;
@@ -104,12 +132,25 @@ async function pipedriveV1(method: string, path: string, body?: Record<string, u
   for (const [key, value] of Object.entries(query || {})) {
     if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, String(value));
   }
+  const startedAt = Date.now();
   const response = await fetch(url, {
     method,
     headers: body ? { "content-type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive v1 ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -123,12 +164,25 @@ async function pipedriveV2(method: string, path: string, body?: Record<string, u
   for (const [key, value] of Object.entries(query || {})) {
     if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, String(value));
   }
+  const startedAt = Date.now();
   const response = await fetch(url, {
     method,
     headers: body ? { "content-type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
   const payload = await response.json().catch(() => ({}));
+  await logPipedriveApiUsage({
+    method,
+    rawEndpoint: pipedriveEndpointForLog(url),
+    statusCode: response.status,
+    success: response.ok && payload?.success !== false,
+    durationMs: Date.now() - startedAt,
+    rateLimitRemaining: pipedriveRateLimitRemaining(response),
+    rateLimitReset: response.headers.get("x-ratelimit-reset") || response.headers.get("x-rate-limit-reset") || "",
+    retryAfter: response.headers.get("retry-after") || "",
+    errorMessage: response.ok && payload?.success !== false ? "" : JSON.stringify(payload).slice(0, 800),
+    requestFingerprint: method.toUpperCase() + " " + pipedriveEndpointForLog(url),
+  });
   if (!response.ok || payload?.success === false) {
     throw new Error(`Pipedrive v2 ${method} ${path} failed: ${response.status} ${JSON.stringify(payload)}`);
   }
@@ -186,6 +240,11 @@ function ownerDisplayName(owner: string): string {
   if (owner === "Rakesh") return "Sai Rakesh";
   if (owner === "Vivekanand") return "Vivekanand";
   return owner;
+}
+
+function leadFacingHostName(owner: string): string {
+  if (owner === "Rakesh") return "one of our team members";
+  return ownerDisplayName(owner);
 }
 
 function personId(deal: Deal): number | null {
@@ -353,12 +412,61 @@ async function createReminderActivity(plan: ReminderPlan) {
       `Sent ${plan.reminder_label} reminder on WhatsApp.`,
       `Reminder: ${plan.reminder_key}`,
       `Meeting: ${plan.meeting_datetime}`,
+      `Template: ${plan.template_name}`,
+      "",
+      "<strong>Message sent</strong>",
+      `<pre>${escapeHtml(manualReminderMessage(plan))}</pre>`,
     ].join("<br>"),
   });
 }
 
 function safeJson(value: unknown): string {
   return JSON.stringify(value, null, 2).replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
+}
+
+function escapeHtml(value: string): string {
+  return value.replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[char] || char));
+}
+
+function manualReminderMessage(plan: ReminderPlan): string {
+  const meeting = new Date(plan.meeting_datetime);
+  const meetingDate = Number.isNaN(meeting.getTime()) ? "the scheduled date" : formatDateForWhatsApp(meeting, DEFAULT_TIMEZONE);
+  const meetingTime = Number.isNaN(meeting.getTime()) ? "the scheduled time" : formatTimeForWhatsApp(meeting, DEFAULT_TIMEZONE);
+  return [
+    `Hi ${plan.deal_title},`,
+    "",
+    `This is a quick reminder for your 1-on-1 call with ${leadFacingHostName(plan.owner)}.`,
+    `Date: ${meetingDate}`,
+    `Time: ${meetingTime}`,
+    plan.meeting_url ? `Meeting link: ${plan.meeting_url}` : "",
+    "",
+    "Please reply here if you need any help before the call.",
+  ].filter(Boolean).join("\n");
+}
+
+async function createManualWhatsAppFailureActivity(plan: ReminderPlan, reason: string) {
+  return await pipedriveV1("POST", "activities", {
+    deal_id: plan.deal_id,
+    user_id: BEFOREST_ADMIN_USER_ID,
+    subject: "WhatsApp failed - send manually",
+    type: "task",
+    done: 0,
+    due_date: new Date().toISOString().slice(0, 10),
+    note: [
+      "WhatsApp reminder failed. Please send this manually from WhatsApp Web.",
+      `Reason: ${escapeHtml(reason)}`,
+      `Template: ${escapeHtml(plan.template_name)}`,
+      `Reminder: ${escapeHtml(plan.reminder_key)}`,
+      "",
+      "<strong>Copy-paste message</strong>",
+      `<pre>${escapeHtml(manualReminderMessage(plan))}</pre>`,
+      "<strong>Manual steps</strong>",
+      "1. Open the lead in WhatsApp Web.",
+      "2. Paste and send the message above.",
+      "3. Mark this Pipedrive activity as done after sending.",
+      "4. If the message cannot be sent, call the lead or ask the deal owner to follow up.",
+    ].join("<br>"),
+  });
 }
 
 async function buildReminderPlans(
@@ -391,14 +499,15 @@ async function buildReminderPlans(
     const meetingTime = formatTimeForWhatsApp(meeting, timezone);
     const bodyValues =
       reminder.bodyMode === "time"
-        ? [deal.title, ownerDisplayName(owner), meetingTime]
-        : [deal.title, ownerDisplayName(owner), meetingDate, meetingTime];
+        ? [deal.title, leadFacingHostName(owner), meetingTime]
+        : [deal.title, leadFacingHostName(owner), meetingDate, meetingTime];
 
     plans.push({
       deal_id: deal.id,
       deal_title: deal.title,
       owner,
       meeting_datetime: meetingIso,
+      meeting_url: asString(dealField(deal, DEAL_FIELDS.meetingUrl)),
       reminder_key: reminder.key,
       reminder_label: reminder.label,
       target_at: targetAt.toISOString(),
@@ -482,14 +591,25 @@ export async function main(
       skipped.push({ ...plan, reason: "already_logged" });
       continue;
     }
-    assertWhatsAppReady(plan);
-    const whatsapp = await sendInteraktTemplate(plan);
-    const activity = await createReminderActivity(plan);
-    sent.push({
-      ...plan,
-      whatsapp,
-      activity_id: activity?.data?.id || activity?.id || null,
-    });
+    try {
+      assertWhatsAppReady(plan);
+      const whatsapp = await sendInteraktTemplate(plan);
+      const activity = await createReminderActivity(plan);
+      sent.push({
+        ...plan,
+        whatsapp,
+        activity_id: activity?.data?.id || activity?.id || null,
+      });
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      const activity = await createManualWhatsAppFailureActivity(plan, reason);
+      skipped.push({
+        ...plan,
+        reason: "whatsapp_failed_manual_task_created",
+        error: reason,
+        manual_activity_id: activity?.data?.id || activity?.id || null,
+      });
+    }
   }
 
   return {

@@ -10,15 +10,7 @@ is_static_website: false
 mode: enabled
 raw_string: false
 request_type: async
-retry:
-  constant:
-    attempts: 0
-    seconds: 0
-  exponential:
-    attempts: 0
-    multiplier: 1
-    random_factor: null
-    seconds: 0
+retry: {}
 route_path: pipedrive/1on1/tbc/prebook
 route_path_key: pipedrive/1on1/tbc/prebook
 script_path: f/sales/pipedrive_1on1_tbc_to_calendar_prebook

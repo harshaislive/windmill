@@ -1,0 +1,18 @@
+summary: Collect workflow observability metrics
+description: Aggregates Windmill job history into dashboard datatable tables for
+  workflow observability.
+lock: '!inline f/dashboard/collect_workflow_metrics.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    metric_date:
+      type: string
+      description: Optional YYYY-MM-DD date to collect. Defaults to today in Asia/Kolkata.
+      default: ''
+    timezone:
+      type: string
+      description: Timezone used to decide the local metric day.
+      default: Asia/Kolkata
+  required: []

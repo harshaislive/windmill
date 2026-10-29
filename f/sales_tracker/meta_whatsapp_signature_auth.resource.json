@@ -1,0 +1,14 @@
+{
+  "resource_type": "signature_auth",
+  "value": {
+    "secret_key": "$var:f/sales_tracker/meta_webhook_app_secret",
+    "signature_provider": "Custom",
+    "authentication_config": {
+      "signature_prefix": "sha256=",
+      "encoding": "hex",
+      "algorithm": "sha256",
+      "signature_header_name": "X-Hub-Signature-256"
+    }
+  },
+  "description": "Meta app 753047219826746 HMAC-SHA256 verification"
+}

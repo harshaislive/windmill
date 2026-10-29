@@ -1,0 +1,8 @@
+{
+  "name": "beforest-windmill-automations",
+  "private": true,
+  "scripts": {
+    "test:typeform-qualified-1on1": "bun test tests/typeform-qualified-1on1-signal.test.ts",
+    "test:collective-pricing": "bun test tests/collective-pricing-product-mapping.test.ts"
+  }
+}

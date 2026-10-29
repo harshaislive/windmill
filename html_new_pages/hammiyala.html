@@ -1,0 +1,4393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hammiyala Collective</title>
+<style>
+        /* Font Face Declarations */
+        @font-face {
+            font-family: 'ABC Arizona Flare';
+            src: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaFlare-Light-Trial.woff2') format('woff2'),
+                 url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaFlare-Light-Trial.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'ABC Arizona Flare';
+            src: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaFlare-Regular-Trial.woff2') format('woff2'),
+                 url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaFlare-Regular-Trial.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'ABC Arizona Sans';
+            src: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaSans-Regular-Trial.woff2') format('woff2'),
+                 url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/fonts/ABCArizonaSans-Regular-Trial.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            overflow-x: hidden;
+            background-color: #000;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
+        }
+
+        /* Global scroll indicator styling */
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 60px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .scroll-indicator svg {
+            width: 47px;
+            height: 27px;
+        }
+
+        /* Common section styling */
+        section {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Mobile base styles - ONLY when width < 1024px OR portrait */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            section {
+                width: 1080px;
+                max-width: 100%;
+            }
+
+            /* ============================================
+               SECTION 1 - HERO (MOBILE BASE)
+               ============================================ */
+            .section-1 {
+                height: 1920px;
+                overflow: hidden;
+                background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/hammiyalapage/section1.webp');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+
+        /* Hide mobile-specific description text by default (desktop) */
+        .section-2 .description-text-mobile {
+            display: none;
+        }
+
+        /* Common Section 1 styles (apply to both mobile and desktop) */
+        .section-1 {
+            position: relative;
+        }
+
+        .section-1 .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 0) 55%,
+                rgba(0, 0, 0, 0.7) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Common styles for both mobile and desktop */
+        .section-1 .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Mobile base styles with fixed values - ONLY when width < 1024px OR portrait */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            .section-1 .hero-titles {
+                position: absolute;
+                top: 223px;
+                left: 78px;
+                width: 932px;
+            }
+
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif !important;
+                font-size: 153.39px;
+                font-weight: 300;
+                line-height: 0.7;
+                letter-spacing: normal;
+                text-align: left;
+                white-space: nowrap;
+            }
+
+            .section-1 .title-hammiyala {
+                color: #344736;
+            }
+
+            .section-1 .title-collective {
+                color: #ffffff;
+                padding-left: 7px;
+            }
+
+            .section-1 .subtitle-section {
+                position: absolute;
+                top: 1375px;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                width: 388px;
+            }
+
+            .section-1 .subtitle-line {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 23.49px;
+                font-weight: 300;
+                line-height: 1;
+                color: #ffffff;
+                letter-spacing: normal;
+                white-space: nowrap;
+            }
+
+            .section-1 .subtitle-line:nth-child(1),
+            .section-1 .subtitle-line:nth-child(2) {
+                margin-bottom: 2px;
+            }
+
+            .section-1 .cta-section {
+                position: absolute;
+                top: 1532px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .section-1 .scroll-indicator {
+                position: absolute;
+                top: 1726px;
+                left: 50%;
+                transform: translateX(-50%);
+                animation: bounce 2s infinite;
+            }
+
+            .section-1 .scroll-indicator svg {
+                width: 45px;
+                height: 26px;
+            }
+        }
+
+        /* Common color styles */
+        .section-1 .title-hammiyala {
+            color: #395d41;
+        }
+
+        .section-1 .title-collective {
+            color: #ffffff;
+        }
+
+        /* Common button styles */
+        .section-1 .cta-button {
+            background: transparent;
+            border: 2px solid #b8dc99;
+            border-radius: 48px;
+            padding: 18px 48px;
+            min-height: 44px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #b8dc99;
+            text-transform: uppercase;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .section-1 .cta-button:hover,
+        .section-1 .cta-button:active {
+            background: #b8dc99;
+            color: #000;
+        }
+
+        .section-1 .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* ============================================
+           SECTION 2 - OUR VISION
+           ============================================ */
+
+        /* Common styles */
+        .section-2 {
+            position: relative;
+            background-color: #2a2a2a;
+            overflow: hidden;
+        }
+
+        .section-2 .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .section-2 .background-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+        }
+
+        .section-2 .background-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.35);
+            z-index: 1;
+        }
+
+        .section-2 .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Mobile base styles */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            .section-2 {
+                height: 1920px;
+            }
+
+            .section-2 .background-image img {
+                content: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/vision.png');
+                object-position: center center;
+            }
+
+            .section-2 .title-section {
+                position: absolute;
+                top: 180px;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+            }
+
+            .section-2 .title-our {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 120px;
+                font-weight: 300;
+                line-height: 0.75;
+                color: #ffffff;
+                margin-bottom: 0px;
+            }
+
+            .section-2 .title-vision {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 120px;
+                font-weight: 300;
+                line-height: 0.75;
+                color: #b8dc99;
+            }
+
+            .section-2 .description-section {
+                position: absolute;
+                bottom: 280px;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                max-width: 100%;
+                width: 100%;
+                padding: 0;
+            }
+
+            .section-2 .description-text {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 56px;
+                font-weight: 300;
+                line-height: 1;
+                color: #ffffff;
+                text-transform: uppercase;
+                white-space: normal;
+                word-wrap: break-word;
+                text-align: justify;
+                text-align-last: justify;
+            }
+        }
+
+        /* ============================================
+           SECTION 3 - ACCORDION / TABS
+           ============================================ */
+
+        /* Common styles */
+        .section-3 {
+            background-color: #ffffff;
+        }
+
+        /* Hide tab navigation on mobile by default */
+        .section-3 .tab-navigation {
+            display: none;
+        }
+
+        /* Hide desktop content container on mobile */
+        .section-3 .content-container {
+            display: none;
+        }
+
+        /* Hide decorations on mobile */
+        .section-3 .section-3-decorations {
+            display: none;
+        }
+
+        /* Hide text pagination on mobile by default */
+        .section-3 .text-pagination {
+            display: none;
+        }
+
+        /* Hide desktop title/body wrappers on mobile - treat as transparent containers */
+        .section-3 .content-title,
+        .section-3 .content-body {
+            display: contents;
+        }
+
+        /* Mobile accordion styles */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            .section-3 {
+                padding: 50px 0;
+            }
+
+            .section-3 .accordion-section {
+                width: 100%;
+            }
+
+            .section-3 .accordion-header {
+                position: relative;
+                width: 100%;
+                padding: 30px 52px;
+                background-color: #ffffff;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .section-3 .accordion-header::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 52px;
+                right: 52px;
+                height: 2px;
+                background-color: #2f4835;
+            }
+
+            .section-3 .accordion-header.active::after {
+                display: none;
+            }
+
+            .section-3 .accordion-header:hover {
+                background-color: #ebebd9;
+            }
+
+            .section-3 .accordion-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 43.18px;
+                font-weight: 400;
+                color: #2f4835;
+            }
+
+            .section-3 .accordion-icon {
+                width: 24px;
+                height: 24px;
+                color: #2f4835;
+                transition: transform 0.3s ease;
+            }
+
+            .section-3 .accordion-header.active .accordion-icon {
+                transform: rotate(180deg);
+            }
+
+            .section-3 .accordion-content {
+                position: relative;
+                width: 100%;
+                min-height: 800px;
+                background-color: #1a2e1a;
+                display: none;
+                flex-direction: column;
+            }
+
+            .section-3 .accordion-content.active {
+                display: flex;
+            }
+
+            .section-3 .background-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+                overflow: hidden;
+            }
+
+            .section-3 .background-image img {
+                width: 100%;
+                height: 120%;
+                object-fit: cover;
+                object-position: center;
+                transform: translateY(0);
+                transition: transform 0.1s linear;
+                pointer-events: none;
+            }
+
+            .section-3 .background-image::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.35);
+                z-index: 1;
+            }
+
+            .section-3 .text-overlay {
+                position: relative;
+                z-index: 2;
+                padding: 80px 90px 60px 90px;
+                width: 70%;
+            }
+
+            .section-3 .text-overlay p {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 16.8px;
+                font-weight: 300;
+                line-height: 1.2;
+                color: #ffffff;
+                margin-bottom: 32px;
+            }
+
+            .section-3 .text-overlay p:last-of-type {
+                margin-bottom: 0;
+            }
+
+            .section-3 .cta-button-accordion {
+                background: transparent;
+                border: 2px solid #b8dc99;
+                border-radius: 50px;
+                padding: 12px 32px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 14.4px;
+                font-weight: 400;
+                letter-spacing: 2.4px;
+                color: #b8dc99;
+                text-transform: uppercase;
+                margin-top: 32px;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .section-3 .cta-button-accordion:hover {
+                background: #b8dc99;
+                color: #2f4835;
+            }
+
+            .section-3 .green-bar-text {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                background-color: #2d4a35;
+                padding: 40px 90px;
+                margin-top: auto;
+            }
+
+            .section-3 .green-bar-text p {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 300;
+                line-height: 1.4;
+                color: #b8dc99;
+                text-transform: uppercase;
+            }
+
+            .section-3 .green-bar-stats {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                height: 140px;
+                background-color: #2d4a35;
+                display: grid;
+                grid-template-columns: auto 1fr 1fr 1fr;
+                gap: 40px;
+                align-items: center;
+                padding: 0 60px;
+                margin-top: auto;
+            }
+
+            .section-3 .stat-item {
+                text-align: center;
+                color: #b8dc99;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .section-3 .stat-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .section-3 .stat-number {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 64px;
+                font-weight: 300;
+                line-height: 1;
+                color: #b8dc99;
+                margin-bottom: 0px;
+            }
+
+            .section-3 .stat-label {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 16px;
+                font-weight: 300;
+                line-height: 1.3;
+                color: #b8dc99;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .section-3 .stats-decorative-line {
+                width: 74px;
+                height: 4px;
+                justify-self: start;
+            }
+        }
+
+        /* Desktop tab styles */
+        @media (orientation: landscape) and (min-width: 1024px) {
+            .section-3 {
+                background-color: #ffffff;
+                padding: 15px 0 0 0;
+                height: auto;
+                min-height: auto;
+            }
+
+            .section-3 .accordion-header {
+                display: none;
+            }
+
+            .section-3 .accordion-section {
+                display: none;
+            }
+
+            .section-3 .content-container {
+                display: block;
+                position: relative;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            .section-3 .tab-navigation {
+                display: flex;
+                position: relative;
+                height: 8.19vh;
+                background-color: #2f4835;
+                z-index: 10;
+            }
+
+            .section-3 .tab-button {
+                flex: 1;
+                background-color: #344736;
+                color: #ffffff;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 22px;
+                font-weight: 300;
+                text-transform: uppercase;
+                border: 2px solid #fff;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: -2px;
+            }
+
+            .section-3 .tab-button:not(:last-child) {
+                border-right: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .section-3 .tab-button:hover {
+                background-color: #3a5a47;
+            }
+
+            .section-3 .tab-button.active {
+                background-color: #ffffff;
+                color: #344736;
+                border-color: #344736;
+            }
+
+            .section-3 .tab-content {
+                display: none;
+                position: relative;
+            }
+
+            .section-3 .tab-content.active {
+                display: grid;
+                grid-template-columns: 70% 30%;
+                gap: 0;
+            }
+
+            /* Left Zone */
+            .section-3 .left-zone {
+                background-color: #ffffff;
+                position: relative;
+                display: grid;
+                grid-template-rows: auto 1fr;
+            }
+
+            .section-3 .title-wrapper {
+                padding: 40px 0 10px 0;
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+                padding-left: 0;
+                min-height: 0;
+            }
+
+            .section-3 .title-line {
+                width: 120px;
+                height: 2px;
+                background-color: #2f4835;
+                margin-top: 0.15em;
+                flex-shrink: 0;
+            }
+
+            .section-3 .title-text {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 70px;
+                font-weight: 300;
+                line-height: 0.85;
+                color: #344736;
+                text-transform: uppercase;
+                white-space: nowrap;
+                margin: 0;
+            }
+
+            /* Poomaale concept text */
+            .section-3 .concept-text {
+                margin-left: 40px;
+                color: #b8dc99;
+                font-size: 32px;
+                font-weight: 300;
+                line-height: 0.9;
+            }
+
+            .section-3 .concept-text p {
+                margin: 0;
+            }
+
+            /* Image Container */
+            .section-3 .image-container {
+                position: relative;
+                width: 100%;
+                height: 500px;
+                overflow: hidden;
+                align-self: end;
+            }
+
+            .section-3 .main-image {
+                width: 100%;
+                height: 100%;
+                min-height: 500px;
+                object-fit: cover;
+                object-position: center bottom;
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+
+            .section-3 .image-container::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.35);
+                z-index: 1;
+            }
+
+            /* Green overlay text on image */
+            .section-3 .green-overlay-text {
+                position: absolute;
+                bottom: 13.08%;
+                left: 0;
+                right: 37.48%;
+                z-index: 2;
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .section-3 .green-overlay-text::before {
+                content: '';
+                width: 200px;
+                height: 2px;
+                background-color: #b8dc99;
+                margin-top: 0.4em;
+                flex-shrink: 0;
+            }
+
+            .section-3 .green-overlay-text p {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 23.49px;
+                font-weight: 400;
+                line-height: 1.2;
+                color: #b8dc99;
+                text-transform: uppercase;
+                margin: 0;
+            }
+
+            /* Poomaale Stats Overlay */
+            .section-3 .stats-overlay {
+                position: absolute;
+                bottom: 90px;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 0;
+                z-index: 2;
+            }
+
+            .section-3 .stat-line {
+                width: 200px;
+                height: 2px;
+                background-color: #b8dc99;
+                margin-top: 0.15em;
+                flex-shrink: 0;
+            }
+
+            /* Hammiyala Stats */
+            .section-3 .hammiyala-stats {
+                position: absolute;
+                bottom: 90px;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 0;
+                z-index: 2;
+            }
+
+            .section-3 .hammiyala-stat-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #b8dc99;
+                gap: 10px;
+            }
+
+            .section-3 .hammiyala-stat-text {
+                font-size: 20px;
+                font-weight: 400;
+                color: #b8dc99;
+                text-transform: uppercase;
+                margin: 0;
+                text-align: center;
+            }
+
+            .section-3 .stat-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #b8dc99;
+            }
+
+            .section-3 .stat-number {
+                font-size: 60px;
+                font-weight: 300;
+                line-height: 1;
+                margin-bottom: 10px;
+                color: #b8dc99;
+            }
+
+            .section-3 .stat-label {
+                font-size: 14px;
+                font-weight: 300;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                line-height: 1.3;
+                color: #b8dc99;
+                max-width: 150px;
+                text-align: center;
+            }
+
+            .section-3 .stat-icon {
+                width: 50px;
+                height: 50px;
+                object-fit: contain;
+            }
+
+            /* Right Text Column */
+            .section-3 .right-column {
+                width: 100%;
+                padding: 40px 40px 80px 40px;
+                display: flex;
+                flex-direction: column;
+                overflow-y: hidden;
+            }
+
+            .section-3 .right-column p {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 17px;
+                font-weight: 300;
+                line-height: 1.5;
+                color: #000000;
+                margin: 0 0 24px 0;
+            }
+
+            .section-3 .right-column p:last-child {
+                margin-bottom: 0;
+            }
+
+            .section-3 .invite-button {
+                margin-top: 40px;
+                padding: 10px 25px;
+                background-color: transparent;
+                border: 2px solid #2f4835;
+                border-radius: 30px;
+                color: #2f4835;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 16px;
+                font-weight: 400;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .section-3 .invite-button:hover {
+                background-color: #344736;
+                color: #ffffff;
+            }
+
+            /* Pagination Dots */
+            .section-3 .section-3-decorations {
+                display: none;
+            }
+
+            .section-3 .pagination-dots {
+                position: absolute;
+                bottom: 30px;
+                left: 70%;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                z-index: 20;
+            }
+
+            .section-3 .pagination-dots .dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: #344736;
+                opacity: 0.3;
+                cursor: pointer;
+                transition: opacity 0.3s ease;
+            }
+
+            .section-3 .pagination-dots .dot.active {
+                opacity: 1;
+            }
+
+            .section-3 .pagination-dots .dot:hover {
+                opacity: 0.6;
+            }
+
+            /* Text Pagination Arrows - Desktop Only */
+            .section-3 .text-pagination {
+                display: none !important;
+                gap: 10px;
+                margin-bottom: 20px;
+                justify-content: flex-start;
+                flex-shrink: 0;
+            }
+
+            .section-3 .pagination-arrow {
+                width: 40px;
+                height: 40px;
+                background-color: #344736;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .section-3 .pagination-arrow svg {
+                width: 20px;
+                height: 20px;
+                stroke: #ffffff;
+                fill: none;
+            }
+
+            .section-3 .pagination-arrow:disabled {
+                opacity: 0.3;
+                cursor: not-allowed;
+            }
+
+            .section-3 .pagination-arrow:not(:disabled):hover {
+                opacity: 0.8;
+            }
+
+            /* Hide text-overlay paragraphs by default - will be shown by JS */
+            .section-3 .right-column .text-overlay {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+            }
+        }
+
+        /* ============================================
+           SECTION 4 - JOIN OUR COMMUNITY
+           ============================================ */
+        .section-4 {
+            height: 1920px;
+            background-color: #2d4a35;
+            padding: 80px 60px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-4 .main-title {
+            margin-bottom: 20px;
+        }
+
+        .section-4 .title-join {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 99px;
+            font-weight: 300;
+            line-height: 0.75;
+            color: #b8dc99;
+        }
+
+        .section-4 .title-community {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 99px;
+            font-weight: 300;
+            line-height: 0.75;
+            color: #ffffff;
+        }
+
+        .section-4 .subtitle {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 29px;
+            font-weight: 300;
+            line-height: 1.4;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+            letter-spacing: 0.75px;
+        }
+
+        .section-4 .section-heading {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.4;
+            color: #b8dc99;
+            margin-bottom: 30px;
+        }
+
+        .section-4 .description {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 1.5;
+            color: #ffffff;
+            max-width: 900px;
+            margin: 0 auto 60px auto;
+        }
+
+        .section-4 .description .text-accent {
+            color: #b8dc99;
+        }
+
+        .section-4 .image-text-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        /* Hide features container on mobile - shown only on desktop */
+        .section-4 .features-container {
+            display: none;
+        }
+
+        .section-4 .image-container {
+            position: relative;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 900px;
+        }
+
+        .section-4 .image-container img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        .section-4 .image-overlay-text {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 2;
+            white-space: nowrap;
+        }
+
+        .section-4 .overlay-title-what,
+        .section-4 .overlay-title-were {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 99px;
+            font-weight: 300;
+            line-height: 0.75;
+            color: #b8dc99;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            margin: 0;
+            padding: 0;
+        }
+
+        .section-4 .below-image-text {
+            text-align: center;
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        .section-4 .overlay-title-building,
+        .section-4 .overlay-title-together {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 99px;
+            font-weight: 300;
+            line-height: 0.75;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* ============================================
+           SECTION 5 - FEATURES
+           ============================================ */
+        .section-5 {
+            background-color: #2d4a35;
+            padding: 80px 60px 40px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-5 .features-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            flex: 1;
+        }
+
+        .section-5 .feature-card {
+            background-color: #3d5a45;
+            border-radius: 8px;
+            padding: 60px 50px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .section-5 .feature-card.transparent {
+            background-color: transparent;
+        }
+
+        .section-5 .feature-icon {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .section-5 .feature-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: #b8dc99;
+            fill: none;
+        }
+
+        .section-5 .feature-title {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.4;
+            color: #b8dc99;
+            margin-bottom: 10px;
+        }
+
+        .section-5 .feature-description {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 1.4;
+            color: #ffffff;
+            max-width: 600px;
+        }
+
+        .section-5 .scroll-indicator {
+            margin-top: 40px;
+            animation: bounce 2s infinite;
+        }
+
+        .section-5 .scroll-indicator svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* ============================================
+           SECTION 6 - INVESTMENT OPPORTUNITY
+           ============================================ */
+        .section-6 {
+            position: relative;
+            height: 1920px;
+            background-color: #395d41;
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-6::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 80px);
+            background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/vector.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: 0;
+            mix-blend-mode: multiply;
+        }
+
+        .section-6 .background-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .section-6 .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .section-6 .main-heading {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 64px;
+            font-weight: 300;
+            line-height: 0.9;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0px;
+            word-spacing: 0px;
+            max-width: 1100px;
+            text-align: center;
+        }
+
+        .section-6 .highlight-green {
+            color: #b8dc99;
+        }
+
+        .section-6 .highlight-yellow {
+            color: #b8dc99;
+        }
+
+        .section-6 .cta-button {
+            background: transparent;
+            border: 2px solid #b8dc99;
+            border-radius: 48px;
+            padding: 10px 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            color: #b8dc99;
+            text-transform: uppercase;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .section-6 .cta-button:hover {
+            background: #b8dc99;
+            color: #344736;
+        }
+
+        .section-6 .footer-text {
+            position: absolute;
+            bottom: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            padding: 0 60px;
+        }
+
+        .section-6 .disclaimer {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+            line-height: 1.5;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-6 .description {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #ffffff;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-6 .scroll-indicator {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .section-6 .scroll-indicator svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* ============================================
+           SECTION 7 - MORE THE MERRIER
+           ============================================ */
+        /*
+        STRUCTURE LOGIC:
+        - Green background: 0px to 1200px
+        - Boundary/Split point: 1200px
+        - Image background: 1200px to end
+        - Card height: 400px
+        - Cards positioned to center at 1200px (half in green, half in image)
+        - First card center: 1200px, so top at 1000px (1200-200), bottom at 1400px (1200+200)
+        */
+
+        .section-7 {
+            position: relative;
+            min-height: 2800px;
+        }
+
+        /* Hide mobile background divs on desktop */
+        .section-7-bg-green,
+        .section-7-bg-image {
+            display: none;
+        }
+
+        /* Top section - solid green background (0-1200px) */
+        .section-7::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1300px;
+            background-color: #344736;
+            z-index: -1;
+        }
+
+        /* Bottom section - coffee plant image (1200px onwards) */
+        .section-7::after {
+            content: '';
+            position: absolute;
+            top: 1200px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 1200px);
+            background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/frog.png');
+            background-size: cover;
+            background-position: center 70%;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        .section-7 .main-title {
+            position: relative;
+            text-align: center;
+            padding-top: 80px;
+            margin-bottom: 30px;
+        }
+
+        .section-7 .title-more {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 99px;
+            font-weight: 300;
+            line-height: 1.1;
+            color: #b8dc99;
+        }
+
+        .section-7 .title-merrier {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 99px;
+            font-weight: 300;
+            line-height: 0.85;
+            color: #ffffff;
+        }
+
+        .section-7 .intro-text {
+            position: relative;
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 1.4;
+            color: #ffffff;
+            text-align: center;
+            max-width: 745px;
+            margin: 0 auto 0 auto;
+            padding: 0 60px;
+        }
+
+        /* Cards wrapper - positioned absolutely to control card placement */
+        .section-7 .all-cards-wrapper {
+            position: absolute;
+            top: 1000px; /* First card starts here (200px before boundary at 1200px) */
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 80px;
+        }
+
+        /* Each card is 400px tall, centered on boundary */
+        .section-7 .benefit-card {
+            width: 700px;
+            height: 400px;
+            padding: 45px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: left;
+            background: #415c43;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-7 .benefit-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-7 .benefit-card::before {
+            display: none;
+        }
+
+        .section-7 .benefit-icon {
+            display: none;
+        }
+
+        .section-7 .benefit-title {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 22px;
+            font-weight: 300;
+            line-height: 0.9;
+            color: #B8dc99;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .section-7 .benefit-description {
+            font-family: 'ABC Arizona Flare', Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #ffffff;
+            max-width: 520px;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN - MOBILE RESPONSIVE SCALING
+           ============================================ */
+        @media (max-width: 1023px), (orientation: portrait) and (max-width: 1023px) {
+            section {
+                width: 100vw !important;
+            }
+
+            /* Global scroll indicator responsive */
+            .scroll-indicator {
+                margin: calc(60px * 100vw / 1080) 0;
+            }
+
+            .scroll-indicator svg {
+                width: calc(47px * 100vw / 1080);
+                height: calc(27px * 100vw / 1080);
+            }
+
+            /* Section 1 responsive */
+            .section-1 {
+                height: calc(100vw * 1920 / 1080);
+            }
+
+            .section-1 .hero-titles {
+                top: calc(223px * 100vw / 1080);
+                left: calc(78px * 100vw / 1080);
+                width: calc(932px * 100vw / 1080);
+            }
+
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-size: calc(153.39px * 100vw / 1080);
+            }
+
+
+            .section-1 .subtitle-section {
+                top: calc(1375px * 100vw / 1080);
+                width: calc(388px * 100vw / 1080);
+            }
+
+            .section-1 .subtitle-line {
+                font-size: calc(23.49px * 100vw / 1080);
+            }
+
+            .section-1 .subtitle-line:nth-child(1),
+            .section-1 .subtitle-line:nth-child(2) {
+                margin-bottom: calc(2px * 100vw / 1080);
+            }
+
+            .section-1 .cta-section {
+                top: calc(1532px * 100vw / 1080);
+            }
+
+            .section-1 .cta-button {
+                padding: calc(18px * 100vw / 1080) calc(48px * 100vw / 1080);
+                font-size: calc(16px * 100vw / 1080);
+                border-width: calc(2px * 100vw / 1080);
+                border-radius: calc(48px * 100vw / 1080);
+            }
+
+            .section-1 .scroll-indicator {
+                top: calc(1726px * 100vw / 1080);
+            }
+
+            .section-1 .scroll-indicator svg {
+                width: calc(45px * 100vw / 1080);
+                height: calc(26px * 100vw / 1080);
+            }
+
+            /* Section 2 responsive */
+            .section-2 {
+                height: calc(100vw * 1920 / 1080);
+            }
+
+            .section-2 .title-section {
+                top: calc(180px * 100vw / 1080);
+            }
+
+            .section-2 .title-our,
+            .section-2 .title-vision {
+                font-size: calc(120px * 100vw / 1080);
+            }
+
+            .section-2 .title-our {
+                margin-bottom: 0px;
+            }
+
+            .section-2 .description-section {
+                bottom: calc(280px * 100vw / 1080);
+                max-width: 100%;
+                width: 100%;
+                padding: 0;
+            }
+
+            .section-2 .description-text {
+                font-size: calc(56px * 100vw / 1080);
+                white-space: normal;
+                word-wrap: break-word;
+            }
+
+            /* Section 3 responsive */
+            .section-3 {
+                padding: calc(50px * 100vw / 1080) 0;
+            }
+
+            .section-3 .accordion-header {
+                padding: calc(30px * 100vw / 1080) calc(52px * 100vw / 1080);
+            }
+
+            .section-3 .accordion-header::after {
+                left: calc(52px * 100vw / 1080);
+                right: calc(52px * 100vw / 1080);
+                height: calc(2px * 100vw / 1080);
+            }
+
+            .section-3 .accordion-title {
+                font-size: calc(43.18px * 100vw / 1080);
+            }
+
+            .section-3 .accordion-icon {
+                width: calc(24px * 100vw / 1080);
+                height: calc(24px * 100vw / 1080);
+            }
+
+            .section-3 .accordion-content {
+                min-height: calc(800px * 100vw / 1080);
+            }
+
+            .section-3 .text-overlay {
+                padding: calc(80px * 100vw / 1080) calc(90px * 100vw / 1080) calc(60px * 100vw / 1080) calc(90px * 100vw / 1080);
+                max-width: calc(700px * 100vw / 1080);
+            }
+
+            .section-3 .text-overlay p {
+                font-size: calc(24px * 100vw / 1080);
+                margin-bottom: calc(32px * 100vw / 1080);
+            }
+
+            .section-3 .cta-button-accordion {
+                border-width: calc(2px * 100vw / 1080);
+                border-radius: calc(50px * 100vw / 1080);
+                padding: calc(15px * 100vw / 1080) calc(40px * 100vw / 1080);
+                font-size: calc(20px * 100vw / 1080);
+                letter-spacing: calc(3px * 100vw / 1080);
+                margin-top: calc(40px * 100vw / 1080);
+            }
+
+            .section-3 .green-bar-text {
+                padding: calc(40px * 100vw / 1080) calc(90px * 100vw / 1080);
+            }
+
+            .section-3 .green-bar-text p {
+                font-size: calc(24px * 100vw / 1080);
+            }
+
+            .section-3 .green-bar-stats {
+                height: calc(140px * 100vw / 1080);
+                padding: 0 calc(60px * 100vw / 1080);
+            }
+
+            .section-3 .stat-item {
+                gap: calc(5px * 100vw / 1080);
+            }
+
+            .section-3 .stat-icon {
+                width: calc(48px * 100vw / 1080);
+                height: calc(48px * 100vw / 1080);
+            }
+
+            .section-3 .stat-number {
+                font-size: calc(64px * 100vw / 1080);
+                margin-bottom: 0px;
+            }
+
+            .section-3 .stat-label {
+                font-size: calc(16px * 100vw / 1080);
+            }
+
+            /* Section 4 responsive */
+            .section-4 {
+                height: calc(100vw * 1920 / 1080);
+                padding: calc(80px * 100vw / 1080) calc(60px * 100vw / 1080);
+            }
+
+            .section-4 .image-container {
+                height: calc(900px * 100vw / 1080);
+            }
+
+            .section-4 .image-container img {
+                content: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/section4-community.png');
+            }
+
+            .section-4 .main-title {
+                margin-bottom: calc(20px * 100vw / 1080);
+            }
+
+            .section-4 .title-join,
+            .section-4 .title-community {
+                font-size: calc(99px * 100vw / 1080);
+            }
+
+            .section-4 .subtitle {
+                font-size: calc(29px * 100vw / 1080);
+                margin-bottom: calc(60px * 100vw / 1080);
+            }
+
+            .section-4 .section-heading {
+                font-size: calc(24px * 100vw / 1080);
+                margin-bottom: calc(30px * 100vw / 1080);
+            }
+
+            .section-4 .description {
+                font-size: calc(24px * 100vw / 1080);
+                margin-bottom: calc(60px * 100vw / 1080);
+                max-width: calc(900px * 100vw / 1080);
+            }
+
+            .section-4 .image-text-wrapper {
+                max-width: calc(920px * 100vw / 1080);
+            }
+
+            .section-4 .image-container {
+                border-radius: calc(8px * 100vw / 1080);
+            }
+
+            .section-4 .image-overlay-text {
+                bottom: calc(20px * 100vw / 1080);
+            }
+
+            .section-4 .below-image-text {
+                margin-top: calc(5px * 100vw / 1080);
+            }
+
+            .section-4 .overlay-title-what,
+            .section-4 .overlay-title-were,
+            .section-4 .overlay-title-building,
+            .section-4 .overlay-title-together {
+                font-size: calc(99px * 100vw / 1080);
+            }
+
+            /* Section 5 responsive */
+            .section-5 {
+                padding: calc(80px * 100vw / 1080) calc(60px * 100vw / 1080) calc(40px * 100vw / 1080) calc(60px * 100vw / 1080);
+            }
+
+            .section-5 .features-container {
+                max-width: calc(900px * 100vw / 1080);
+                gap: calc(40px * 100vw / 1080);
+            }
+
+            .section-5 .feature-card {
+                border-radius: calc(8px * 100vw / 1080);
+                padding: calc(60px * 100vw / 1080) calc(50px * 100vw / 1080);
+                gap: calc(20px * 100vw / 1080);
+            }
+
+            .section-5 .feature-icon {
+                width: calc(35px * 100vw / 1080);
+                height: calc(35px * 100vw / 1080);
+                margin-bottom: calc(10px * 100vw / 1080);
+            }
+
+            .section-5 .feature-title {
+                font-size: calc(24px * 100vw / 1080);
+                margin-bottom: calc(10px * 100vw / 1080);
+            }
+
+            .section-5 .feature-description {
+                font-size: calc(24px * 100vw / 1080);
+                max-width: calc(600px * 100vw / 1080);
+            }
+
+            .section-5 .scroll-indicator {
+                margin-top: calc(40px * 100vw / 1080);
+            }
+
+            .section-5 .scroll-indicator svg {
+                width: calc(40px * 100vw / 1080);
+                height: calc(40px * 100vw / 1080);
+            }
+
+            /* Section 6 responsive */
+            .section-6 {
+                height: calc(100vw * 1920 / 1080);
+                padding: calc(80px * 100vw / 1080) calc(60px * 100vw / 1080);
+            }
+
+            .section-6 .content {
+                max-width: calc(900px * 100vw / 1080);
+                gap: calc(60px * 100vw / 1080);
+            }
+
+            .section-6 .main-heading {
+                font-size: calc(64px * 100vw / 1080);
+                max-width: calc(800px * 100vw / 1080);
+            }
+
+            .section-6 .cta-button {
+                border-width: calc(2px * 100vw / 1080);
+                border-radius: calc(48px * 100vw / 1080);
+                padding: calc(20px * 100vw / 1080) calc(60px * 100vw / 1080);
+                font-size: calc(18px * 100vw / 1080);
+            }
+
+            .section-6 .footer-text {
+                bottom: calc(180px * 100vw / 1080);
+                width: 100%;
+                padding: 0 calc(60px * 100vw / 1080);
+            }
+
+            .section-6 .disclaimer {
+                font-size: calc(16px * 100vw / 1080);
+                margin-bottom: calc(30px * 100vw / 1080);
+            }
+
+            .section-6 .description {
+                font-size: calc(16px * 100vw / 1080);
+            }
+
+            .section-6 .scroll-indicator {
+                bottom: calc(60px * 100vw / 1080);
+            }
+
+            .section-6 .scroll-indicator svg {
+                width: calc(40px * 100vw / 1080);
+                height: calc(40px * 100vw / 1080);
+            }
+
+            /* Section 7 responsive */
+            .section-7 .main-title {
+                padding-top: calc(80px * 100vw / 1080);
+                margin-bottom: calc(30px * 100vw / 1080);
+            }
+
+            .section-7 .title-more,
+            .section-7 .title-the,
+            .section-7 .title-merrier {
+                font-size: calc(99px * 100vw / 1080);
+            }
+
+            .section-7 .intro-text {
+                font-size: calc(24px * 100vw / 1080);
+                max-width: calc(745px * 100vw / 1080);
+                margin-bottom: calc(80px * 100vw / 1080);
+                padding: 0 calc(60px * 100vw / 1080);
+            }
+
+            .section-7 .cards-container {
+                gap: calc(5px * 100vw / 1080);
+                padding-bottom: calc(5px * 100vw / 1080);
+            }
+
+            .section-7 .benefit-card {
+                width: calc(700px * 100vw / 1080);
+                height: calc(700px * 100vw / 1080);
+                padding: calc(50px * 100vw / 1080) calc(60px * 100vw / 1080);
+            }
+
+            .section-7 .card-3-container {
+                padding-top: calc(5px * 100vw / 1080);
+                padding-bottom: calc(80px * 100vw / 1080);
+            }
+
+            .section-7 .benefit-icon {
+                width: calc(60px * 100vw / 1080);
+                height: calc(60px * 100vw / 1080);
+                margin-bottom: calc(30px * 100vw / 1080);
+            }
+
+            .section-7 .benefit-title {
+                font-size: calc(24px * 100vw / 1080);
+                margin-bottom: calc(20px * 100vw / 1080);
+            }
+
+            .section-7 .benefit-description {
+                font-size: calc(24px * 100vw / 1080);
+                max-width: calc(600px * 100vw / 1080);
+            }
+
+            .section-7::after {
+                top: calc(1200px * 100vw / 1080);
+                height: calc((100% - 1200px) * 100vw / 1080);
+            }
+        }
+
+        /* Tablet portrait optimization - cap scaling */
+        @media (orientation: portrait) and (min-width: 600px) and (max-width: 1023px) {
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-size: calc(153.39px * 600 / 1080) !important;
+            }
+
+            .section-1 .hero-titles {
+                width: calc(932px * 600 / 1080) !important;
+                top: calc(223px * 600 / 1080) !important;
+                left: calc(78px * 600 / 1080) !important;
+            }
+
+            .section-1 .subtitle-section {
+                width: calc(388px * 600 / 1080) !important;
+                top: calc(1375px * 600 / 1080) !important;
+            }
+
+            .section-1 .subtitle-line {
+                font-size: calc(23.49px * 600 / 1080) !important;
+            }
+
+            .section-1 .cta-section {
+                top: calc(1532px * 600 / 1080) !important;
+            }
+
+            .section-1 .cta-button {
+                font-size: calc(16px * 600 / 1080) !important;
+                padding: calc(18px * 600 / 1080) calc(48px * 600 / 1080) !important;
+            }
+
+            .section-1 .scroll-indicator {
+                top: calc(1726px * 600 / 1080) !important;
+            }
+
+            .section-1 {
+                height: calc(600px * 1920 / 1080) !important;
+            }
+        }
+
+        /* Additional optimization for smaller mobile screens */
+        @media (max-width: 768px) {
+            /* Section 1 - Mobile optimized */
+            .section-1 {
+                height: 100vh;
+                min-height: 100vh;
+            }
+
+            .section-1 .hero-titles {
+                top: 12vh;
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+                text-align: center;
+            }
+
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-size: 13vw;
+                line-height: 0.5;
+                white-space: nowrap;
+            }
+
+            .section-1 .title-collective {
+                padding-left: 0;
+            }
+
+            .section-1 .subtitle-section {
+                top: auto;
+                bottom: 30vh;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 85vw;
+                max-width: none;
+            }
+
+            .section-1 .subtitle-line {
+                font-size: 3.5vw;
+                white-space: normal;
+                line-height: 1;
+                margin-bottom: 0 !important;
+            }
+
+            .section-1 .subtitle-line:nth-child(2) {
+                display: none;
+            }
+
+            .section-1 .cta-section {
+                top: auto;
+                bottom: 18vh;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .section-1 .cta-button {
+                font-size: 3.2vw;
+                padding: 3vw 8vw;
+                min-height: 44px;
+                letter-spacing: 1px;
+                border-radius: 30px;
+                white-space: nowrap;
+            }
+
+            .section-1 .scroll-indicator {
+                top: auto;
+                bottom: 3vh;
+                animation: none;
+            }
+
+            .section-1 .scroll-indicator svg {
+                width: 8vw;
+                height: auto;
+            }
+
+            /* Section 2 - Mobile optimized */
+            .section-2 {
+                height: 100vh;
+                min-height: 100vh;
+            }
+
+            .section-2 .title-section {
+                top: 15vh;
+                width: 100%;
+            }
+
+            .section-2 .title-our,
+            .section-2 .title-vision {
+                font-size: 16vw;
+                line-height: 0.75;
+                white-space: nowrap;
+            }
+
+            .section-2 .description-section {
+                bottom: 15vh;
+                max-width: 100vw;
+                padding: 0;
+                width: 100%;
+            }
+
+            .section-2 .description-text {
+                display: none !important;
+            }
+
+            .section-2 .description-text-mobile {
+                display: block !important;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 5.5vw;
+                font-weight: 300;
+                line-height: 1;
+                color: #ffffff;
+                text-transform: uppercase;
+                text-align: justify;
+                text-align-last: justify;
+                margin: 0;
+                padding: 0 5vw;
+            }
+
+            .section-2 .scroll-indicator {
+                display: none;
+            }
+
+            /* Section 3 - Accordion Mobile optimized */
+            .section-3 {
+                padding: 8vw 0;
+            }
+
+            .section-3 .accordion-header {
+                padding: 5vw 5vw;
+            }
+
+            .section-3 .accordion-header::after {
+                left: 5vw;
+                right: 5vw;
+                height: 1px;
+            }
+
+            .section-3 .accordion-title {
+                font-size: 7vw;
+                line-height: 1;
+            }
+
+            .section-3 .accordion-icon {
+                width: 6vw;
+                height: 6vw;
+                min-width: 20px;
+                min-height: 20px;
+            }
+
+            .section-3 .accordion-content {
+                min-height: auto;
+            }
+
+            .section-3 .text-overlay {
+                padding: 10vw 7vw 8vw 7vw;
+                width: 70%;
+            }
+
+            .section-3 .text-overlay p {
+                font-size: calc(2.8vw + 2px);
+                line-height: 1.2;
+                margin-bottom: 5vw;
+            }
+
+            .section-3 .cta-button-accordion {
+                border-width: 1px;
+                border-radius: 30px;
+                padding: 2.4vw 6.4vw;
+                font-size: 2.56vw;
+                letter-spacing: 1.2px;
+                margin-top: 4.8vw;
+                min-height: 44px;
+                white-space: nowrap;
+            }
+
+            .section-3 .green-bar-text {
+                padding: 5vw 6vw;
+            }
+
+            .section-3 .green-bar-text p {
+                font-size: calc(3.2vw + 2px);
+                line-height: 1.4;
+            }
+
+            .section-3 .green-bar-stats {
+                height: auto;
+                padding: 5vw 4vw;
+                display: grid;
+                grid-template-columns: auto 1fr 1fr 1fr;
+                gap: 3vw;
+            }
+
+            .section-3 .stat-item {
+                gap: 1vw;
+                min-width: 0;
+            }
+
+            .section-3 .stat-icon {
+                width: 8vw;
+                height: 8vw;
+            }
+
+            .section-3 .stat-number {
+                font-size: 8vw;
+                line-height: 1;
+            }
+
+            .section-3 .stat-label {
+                font-size: 2.2vw;
+                line-height: 1;
+            }
+
+            .section-3 .stats-decorative-line {
+                width: 15vw;
+                height: 1vw;
+                justify-self: start;
+            }
+
+            /* Section 4 - Mobile optimized */
+            .section-4 {
+                height: auto;
+                min-height: 100vh;
+                padding: 10vw 5vw;
+            }
+
+            .section-4 .main-title {
+                margin-bottom: 4vw;
+            }
+
+            .section-4 .title-join,
+            .section-4 .title-community {
+                font-size: 13vw;
+                line-height: 0.5;
+            }
+
+            .section-4 .subtitle {
+                font-size: 4vw;
+                margin-bottom: 8vw;
+                line-height: 1;
+            }
+
+            .section-4 .section-heading {
+                font-size: 4.5vw;
+                margin-bottom: 5vw;
+            }
+
+            .section-4 .description {
+                font-size: 3.5vw;
+                line-height: 1.6;
+                margin-bottom: 8vw;
+                max-width: 90vw;
+            }
+
+            .section-4 .image-wrapper {
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .section-4 .image-text-wrapper {
+                max-width: 100%;
+            }
+
+            .section-4 .image-container {
+                position: relative;
+                width: 100%;
+                height: 60vh;
+                min-height: 350px;
+                border-radius: 4vw;
+                overflow: visible;
+            }
+
+            .section-4 .image-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+
+            .section-4 .community-overlay-title {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 13vw;
+                font-weight: 300;
+                line-height: 0.75;
+                color: #b8dc99;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+                z-index: 2;
+                word-spacing: 100vw !important;
+                display: block !important;
+            }
+
+            .section-4 .community-below-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 13vw;
+                font-weight: 300;
+                line-height: 0.75;
+                color: #ffffff;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                word-spacing: 100vw !important;
+                display: block !important;
+            }
+
+            .section-4 .image-overlay-text {
+                bottom: 3vw;
+            }
+
+            .section-4 .overlay-title-what,
+            .section-4 .overlay-title-were {
+                font-size: 13vw;
+                line-height: 0.75;
+                margin: 0;
+                padding: 0;
+            }
+
+            .section-4 .below-image-text {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            .section-4 .overlay-title-building,
+            .section-4 .overlay-title-together {
+                font-size: 13vw;
+                line-height: 0.75;
+                margin: 0;
+                padding: 0;
+            }
+
+            .section-4 .scroll-indicator {
+                display: none;
+            }
+
+            /* Section 5 - Mobile optimized */
+            .section-5 {
+                padding: 10vw 5vw 6vw 5vw;
+            }
+
+            .section-5 .features-container {
+                max-width: 100%;
+                gap: 6vw;
+            }
+
+            .section-5 .feature-card {
+                border-radius: 0;
+                padding: 8vw 6vw;
+                gap: 3vw;
+            }
+
+            .section-5 .feature-icon {
+                width: 7vw;
+                height: 7vw;
+                margin-bottom: 2vw;
+            }
+
+            .section-5 .feature-title {
+                font-size: 4vw;
+                margin-bottom: 2vw;
+            }
+
+            .section-5 .feature-description {
+                font-size: 3.5vw;
+                line-height: 1.5;
+                max-width: 100%;
+            }
+
+            .section-5 .scroll-indicator {
+                margin-top: 6vw;
+                display: none;
+            }
+
+            /* Section 6 - Mobile optimized */
+            .section-6 {
+                height: auto;
+                min-height: 100vh;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+            }
+
+            .section-6::before {
+                position: absolute;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                background-size: contain;
+                background-position: center 30%;
+                opacity: 0.3;
+            }
+
+            .section-6 .content {
+                max-width: 88vw;
+                gap: 8vw;
+                position: relative;
+                z-index: 1;
+                padding: 25vw 6vw 0 6vw;
+            }
+
+            .section-6 .main-heading {
+                font-size: 5.5vw;
+                line-height: 1;
+                max-width: 85vw;
+                letter-spacing: 0;
+                word-spacing: 0.2vw;
+                text-align: justify;
+                text-align-last: left;
+            }
+
+            .section-6 .cta-button {
+                border-width: 1px;
+                border-radius: 30px;
+                padding: 3.5vw 12vw;
+                font-size: 3.5vw;
+                letter-spacing: 1.5px;
+                min-height: 44px;
+                white-space: nowrap;
+            }
+
+            .section-6 .footer-text {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                transform: none;
+                width: 100%;
+                padding: 0 6vw 15vw 6vw;
+                margin-top: 10vw;
+                z-index: 2;
+            }
+
+            .section-6 .scroll-indicator {
+                bottom: 3vh;
+                display: none;
+            }
+
+            /* Section 7 - Mobile optimized */
+            /* Mobile Section 7 Layout:
+               - Title + intro: 0-80vw (with extra gap for text)
+               - Card 1 (FULL in green): 80vw-160vw (80vw tall)
+               - Gap: 8vw
+               - Card 2 (STRADDLES): 168vw-248vw (80vw tall, center at 208vw)
+               - GREEN ends at: 208vw ← BOUNDARY
+               - IMAGE starts at: 208vw
+               - Gap: 8vw
+               - Card 3 (FULL in image): 256vw-336vw (80vw tall)
+               - Total: 354vw
+            */
+            .section-7 {
+                min-height: 550vw;
+                max-height: 550vw;
+                overflow: hidden;
+            }
+
+            /* Hide pseudo-elements on mobile - use divs instead */
+            .section-7::before,
+            .section-7::after {
+                display: none !important;
+            }
+
+            /* Show mobile background divs */
+            .section-7-bg-green {
+                display: block !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 270vw;
+                background-color: #344736;
+                z-index: -1;
+            }
+
+            .section-7-bg-image {
+                display: block !important;
+                position: absolute;
+                top: 270vw;
+                left: 0;
+                width: 100%;
+                min-height: 280vw;
+                height: 280vw;
+                background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/lastsection.png');
+                background-size: cover;
+                background-position: center top;
+                background-repeat: no-repeat;
+                z-index: -1;
+            }
+
+            .section-7 .main-title {
+                padding-top: 10vw;
+                margin-bottom: 3vw;
+            }
+
+            .section-7 .title-more,
+            .section-7 .title-the,
+            .section-7 .title-merrier {
+                font-size: 13vw;
+                line-height: 0.5;
+            }
+
+            .section-7 .intro-text {
+                font-size: 3.5vw;
+                line-height: 1.5;
+                max-width: 88vw;
+                margin-bottom: 5vw;
+                padding: 0 6vw 15vw 6vw;
+            }
+
+            .section-7 .all-cards-wrapper {
+                position: absolute;
+                top: 80vw;
+                left: 0;
+                right: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8vw;
+            }
+
+            .section-7 .benefit-card {
+                width: 85vw;
+                height: auto;
+                min-height: 80vw;
+                padding: 8vw 7vw;
+                background: #415c43;
+            }
+
+            .section-7 .benefit-card:first-child {
+                padding-top: 8vw;
+            }
+
+            .section-7 .benefit-icon {
+                width: 12vw;
+                height: 12vw;
+                margin-bottom: 4vw;
+            }
+
+            .section-7 .benefit-title {
+                font-size: 4.5vw;
+                margin-bottom: 3vw;
+                line-height: 1;
+            }
+
+            .section-7 .benefit-description {
+                font-size: 3.5vw;
+                line-height: 1.5;
+                max-width: 100%;
+            }
+        }
+
+        /* ============================================
+           MEDIUM VIEWPORTS (1024px - 1399px)
+           Section 3 only - reduced sizes
+           ============================================ */
+        @media (orientation: landscape) and (min-width: 1024px) and (max-width: 1399px) {
+            /* Section 3 - Reduced sizes for medium viewports */
+            .section-3 {
+                min-height: auto !important;
+                height: auto !important;
+            }
+
+            .section-3 .tab-button {
+                font-size: 14px !important;
+            }
+
+            .section-3 .title-wrapper {
+                padding: 20px 0 20px 0 !important;
+                gap: 12px !important;
+            }
+
+            .section-3 .title-line {
+                width: 60px !important;
+                height: 1.5px !important;
+            }
+
+            .section-3 .title-text {
+                font-size: 50px !important;
+            }
+
+            .section-3 .concept-text {
+                font-size: 18px !important;
+                margin-left: 20px !important;
+            }
+
+            .section-3 .image-container {
+                height: 350px !important;
+            }
+
+            .section-3 .main-image {
+                min-height: 350px !important;
+            }
+
+            .section-3 .green-overlay-text {
+                bottom: 45px !important;
+                gap: 12px !important;
+            }
+
+            .section-3 .green-overlay-text::before {
+                width: 90px !important;
+                height: 1.5px !important;
+            }
+
+            .section-3 .green-overlay-text p {
+                font-size: 12px !important;
+            }
+
+            .section-3 .stats-overlay,
+            .section-3 .hammiyala-stats {
+                bottom: 45px !important;
+                gap: 6px !important;
+            }
+
+            .section-3 .stat-line {
+                width: 90px !important;
+                height: 1.5px !important;
+            }
+
+            .section-3 .stat-icon {
+                width: 28px !important;
+                height: 28px !important;
+            }
+
+            .section-3 .stat-number {
+                font-size: 36px !important;
+                margin-bottom: 6px !important;
+            }
+
+            .section-3 .stat-label {
+                font-size: 9px !important;
+                max-width: 80px !important;
+            }
+
+            .section-3 .hammiyala-stat-item {
+                gap: 6px !important;
+            }
+
+            .section-3 .hammiyala-stat-text {
+                font-size: 11px !important;
+            }
+
+            .section-3 .right-column {
+                padding: 30px 20px 40px 20px !important;
+            }
+
+            .section-3 .right-column p {
+                font-size: 12px !important;
+                margin: 0 0 14px 0 !important;
+            }
+
+            .section-3 .invite-button {
+                font-size: 11px !important;
+                padding: 10px 20px !important;
+                margin-top: 20px !important;
+                border-width: 1.5px !important;
+                border-radius: 20px !important;
+                letter-spacing: 0.6px !important;
+            }
+
+            .section-3 .pagination-dots {
+                bottom: 15px !important;
+                gap: 6px !important;
+            }
+
+            .section-3 .pagination-dots .dot {
+                width: 8px !important;
+                height: 8px !important;
+            }
+        }
+
+        /* ============================================
+           DESKTOP VERSION (Landscape orientation with reasonable width)
+           ============================================ */
+        @media (orientation: landscape) and (min-width: 1024px) {
+            /* Section 1 - Desktop Hero */
+            section {
+                width: 100vw;
+                max-width: 100%;
+            }
+
+            .section-1 {
+                height: 100vh;
+                min-height: 700px;
+                background-image: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/hammiyalapage/section1desktop.webp');
+                background-size: cover;
+                background-position: center center;
+                background-repeat: no-repeat;
+            }
+
+            .section-1 .gradient-overlay {
+                background: linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0) 0%,
+                    rgba(0, 0, 0, 0) 70%,
+                    rgba(0, 0, 0, 0.4) 100%
+                );
+            }
+
+            .section-1 .hero-titles {
+                position: absolute;
+                top: 3vh;
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+                text-align: center;
+            }
+
+            .section-1 .title-hammiyala,
+            .section-1 .title-collective {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif !important;
+                font-size: clamp(56px, 6.09vw, 117.08px);
+                font-weight: 300;
+                line-height: 0.75;
+                letter-spacing: normal;
+                text-align: center;
+                white-space: nowrap;
+                margin: 0;
+                padding: 0;
+            }
+
+            .section-1 .title-hammiyala {
+                color: #395d41;
+                margin-bottom: 0.05em;
+            }
+
+            .section-1 .title-collective {
+                color: #ffffff;
+                padding-left: 0;
+            }
+
+            .section-1 .subtitle-section {
+                position: absolute;
+                top: 24.5%;
+                left: 51%;
+                transform: translateX(-50%);
+                width: 78%;
+                max-width: 1400px;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .section-1 .subtitle-line {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: clamp(14px, 1.22vw, 23.49px);
+                font-weight: 400;
+                line-height: 1.3;
+                color: #344736;
+                letter-spacing: 1px;
+                white-space: nowrap;
+                margin-bottom: 0 !important;
+                margin-top: 0 !important;
+            }
+
+            .section-1 .subtitle-line:nth-child(1) {
+                text-align: left;
+                flex: 0 0 auto;
+            }
+
+            .section-1 .subtitle-line:nth-child(2) {
+                display: none;
+            }
+
+            .section-1 .subtitle-line:nth-child(3) {
+                text-align: right;
+                flex: 0 0 auto;
+            }
+
+            .section-1 .cta-section {
+                position: absolute;
+                top: auto;
+                bottom: 17vh;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .section-1 .cta-button {
+                background: transparent;
+                border: 2px solid #b8dc99;
+                border-radius: 48px;
+                padding: 10px 25px;
+                font-size: clamp(18px, 0.83vw, 16px);
+                letter-spacing: 2px;
+                min-height: auto;
+            }
+
+            .section-1 .scroll-indicator {
+                position: absolute;
+                top: auto;
+                bottom: 0.5vh;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .section-1 .scroll-indicator svg {
+                width: clamp(30px, 2.34vw, 45px);
+                height: auto;
+            }
+
+            /* Section 2 - Desktop Our Vision */
+            .section-2 {
+                height: 100vh;
+                min-height: 700px;
+            }
+
+            .section-2 .background-image img {
+                content: url('https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/section2desktop.png');
+            }
+
+            .section-2 .title-section {
+                position: absolute;
+                top: 8vh;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                display: flex;
+                gap: 15px;
+                align-items: center;
+            }
+
+            .section-2 .title-our {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: clamp(60px, 6.25vw, 120px);
+                font-weight: 300;
+                line-height: 1;
+                color: #ffffff;
+                margin: 0;
+            }
+
+            .section-2 .title-vision {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: clamp(60px, 6.25vw, 120px);
+                font-weight: 300;
+                line-height: 1;
+                color: #b8dc99;
+                margin: 0;
+            }
+
+            .section-2 .description-section {
+                position: absolute;
+                bottom: 15vh;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 700px;
+                padding: 0;
+            }
+
+            .section-2 .description-text {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: clamp(20px, 2.5vw, 48px);
+                font-weight: 300;
+                line-height: 1;
+                color: #ffffff;
+                text-transform: uppercase;
+                margin: 0;
+            }
+
+            .section-2 .description-line1 {
+                text-align: justify;
+                text-align-last: justify;
+                margin-bottom: 0;
+                line-height: 0.8;
+            }
+
+            .section-2 .description-line2 {
+                text-align: justify;
+                text-align-last: justify;
+                line-height: 1;
+                margin-top: 0;
+            }
+
+            .section-2 .description-text-mobile {
+                display: none !important;
+            }
+
+            /* Section 3 - Desktop Tab Styles (already defined above in common styles) */
+            /* The desktop tab styles from lines 567-814 handle this section */
+
+            /* Section 4 - Desktop Join Our Community */
+            .section-4 {
+                background-color: #344736;
+                padding: 80px 100px 20px 100px;
+                display: block;
+                position: relative;
+                z-index: 1;
+                height: auto !important;
+            }
+
+            .section-4 .main-title {
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            .section-4 .title-join {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 99px;
+                font-weight: 300;
+                color: #b8dc99;
+                text-transform: uppercase;
+                line-height: 1;
+                margin: 0;
+            }
+
+            .section-4 .title-community {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 99px;
+                font-weight: 300;
+                color: white;
+                text-transform: uppercase;
+                line-height: 0.5;
+                margin: 0;
+            }
+
+            .section-4 .subtitle {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 23.5px;
+                font-weight: 300;
+                color: white;
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: 0.03em;
+                margin-bottom: 50px;
+                padding-top: 20px;
+            }
+
+            .section-4 .section-heading {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 500;
+                color: #b8dc99;
+                text-align: center;
+                margin-bottom: 25px;
+            }
+
+            .section-4 .description {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 23px;
+                font-weight: 300;
+                color: white;
+                text-align: center;
+                max-width: 1350px;
+                line-height: 1.4;
+                margin: 0 auto 60px auto;
+            }
+
+            .section-4 .description p {
+                margin: 0 0 10px 0;
+            }
+
+            .section-4 .description .text-accent {
+                color: #b8dc99;
+            }
+
+            .section-4 .image-wrapper {
+                width: 100%;
+                max-width: 1300px;
+                margin: 0 auto 50px auto;
+            }
+
+            /* === Section 4 Desktop - PROPER IMPLEMENTATION === */
+
+            /* Hide mobile-specific wrapper */
+            .section-4 .image-text-wrapper {
+                display: none !important;
+            }
+
+            /* Desktop image wrapper */
+            section.section-4 .image-wrapper {
+                width: 100%;
+                max-width: 1300px;
+                margin: 0 auto 60px auto;
+                display: block;
+            }
+
+            /* Image container - Fixed height viewport for parallax */
+            section.section-4 .image-wrapper .image-container {
+                position: relative;
+                width: 100%;
+                height: 600px;
+                overflow: hidden;
+                background-color: #000;
+            }
+
+            /* Image - static, no parallax */
+            section.section-4 .image-wrapper .image-container img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                display: block;
+            }
+
+            /* Text overlay - Fixed to container, not image */
+            section.section-4 .image-wrapper .image-overlay {
+                position: absolute;
+                bottom: 80px;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                text-align: center;
+                display: block;
+            }
+
+            /* Text overlay on image - "WHAT WE'RE" */
+            section.section-4 .image-wrapper .image-container .community-overlay-title {
+                position: absolute;
+                bottom: -12px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 10;
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 99px;
+                font-weight: 300;
+                color: #b8dc99;
+                text-transform: uppercase;
+                line-height: 1;
+                margin: 0;
+                padding-bottom: 0;
+                white-space: nowrap;
+                display: block;
+            }
+
+            /* Text below image - "BUILDING TOGETHER" */
+            section.section-4 .image-wrapper .community-below-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 99px;
+                font-weight: 300;
+                color: #ffffff;
+                text-transform: uppercase;
+                line-height: 1;
+                margin: -12px 0;
+                padding-top: 0;
+                white-space: nowrap;
+                text-align: center;
+                display: block;
+            }
+
+            /* Section 5 - Desktop Features Grid */
+            .section-5 {
+                display: none;
+            }
+
+            /* Feature cards inside Section 4 for desktop */
+            .section-4 .features-container {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                gap: 0;
+                width: 100%;
+                max-width: 1600px;
+                margin: 0 auto 80px auto;
+            }
+
+            .section-4 .feature-card {
+                background: #415c43;
+                padding: 60px 50px;
+                border-radius: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                min-height: 300px;
+            }
+
+            .section-4 .feature-card.transparent {
+                background: rgba(47, 72, 53, 0.3);
+            }
+
+            .section-4 .feature-icon {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 20px;
+            }
+
+            .section-4 .feature-icon img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                filter: brightness(0) saturate(100%) invert(76%) sepia(15%) saturate(741%) hue-rotate(58deg) brightness(92%) contrast(86%);
+            }
+
+            .section-4 .feature-title {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 500;
+                color: #b8dc99;
+                margin-bottom: 15px;
+            }
+
+            .section-4 .feature-description {
+                font-family: 'ABC Arizona Flare', Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 300;
+                color: white;
+                line-height: 1.4;
+                max-width: 100%;
+            }
+
+            .section-4 .scroll-indicator {
+                text-align: center;
+                margin-top: 0px;
+                position: relative;
+                padding-bottom: 0px;
+            }
+
+            .section-4 .scroll-indicator svg {
+                width: 47px;
+                height: auto;
+            }
+
+            /* Section 6 - Desktop Investment Opportunity */
+            .section-6 {
+                height: 100vh;
+                min-height: 800px;
+                padding: clamp(60px, 8vh, 120px) clamp(40px, 5vw, 80px);
+                background-color: #415c43;
+            }
+
+            .section-6::before {
+                opacity: 0.15;
+            }
+
+            .section-6 .content {
+                max-width: clamp(900px, 80vw, 1400px);
+                gap: clamp(120px, 6vh, 80px);
+            }
+
+            .section-6 .main-heading {
+                font-size: clamp(32px, 3vw, 52px);
+                line-height: 0.9;
+                letter-spacing: 0px;
+                word-spacing: 0px;
+                text-align: justify;
+                font-weight: 300;
+                max-width: 1400px;
+            }
+
+            .section-6 .highlight-yellow {
+                color: #b8dc99;
+            }
+
+            .section-6 .highlight-green {
+                color: #b8dc99;
+            }
+
+            .section-6 .cta-button {
+                padding: clamp(10px, 1.5vh, 25px) clamp(40px, 4vw, 60px);
+                font-size: clamp(18px, 1vw, 18px);
+                letter-spacing: 2px;
+                border-radius: 48px;
+            }
+
+            .section-6 .footer-text {
+                position: absolute;
+                bottom: clamp(40px, 5vh, 80px);
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 1000px;
+                padding: 0 clamp(20px, 3vw, 60px);
+            }
+
+            .section-6 .disclaimer {
+                font-size: clamp(13px, 0.85vw, 15px);
+                margin-bottom: clamp(10px, 1.5vh, 20px);
+                line-height: 1.5;
+            }
+
+            .section-6 .description {
+                font-size: clamp(13px, 0.85vw, 15px);
+                line-height: 1.5;
+            }
+
+            .section-6 .scroll-indicator {
+                display: none;
+            }
+
+            /* Section 7 - Desktop More The Merrier */
+            .section-7 {
+                min-height: 1600px;
+                padding-bottom: 0;
+            }
+
+            .section-7::before {
+                height: 700px;
+            }
+
+            .section-7::after {
+                top: 700px;
+                height: 900px;
+            }
+
+            .section-7 .main-title {
+                padding-top: clamp(60px, 8vh, 120px);
+                margin-bottom: clamp(20px, 3vh, 40px);
+            }
+
+            .section-7 .title-more,
+            .section-7 .title-the,
+            .section-7 .title-merrier {
+                font-size: clamp(48px, 5.2vw, 99px);
+                line-height: 0.65;
+            }
+
+            .section-7 .intro-text {
+                font-size: clamp(16px, 1.25vw, 24px);
+                max-width: clamp(600px, 70vw, 1000px);
+                margin-bottom: clamp(0, 5vh, 80px);
+                padding: 0 clamp(20px, 3vw, 60px);
+            }
+
+            .section-7 .all-cards-wrapper {
+                position: absolute;
+                top: 470px;
+                left: 0;
+                right: 0;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: clamp(20px, 2vw, 40px);
+                padding: 0 clamp(20px, 4vw, 60px);
+            }
+
+            .section-7 .benefit-card {
+                width: clamp(280px, 28vw, 380px);
+                height: clamp(300px, 30vw, 400px);
+                padding: clamp(30px, 3vw, 40px) clamp(60px, 2.5vw, 60px);
+                flex-shrink: 1;
+            }
+
+            .section-7 .benefit-icon {
+                width: clamp(40px, 4vw, 60px);
+                height: clamp(40px, 4vw, 60px);
+                margin-bottom: clamp(20px, 2.5vh, 30px);
+            }
+
+            .section-7 .benefit-title {
+                font-size: clamp(18px, 6vw, 28px);
+                margin-bottom: clamp(85px, 2vh, 25px);
+            }
+
+            .section-7 .benefit-description {
+                font-size: clamp(14px, 1.25vw, 18px);
+                line-height: 1.5;
+                max-width: 100%;
+                min-height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- SECTION 1: HERO -->
+<section class="section-1">
+<div class="gradient-overlay"> </div>
+<div class="content">
+<div class="hero-titles">
+<h1 class="title-hammiyala">HAMMIYALA</h1>
+<h1 class="title-collective">COLLECTIVE</h1>
+</div>
+<div class="subtitle-section">
+<p class="subtitle-line">A WILDERNESS COLLECTIVE IN THE HEART</p>
+<p class="subtitle-line">NESTLED IN THE HEART OF COORG,</p>
+<p class="subtitle-line">OF COORG, JUST 45 MINUTES FROM MADIKERI</p>
+</div>
+<div class="cta-section"><button class="cta-button" data-tf-popup="hbDB2ybS" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=Co-forest - Concept" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=hammiyala,utm_source=,utm_medium=,utm_campaign=">REQUEST AN INVITE</button></div>
+<div class="scroll-indicator"> 
+<svg width="45" height="26" viewBox="0 0 45 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.62 25.64L0 3.02L3.02 0L22.62 19.6L42.22 0L45.24 3.02L22.62 25.64Z" fill="#B8dc99"></path>
+                </svg>
+                </div>
+</div>
+</section>
+<!-- SECTION 2: OUR VISION -->
+<section class="section-2">
+<div class="background-image"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/ourvision.jpg" alt="Person with binoculars in nature" /></div>
+<div class="content">
+<div class="title-section">
+<h2 class="title-our">OUR</h2>
+<h2 class="title-vision">VISION</h2>
+</div>
+<div class="description-section">
+<p class="description-text description-line1">P R E S E R V I N G</p>
+<p class="description-text description-line2">BIODIVERSITY WHILE CREATING SUSTAINABLE COMMUNITIES</p>
+<p class="description-text-mobile description-line-mobile-1">P R E S E R V I N G</p>
+<p class="description-text-mobile description-line-mobile-2"><span style="white-space: nowrap;">B I O D I V E R S I T Y</span>&nbsp;<span style="white-space: nowrap;">W H I L E</span></p>
+<p class="description-text-mobile description-line-mobile-3">C R E A T I N G</p>
+<p class="description-text-mobile description-line-mobile-4">S U S T A I N A B L E</p>
+<p class="description-text-mobile description-line-mobile-5">C O M M U N I T I E S</p>
+</div>
+</div>
+<div class="scroll-indicator"> </div>
+</section>
+<!-- SECTION 3: ACCORDION / TABS -->
+<section class="section-3"><!-- Decorative elements (Desktop Only) -->
+<div class="section-3-decorations"><!-- Left vertical lines -->
+<div class="left-decoration"> </div>
+<!-- Right pagination dots -->
+<div class="right-decoration">
+<div class="dot active" data-tab="origins"> </div>
+<div class="dot" data-tab="journey"> </div>
+<div class="dot" data-tab="collective"> </div>
+<div class="dot" data-tab="estate"> </div>
+</div>
+</div>
+<!-- Tab Navigation (Desktop Only) -->
+<div class="tab-navigation"><button class="tab-button active" data-tab="origins">THE ORIGINS</button> <button class="tab-button" data-tab="journey">OUR JOURNEY</button> <button class="tab-button" data-tab="collective">HAMMIYALA COLLECTIVE</button> <button class="tab-button" data-tab="estate">THE ESTATE</button></div>
+<!-- Desktop Content Container -->
+<div class="content-container"><!-- THE ORIGINS Tab Content -->
+<div id="desktop-origins" class="tab-content active">
+<div class="left-zone">
+<div class="title-wrapper">
+<div class="title-line"> </div>
+<h2 class="title-text">THE<br />ORIGINS</h2>
+</div>
+<div class="image-container"><img class="main-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/theorigins%20(1).png" alt="Forest canopy" />
+<div class="green-overlay-text">
+<p>OUR APPROACH COMBINES SUSTAINABLE AGRICULTURE, CONSERVATION, AND COMMUNITY LIVING TO CREATE A HARMONIOUS ECOSYSTEM.</p>
+</div>
+</div>
+</div>
+<div class="right-column">
+<div class="text-pagination"> </div>
+<div class="text-overlay">
+<p>The Western Ghats are one of the 10 biodiversity hotspots of the world. A significant portion of this biodiversity exists outside protected areas, amidst intensively cultivated farms and plantations. Preservation of this rapidly declining biodiversity has far-reaching consequences, especially for urban centers downstream.</p>
+<p>Asking planters to abandon their activities and letting the forest take over is not practical, as the plantation sector is the bedrock of the economy and a major source of employment. Wilderness collectives may very well be the answer — plantations or farms that function like forest systems, encouraging biodiversity to thrive without compromising estate viability.</p>
+<p>In 2019, Beforest introduced the idea of a Wilderness Collective. We brought together people who wanted to invest in wildlife habitat preservation – what we call forest-friendly living.</p>
+</div>
+</div>
+<div class="pagination-dots">
+<div class="dot active"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+<!-- OUR JOURNEY Tab Content -->
+<div id="desktop-journey" class="tab-content">
+<div class="left-zone">
+<div class="title-wrapper">
+<div class="title-line"> </div>
+<h2 class="title-text">POOMAALE<br />1.0</h2>
+<div class="concept-text">
+<p>FROM<br />CONCEPT<br />TO<br />THRIVING<br />ECOSYSTEM</p>
+</div>
+</div>
+<div class="image-container"><img class="main-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/poomaale1desktop.png" alt="Journey" />
+<div class="stats-overlay">
+<div class="stat-line"> </div>
+<div class="stat-item">
+<div class="stat-number">21M</div>
+<div class="stat-label">LITERS OF WATER SAVED</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">68</div>
+<div class="stat-label">TONNES OF NPK SAVED</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">1000L</div>
+<div class="stat-label">WATER SAVED PER KG OF COFFEE</div>
+</div>
+</div>
+</div>
+</div>
+<div class="right-column">
+<div class="text-pagination"> </div>
+<div class="text-overlay">
+<p>We launched Poomaale 1.0 with enthusiasm and an ambitious vision to blend a viable coffee plantation with a tropical forest ecosystem. We asked ourselves: Can coffee be one of the layers of a forest system?</p>
+<p>Over the last 3 years, we've introduced forest-friendly plantation activities and built homes that blend seamlessly into the landscape. Each home uses zero electricity for heating and pumping needs.</p>
+<p>The wildly grown coffee is now available under our forest-friendly produce brand 'Bewild'. The estate is abundant with mammals, birds, and reptiles – setting a benchmark in sustainable landscape management.</p>
+<button class="invite-button" data-tf-popup="hbDB2ybS" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=Co-forest - Concept" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=hammiyala,utm_source=,utm_medium=,utm_campaign=">REQUEST AN INVITE</button></div>
+</div>
+<div class="pagination-dots">
+<div class="dot"> </div>
+<div class="dot active"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+<!-- HAMMIYALA COLLECTIVE Tab Content -->
+<div id="desktop-collective" class="tab-content">
+<div class="left-zone">
+<div class="title-wrapper">
+<div class="title-line"> </div>
+<h2 class="title-text">HAMMIYALA<br />COLLECTIVE</h2>
+</div>
+<div class="image-container"><img class="main-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/hammiyalacollectivedesktop.png" alt="Hammiyala" />
+<div class="hammiyala-stats">
+<div class="stat-line"> </div>
+<div class="hammiyala-stat-item"><img class="stat-icon" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/stat1.png" alt="100+ Acres" />
+<p class="hammiyala-stat-text">100 +ACRES</p>
+</div>
+<div class="hammiyala-stat-item"><img class="stat-icon" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/stat2.png" alt="Perennial Stream" />
+<p class="hammiyala-stat-text">PERENNIALSTREAM</p>
+</div>
+<div class="hammiyala-stat-item"><img class="stat-icon" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/stat3.png" alt="Near Pushpagiri Ranges" />
+<p class="hammiyala-stat-text">NEAR MANDALPATTI PEAK</p>
+</div>
+</div>
+</div>
+</div>
+<div class="right-column">
+<div class="text-pagination"> </div>
+<div class="text-overlay">
+<p>Hammiyala Estate emerged from the collective desire of people who wanted to participate in a wilderness collective in Coorg. We embraced this challenge and created a new collective with an innovative approach to ownership.</p>
+<p>Located near Madhopura, Coorg, this beautiful coffee estate spans over 100 acres and features a perennial stream. Its proximity to the Pushpagiri ranges makes it an ideal location for a wilderness collective.</p>
+<p>Building on Poomaale 1.0's success in landscape management, Hammiyala Estate introduces a fresh perspective on home ownership. We're committed to finding the perfect balance between economic viability and ecological sustainability, measured through the 4Returns framework by Commonland.</p>
+<button class="invite-button" data-tf-popup="hbDB2ybS" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=Co-forest - Concept" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=hammiyala,utm_source=,utm_medium=,utm_campaign=">REQUEST AN INVITE</button></div>
+</div>
+<div class="pagination-dots">
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot active"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+<!-- THE ESTATE Tab Content -->
+<div id="desktop-estate" class="tab-content">
+<div class="left-zone">
+<div class="title-wrapper">
+<div class="title-line"> </div>
+<h2 class="title-text">THE<br />ESTATE</h2>
+</div>
+<div class="image-container"><img class="main-image" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/theestatedesktop.png" alt="Estate" /></div>
+</div>
+<div class="right-column">
+<div class="text-pagination"> </div>
+<div class="text-overlay">
+<p>The estate was historically a functioning coffee plantation, completely irrigated and conventionally run. We are reimagining this as a food forest where the existing plantation forms one of the many layers.</p>
+<p>The estate encompasses two hillocks, a perennial stream, and many natural springs and monsoon nullahs. We plan to revive the land by promoting forest-friendly methods to grow medicinal herbs and spices, along with fruiting trees like oranges, figs, pomelos, avocados and vines like pepper, etc.</p>
+<p>We are committed to leaving at least half the estate as a low-intervention forest zone and will restrict our food-growing activities to the other half. This will help preserve habitats for wildlife, including big cats, small-clawed otters, elephants, bat colonies, etc.</p>
+<p>Along with all this, low footprint hospitality operations are also envisaged to ease the pressure on the food forest.</p>
+</div>
+</div>
+<div class="pagination-dots">
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot active"> </div>
+</div>
+</div>
+</div>
+<!-- THE ORIGINS -->
+<div class="accordion-section" data-content="origins">
+<div class="accordion-header active">
+<h2 class="accordion-title">THE ORIGINS</h2>
+</div>
+<div class="accordion-content active">
+<div class="content-title">
+<div class="heading-wrapper">
+<h2>THE<br />ORIGINS</h2>
+</div>
+<div class="background-image"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/theorigins%20(1).png" alt="Forest canopy" />
+<div class="green-bar-text">
+<p>OUR APPROACH COMBINES SUSTAINABLE AGRICULTURE, CONSERVATION, AND COMMUNITY LIVING TO CREATE A HARMONIOUS ECOSYSTEM.</p>
+</div>
+</div>
+</div>
+<div class="content-body">
+<div class="text-overlay">
+<p>The Western Ghats are one of the 10 biodiversity hotspots of the world. A significant portion of this biodiversity exists outside protected areas, amidst intensively cultivated farms and plantations. Preservation of this rapidly declining biodiversity has far-reaching consequences, especially for urban centers downstream.</p>
+<p>Asking planters to abandon their activities and letting the forest take over is not practical, as the plantation sector is the bedrock of the economy and a major source of employment. Wilderness collectives may very well be the answer — plantations or farms that function like forest systems, encouraging biodiversity to thrive without compromising estate viability.</p>
+<p>In 2019, Beforest introduced the idea of a Wilderness Collective. We brought together people who wanted to invest in wildlife habitat preservation – what we call forest-friendly living.</p>
+</div>
+<!-- Pagination Dots -->
+<div class="right-decoration">
+<div class="dot active"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+</div>
+</div>
+<!-- OUR JOURNEY -->
+<div class="accordion-section" data-content="journey">
+<div class="accordion-header">
+<h2 class="accordion-title">OUR JOURNEY</h2>
+</div>
+<div class="accordion-content">
+<div class="content-title">
+<div class="heading-wrapper">
+<h2>POOMAALE<br />1.0</h2>
+<div class="concept-text">
+<p>FROM<br />CONCEPT<br />TO<br />THRIVING<br />ECOSYSTEM</p>
+</div>
+</div>
+<div class="background-image"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/poomaale1desktop.png" alt="Coffee berries" />
+<div class="green-bar-stats">
+<div class="stat-item">
+<div class="stat-number">21M</div>
+<div class="stat-label">LITERS OF WATER SAVED</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">68</div>
+<div class="stat-label">TONNES OF NPK SAVED</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">1000L</div>
+<div class="stat-label">WATER SAVED PER KG OF COFFEE</div>
+</div>
+</div>
+</div>
+<div class="content-body">
+<div class="text-overlay">
+<p>We launched Poomaale 1.0 with enthusiasm and an ambitious vision to blend a viable coffee plantation with a tropical forest ecosystem. We asked ourselves: Can coffee be one of the layers of a forest system?</p>
+<p>Over the last 3 years, we've introduced forest-friendly plantation activities and built homes that blend seamlessly into the landscape. Each home uses zero electricity for heating and pumping needs.</p>
+<p>The wildly grown coffee is now available under our forest-friendly produce brand 'Bewild'. The estate is abundant with mammals, birds, and reptiles – setting a benchmark in sustainable landscape management.</p>
+<button class="cta-button-accordion" data-tf-popup="hbDB2ybS" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=Co-forest - Concept" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=hammiyala,utm_source=,utm_medium=,utm_campaign=">REQUEST AN INVITE</button></div>
+<!-- Pagination Dots -->
+<div class="right-decoration">
+<div class="dot"> </div>
+<div class="dot active"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+</div>
+</div>
+<!-- HAMMIYALA COLLECTIVE -->
+<div class="accordion-section" data-content="collective">
+<div class="accordion-header">
+<h2 class="accordion-title">HAMMIYALA COLLECTIVE</h2>
+</div>
+<div class="accordion-content">
+<div class="content-title">
+<div class="heading-wrapper">
+<h2>HAMMIYALA<br />COLLECTIVE</h2>
+</div>
+<div class="background-image"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/hammiyalacollectivedesktop.png" alt="Misty Hammiyala landscape" />
+<div class="green-bar-stats">
+<div class="stat-item"><img class="stat-icon" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/stat1.png" alt="100+ Acres" />
+<div class="stat-label">100 +ACRES</div>
+</div>
+<div class="stat-item"><img class="stat-icon" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/stat2.png" alt="Perennial Stream" />
+<div class="stat-label">PERENNIALSTREAM</div>
+</div>
+<div class="stat-item"><img class="stat-icon" src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/stat3.png" alt="Near Pushpagiri Ranges" />
+<div class="stat-label">NEARPUSHPAGIRI RANGES</div>
+</div>
+</div>
+</div>
+</div>
+<div class="content-body">
+<div class="text-overlay">
+<p>Hammiyala Estate emerged from the collective desire of people who wanted to participate in a wilderness collective in Coorg. We embraced this challenge and created a new collective with an innovative approach to ownership.</p>
+<p>Located near Madhopura, Coorg, this beautiful coffee estate spans over 100 acres and features a perennial stream. Its proximity to the Pushpagiri ranges makes it an ideal location for a wilderness collective.</p>
+<p>Building on Poomaale 1.0's success in landscape management, Hammiyala Estate introduces a fresh perspective on home ownership. We're committed to finding the perfect balance between economic viability and ecological sustainability, measured through the 4Returns framework by Commonland.</p>
+<button class="cta-button-accordion" data-tf-popup="hbDB2ybS" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=Co-forest - Concept" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=hammiyala,utm_source=,utm_medium=,utm_campaign=">REQUEST AN INVITE</button></div>
+<!-- Pagination Dots -->
+<div class="right-decoration">
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot active"> </div>
+<div class="dot"> </div>
+</div>
+</div>
+</div>
+</div>
+<!-- THE ESTATE -->
+<div class="accordion-section" data-content="estate">
+<div class="accordion-header">
+<h2 class="accordion-title">THE ESTATE</h2>
+</div>
+<div class="accordion-content">
+<div class="content-title">
+<div class="heading-wrapper">
+<h2>THE<br />ESTATE</h2>
+</div>
+<div class="background-image"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/theestatedesktop.png" alt="Estate house with steps" /></div>
+</div>
+<div class="content-body">
+<div class="text-overlay">
+<p>The estate was historically a functioning coffee plantation, completely irrigated and conventionally run. We are reimagining this as a food forest where the existing plantation forms one of the many layers.</p>
+<p>The estate encompasses two hillocks, a perennial stream, and many natural springs and monsoon nullahs. We plan to revive the land by promoting forest-friendly methods to grow medicinal herbs and spices, along with fruiting trees like oranges, figs, pomelos, avocados and vines like pepper, etc.</p>
+<p>We are committed to leaving at least half the estate as a low-intervention forest zone and will restrict our food-growing activities to the other half. This will help preserve habitats for wildlife, including big cats, small-clawed otters, elephants, bat colonies, etc.</p>
+<p>Along with all this, low footprint hospitality operations are also envisaged to ease the pressure on the food forest.</p>
+</div>
+<!-- Pagination Dots -->
+<div class="right-decoration">
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot"> </div>
+<div class="dot active"> </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: JOIN OUR COMMUNITY -->
+<section class="section-4">
+<div class="main-title">
+<h1 class="title-join">JOIN OUR</h1>
+<h1 class="title-community">COMMUNITY</h1>
+</div>
+<p class="subtitle">BECOME PART OF OUR PIONEERING SEED COMMUNITY</p>
+<h2 class="section-heading">Our Founding Circle</h2>
+<div class="description">
+<p>Like any meaningful journey, Hammiyala begins with a small group of committed individuals who share a common vision.</p>
+<p>We're seeking <span class="text-accent">conservation partners</span> – people who want to be part of something larger than themselves.</p>
+<p>This isn't about acquiring property; it's about joining a movement to demonstrate that <span class="text-accent">regenerative living</span> and <span class="text-accent">biodiversity preservation</span> can thrive together in the Western Ghats.</p>
+</div>
+<div class="image-wrapper">
+<div class="image-container"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/whatwe're.png" alt="Community members working in nature" />
+<h2 class="community-overlay-title">WHAT WE'RE</h2>
+</div>
+<h2 class="community-below-title">BUILDING TOGETHER</h2>
+</div>
+<!-- Features Container (for desktop) -->
+<div class="features-container">
+<div class="feature-card">
+<div class="feature-icon"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/stewardship.png" alt="Regenerative Stewardship" /></div>
+<h3 class="feature-title">1. Regenerative Stewardship</h3>
+<p class="feature-description">We'll transform this land into a thriving ecosystem where coffee, spices, and native forest species coexist naturally.</p>
+</div>
+<div class="feature-card transparent">
+<div class="feature-icon"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/mindful%20living%20spaces.png" alt="Mindful Living Spaces" /></div>
+<h3 class="feature-title">2. Mindful Living Spaces</h3>
+<p class="feature-description">Each family will have space to build a forest-integrated home that treads lightly on the earth.</p>
+</div>
+<div class="feature-card transparent">
+<div class="feature-icon"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/collaborative%20governance.png" alt="Collaborative Governance" /></div>
+<h3 class="feature-title">3. Collaborative Governance</h3>
+<p class="feature-description">Together, we'll make decisions that benefit both our community and the larger ecosystem we're part of.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/wildlife%20sanctuary.png" alt="Wildlife Sanctuary" /></div>
+<h3 class="feature-title">4. Wildlife Sanctuary</h3>
+<p class="feature-description">Half our land remains untouched, creating safe corridors for the elephants, otters, and countless species that call this home.</p>
+</div>
+</div>
+<div class="scroll-indicator"> 
+<svg width="45" height="26" viewBox="0 0 45 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.62 25.64L0 3.02L3.02 0L22.62 19.6L42.22 0L45.24 3.02L22.62 25.64Z" fill="#B8dc99"></path>
+                </svg>
+                </div>
+</section>
+<!-- SECTION 5: FEATURES -->
+<section class="section-5">
+<div class="features-container">
+<div class="feature-card">
+<div class="feature-icon"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/stewardship.png" alt="Regenerative Stewardship" /></div>
+<h3 class="feature-title">1. Regenerative Stewardship</h3>
+<p class="feature-description">We'll transform this land into a thriving ecosystem where coffee, spices, and native forest species coexist naturally.</p>
+</div>
+<div class="feature-card transparent">
+<div class="feature-icon"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/mindful%20living%20spaces.png" alt="Mindful Living Spaces" /></div>
+<h3 class="feature-title">2. Mindful Living Spaces</h3>
+<p class="feature-description">Each family will have space to build a forest-integrated home that treads lightly on the earth.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/collaborative%20governance.png" alt="Collaborative Governance" /></div>
+<h3 class="feature-title">3. Collaborative Governance</h3>
+<p class="feature-description">Together, we'll make decisions that benefit both our community and the larger ecosystem we're part of.</p>
+</div>
+<div class="feature-card transparent">
+<div class="feature-icon"><img src="https://isdbyvwocudnlwzghphw.supabase.co/storage/v1/object/public/web.images/hammiyala_page_images/wildlife%20sanctuary.png" alt="Wildlife Sanctuary" /></div>
+<h3 class="feature-title">4. Wildlife Sanctuary</h3>
+<p class="feature-description">Half our land remains untouched, creating safe corridors for the elephants, otters, and countless species that call this home.</p>
+</div>
+</div>
+<div class="scroll-indicator"> </div>
+</section>
+<!-- SECTION 6: INVESTMENT OPPORTUNITY -->
+<section class="section-6">
+<div class="background-decoration"> </div>
+<div class="content">
+<h1 class="main-heading">THIS JOURNEY REQUIRES PATIENT CAPITAL AND <span class="highlight-yellow">LONG-TERM THINKING. WE'RE</span> LOOKING FOR PARTNERS WHO UNDERSTAND THAT THE GREATEST RETURNS COME FROM WHAT <span class="highlight-yellow">WE GIVE BACK TO THE EARTH.</span></h1>
+<button class="cta-button" data-tf-popup="hbDB2ybS" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=Co-forest - Concept" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=hammiyala,utm_source=,utm_medium=,utm_campaign=">REQUEST AN INVITE</button></div>
+<div class="footer-text">
+<p class="disclaimer">*Prices are subject to change. Contact us for current pricing and availability.</p>
+<p class="description">Currently, we are in the formation of a Seed Community – the early adopters who buy into the first 25% of the Collective land. They are instrumental in defining the character of the community and the rules that govern it.</p>
+</div>
+<div class="scroll-indicator"> </div>
+</section>
+<!-- SECTION 7: MORE THE MERRIER -->
+<section class="section-7">
+<!-- Mobile-only background divs (hidden on desktop) -->
+<div class="section-7-bg-green"></div>
+<div class="section-7-bg-image"></div>
+
+<div class="main-title">
+<h1 class="title-more">MORE THE</h1>
+<h1 class="title-merrier">MERRIER</h1>
+</div>
+<p class="intro-text">Hammiyala Estate – our new Wilderness Collective – comes with a lot of benefits. Our journey through coffee plantations, wildlife corridors and freshwater streams is now moving to its next stop with a horizon full of possibilities.</p>
+<div class="all-cards-wrapper">
+<div class="benefit-card card-1">
+<h3 class="benefit-title">ECONOMICAL OWNERSHIP</h3>
+<p class="benefit-description">The reduced construction footprint translates to reduced costs and makes it easier on the pocket.</p>
+</div>
+<div class="benefit-card card-2">
+<div class="benefit-icon"> </div>
+<h3 class="benefit-title">COLLECTIVE INTENT</h3>
+<p class="benefit-description">Like-minded people coming together builds a lot of social capital towards a common cause, in this case, preservation of habitat.</p>
+</div>
+<div class="benefit-card card-3">
+<div class="benefit-icon"> </div>
+<h3 class="benefit-title">FOREST-FRIENDLY LIVING</h3>
+<p class="benefit-description">Our wilderness collectives are an initiative to keep biodiversity intact without asking the planter community to compromise their livelihoods.</p>
+</div>
+</div>
+</section>
+<script>
+        // Section 3 - Accordion and Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionHeaders = document.querySelectorAll('.section-3 .accordion-header');
+            const tabButtons = document.querySelectorAll('.section-3 .tab-button');
+            const accordionSections = document.querySelectorAll('.section-3 .accordion-section');
+            const desktopTabContents = document.querySelectorAll('.section-3 .content-container .tab-content');
+            const paginationDots = document.querySelectorAll('.section-3 .pagination-dots .dot');
+
+            // Function to switch tabs (desktop)
+            function switchTab(tabName) {
+                // Remove active class from all tabs and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                desktopTabContents.forEach(content => content.classList.remove('active'));
+
+                // Mobile accordion
+                accordionSections.forEach(section => {
+                    const accordionContent = section.querySelector('.accordion-content');
+                    if (accordionContent) {
+                        accordionContent.classList.remove('active');
+                    }
+                });
+
+                // Remove active from all pagination dots
+                paginationDots.forEach(dot => dot.classList.remove('active'));
+
+                // Add active class to selected tab button
+                const activeTab = document.querySelector(`.section-3 .tab-button[data-tab="${tabName}"]`);
+                if (activeTab) {
+                    activeTab.classList.add('active');
+                }
+
+                // Show corresponding desktop content
+                const activeDesktopContent = document.querySelector(`.section-3 .content-container #desktop-${tabName}`);
+                if (activeDesktopContent) {
+                    activeDesktopContent.classList.add('active');
+
+                    // Update pagination dots for this tab
+                    const tabPaginationDots = activeDesktopContent.querySelectorAll('.pagination-dots .dot');
+                    const tabs = ['origins', 'journey', 'collective', 'estate'];
+                    const activeTabIndex = tabs.indexOf(tabName);
+
+                    if (tabPaginationDots.length > 0 && activeTabIndex !== -1) {
+                        tabPaginationDots[activeTabIndex].classList.add('active');
+                    }
+                }
+
+                // Show corresponding mobile accordion content
+                const activeMobileSection = document.querySelector(`.section-3 .accordion-section[data-content="${tabName}"]`);
+                if (activeMobileSection) {
+                    const accordionContent = activeMobileSection.querySelector('.accordion-content');
+                    if (accordionContent) {
+                        accordionContent.classList.add('active');
+                    }
+                }
+            }
+
+            // Mobile accordion functionality
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const isActive = this.classList.contains('active');
+
+                    // Close all accordion sections
+                    accordionHeaders.forEach(h => {
+                        h.classList.remove('active');
+                        h.nextElementSibling.classList.remove('active');
+                    });
+
+                    // If this wasn't active, open it
+                    if (!isActive) {
+                        this.classList.add('active');
+                        content.classList.add('active');
+                    }
+                });
+            });
+
+            // Desktop tab functionality
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+
+                    // Recalculate pagination for the active tab after switching
+                    // Use longer delay to ensure tab is fully rendered
+                    setTimeout(() => {
+                        const activeTabContent = document.querySelector(`.section-3 .content-container #desktop-${tabName}`);
+                        if (activeTabContent) {
+                            const rightColumn = activeTabContent.querySelector('.right-column');
+                            if (rightColumn && rightColumn.textPaginationInstance) {
+                                console.log('Recalculating pagination for tab:', tabName);
+                                rightColumn.textPaginationInstance.calculatePages();
+                                rightColumn.textPaginationInstance.goToPage(0);
+                            }
+                        }
+                    }, 150);
+                });
+            });
+
+            // Desktop pagination dot navigation
+            const allPaginationDots = document.querySelectorAll('.section-3 .pagination-dots .dot');
+            const tabs = ['origins', 'journey', 'collective', 'estate'];
+
+            allPaginationDots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    const dotTabIndex = index % 4; // Each set of 4 dots maps to 4 tabs
+                    switchTab(tabs[dotTabIndex]);
+                });
+            });
+
+            // Open first section by default
+            accordionHeaders[0].classList.add('active');
+            accordionHeaders[0].nextElementSibling.classList.add('active');
+        });
+
+        // Parallax effect for accordion background images and Section 4
+        function handleParallax() {
+            // Section 3 accordion parallax
+            const accordionContents = document.querySelectorAll('.section-3 .accordion-content.active');
+
+            accordionContents.forEach(content => {
+                const rect = content.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                // Check if element is in viewport
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    const scrolled = windowHeight - rect.top;
+                    const rate = scrolled * 0.1; // Parallax speed (reduced for subtle effect)
+
+                    const bgImage = content.querySelector('.background-image img');
+                    if (bgImage) {
+                        bgImage.style.transform = `translateY(${-rate}px)`;
+                    }
+                }
+            });
+
+            // Section 4 parallax removed - image is now static
+        }
+
+        // Add scroll event listener
+        window.addEventListener('scroll', handleParallax);
+        window.addEventListener('load', handleParallax);
+
+        // Text Pagination for Section 3 Desktop
+        class TextPagination {
+            constructor(container) {
+                this.container = container;
+                this.textOverlay = container.querySelector('.text-overlay');
+                this.prevButton = container.querySelector('.pagination-arrow[data-direction="prev"]');
+                this.nextButton = container.querySelector('.pagination-arrow[data-direction="next"]');
+                this.paginationControls = container.querySelector('.text-pagination');
+
+                if (!this.textOverlay || !this.prevButton || !this.nextButton) {
+                    return;
+                }
+
+                // Only get paragraph elements, exclude buttons and links
+                this.paragraphs = Array.from(this.textOverlay.querySelectorAll('p'));
+                this.buttons = Array.from(this.textOverlay.querySelectorAll('a, button'));
+                this.currentPage = 0;
+                this.pages = [];
+
+                this.init();
+            }
+
+            init() {
+                // Only run on desktop landscape
+                if (window.innerWidth < 1024 || window.matchMedia('(orientation: portrait)').matches) {
+                    if (this.paginationControls) {
+                        this.paginationControls.style.display = 'none';
+                    }
+                    return;
+                }
+
+                // Don't calculate on init - wait until tab is active
+                this.prevButton.addEventListener('click', () => this.previousPage());
+                this.nextButton.addEventListener('click', () => this.nextPage());
+
+                // Recalculate on resize
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        if (window.innerWidth >= 1024 && !window.matchMedia('(orientation: portrait)').matches) {
+                            // Only recalculate if parent tab is visible
+                            const tabContent = this.container.closest('.tab-content');
+                            if (tabContent && tabContent.classList.contains('active')) {
+                                this.calculatePages();
+                                this.goToPage(0);
+                            }
+                        }
+                    }, 250);
+                });
+            }
+
+            // Method to check if this tab is currently visible
+            isVisible() {
+                const tabContent = this.container.closest('.tab-content');
+                return tabContent && tabContent.classList.contains('active');
+            }
+
+            calculatePages() {
+                // Don't calculate if not visible
+                if (!this.isVisible()) {
+                    console.log('Skipping calculation - tab not visible');
+                    return;
+                }
+
+                // Show all content initially to measure
+                this.paragraphs.forEach(para => para.style.display = 'block');
+                this.buttons.forEach(btn => btn.style.display = 'inline-block');
+
+                // Calculate available height
+                const containerHeight = this.container.clientHeight;
+                const containerStyle = window.getComputedStyle(this.container);
+                const paddingTop = parseFloat(containerStyle.paddingTop);
+                const paddingBottom = parseFloat(containerStyle.paddingBottom);
+
+                // Account for pagination controls height
+                const paginationHeight = this.paginationControls ? this.paginationControls.offsetHeight + 20 : 0;
+                const availableHeight = containerHeight - paddingTop - paddingBottom - paginationHeight;
+
+                console.log('=== CALCULATING PAGINATION ===');
+                console.log('Container height:', containerHeight);
+                console.log('Available height:', availableHeight);
+                console.log('Number of paragraphs:', this.paragraphs.length);
+
+                // Safety check - if no height, don't proceed
+                if (containerHeight === 0 || availableHeight <= 0) {
+                    console.log('Invalid dimensions - aborting calculation');
+                    if (this.paginationControls) {
+                        this.paginationControls.style.display = 'none';
+                    }
+                    return;
+                }
+
+                // Check if all content (including buttons) fits without pagination
+                const textOverlayHeight = this.textOverlay.scrollHeight;
+
+                console.log('Text overlay total height:', textOverlayHeight);
+
+                if (textOverlayHeight <= availableHeight) {
+                    // Everything fits on one page, no pagination needed
+                    console.log('All content fits on one page - no pagination needed');
+                    this.pages = [this.paragraphs];
+                    if (this.paginationControls) {
+                        this.paginationControls.style.display = 'none';
+                    }
+                    return;
+                }
+
+                // Calculate button height for last page
+                let buttonHeight = 0;
+                if (this.buttons.length > 0) {
+                    this.buttons.forEach(btn => {
+                        const btnHeight = btn.offsetHeight;
+                        const btnMargin = parseFloat(window.getComputedStyle(btn).marginTop) +
+                                         parseFloat(window.getComputedStyle(btn).marginBottom);
+                        buttonHeight += btnHeight + btnMargin;
+                    });
+                }
+
+                console.log('Button height:', buttonHeight);
+
+                // Content needs pagination - pack paragraphs into pages
+                this.pages = [];
+                let currentPage = [];
+                let currentHeight = 0;
+
+                for (let i = 0; i < this.paragraphs.length; i++) {
+                    const para = this.paragraphs[i];
+                    const paraHeight = para.offsetHeight;
+                    const paraMargin = parseFloat(window.getComputedStyle(para).marginBottom);
+                    const totalParaHeight = paraHeight + paraMargin;
+
+                    console.log(`Paragraph ${i}: height=${paraHeight}, margin=${paraMargin}, total=${totalParaHeight}`);
+
+                    // Check if this is the last paragraph (might need space for button)
+                    const isLastPara = (i === this.paragraphs.length - 1);
+                    const requiredSpace = isLastPara ? totalParaHeight + buttonHeight : totalParaHeight;
+
+                    console.log(`Current height: ${currentHeight}, Required space: ${requiredSpace}, Available: ${availableHeight}`);
+
+                    if (currentHeight + requiredSpace <= availableHeight) {
+                        // Fits on current page
+                        console.log(`Adding paragraph ${i} to current page`);
+                        currentPage.push(para);
+                        currentHeight += totalParaHeight;
+                    } else {
+                        // Doesn't fit, start new page
+                        console.log(`Starting new page, paragraph ${i} goes to new page`);
+                        if (currentPage.length > 0) {
+                            this.pages.push(currentPage);
+                            console.log(`Pushed page with ${currentPage.length} paragraphs`);
+                        }
+                        currentPage = [para];
+                        currentHeight = totalParaHeight;
+                    }
+                }
+
+                // Add remaining paragraphs as last page
+                if (currentPage.length > 0) {
+                    this.pages.push(currentPage);
+                    console.log(`Pushed final page with ${currentPage.length} paragraphs`);
+                }
+
+                console.log(`Total pages: ${this.pages.length}`);
+                this.pages.forEach((page, idx) => {
+                    console.log(`Page ${idx + 1}: ${page.length} paragraphs`);
+                });
+
+                // Show pagination controls since we have multiple pages
+                if (this.paginationControls) {
+                    this.paginationControls.style.display = 'flex';
+                }
+            }
+
+            goToPage(pageIndex) {
+                if (pageIndex < 0 || pageIndex >= this.pages.length) {
+                    return;
+                }
+
+                this.currentPage = pageIndex;
+
+                // Hide all paragraphs first
+                this.paragraphs.forEach(para => {
+                    para.style.display = 'none';
+                });
+
+                // Show current page paragraphs
+                if (this.pages[pageIndex]) {
+                    this.pages[pageIndex].forEach(para => {
+                        para.style.display = 'block';
+                    });
+                }
+
+                // Show buttons/links only on the last page
+                const isLastPage = pageIndex === this.pages.length - 1;
+                this.buttons.forEach(btn => {
+                    btn.style.display = isLastPage ? 'inline-block' : 'none';
+                });
+
+                this.updateButtons();
+            }
+
+            updateButtons() {
+                this.prevButton.disabled = this.currentPage === 0;
+                this.nextButton.disabled = this.currentPage === this.pages.length - 1;
+            }
+
+            previousPage() {
+                if (this.currentPage > 0) {
+                    this.goToPage(this.currentPage - 1);
+                }
+            }
+
+            nextPage() {
+                if (this.currentPage < this.pages.length - 1) {
+                    this.goToPage(this.currentPage + 1);
+                }
+            }
+        }
+
+        // Initialize text pagination for all desktop tab content
+        document.addEventListener('DOMContentLoaded', function() {
+            // Only initialize on desktop landscape (1024px and above)
+            if (window.innerWidth >= 1024 && !window.matchMedia('(orientation: portrait)').matches) {
+                const rightColumns = document.querySelectorAll('.section-3 .content-container .right-column');
+                rightColumns.forEach(column => {
+                    // Store instance on the element for later access
+                    column.textPaginationInstance = new TextPagination(column);
+                });
+
+                // After a short delay, recalculate for the active tab
+                setTimeout(() => {
+                    const activeTab = document.querySelector('.section-3 .tab-content.active .right-column');
+                    if (activeTab && activeTab.textPaginationInstance) {
+                        activeTab.textPaginationInstance.calculatePages();
+                        activeTab.textPaginationInstance.goToPage(0);
+                    }
+                }, 100);
+            }
+        });
+    </script>
+<!-- Beforest qualified 1-on-1 signal; deployment copy of workflow_sales/website_snippets/typeform_qualified_1on1_embed_signal.js -->
+<script>
+(function () {
+  "use strict";
+  if (window.BeforestQualified1on1Signal) return;
+  var ENDPOINT = "https://flows.ops.beforest.co/api/r/sales/typeform/qualified-1on1-signal";
+  var SIGNAL_TYPE = "typeform_embed_question_reached";
+  var FORM_CONFIG = {
+    CYae8hmZ: { formId: "CYae8hmZ", ref: "113a9ad4-4d43-4165-9bf7-62f82b1352ab" },
+    kfcjiXxR: { formId: "kfcjiXxR", ref: "1292d853-e1d7-438a-8f82-70fbad90e914" },
+    hbDB2ybS: { formId: "hbDB2ybS", ref: "f8e95240-2bd9-4522-8eac-53860c400950" },
+    i8eBLQkz: { formId: "i8eBLQkz", ref: "4c30971d-c15d-42f8-90d1-94c19a475c4d" },
+    leXyUOuT: { formId: "leXyUOuT", ref: "113a9ad4-4d43-4165-9bf7-62f82b1352ab" },
+    "01KVFCGFDB0S9M80A066Z7XV58": { formId: "leXyUOuT", ref: "113a9ad4-4d43-4165-9bf7-62f82b1352ab" }
+  };
+  var UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+  function queryValue(key) { return new URLSearchParams(window.location.search).get(key) || ""; }
+  function cookieValue(name) {
+    var prefix = name + "=";
+    var parts = document.cookie ? document.cookie.split(";") : [];
+    for (var index = 0; index < parts.length; index++) {
+      var part = parts[index].trim();
+      if (part.indexOf(prefix) === 0) return decodeURIComponent(part.slice(prefix.length));
+    }
+    return "";
+  }
+  function attribution() {
+    var values = { fbp: cookieValue("_fbp"), fbc: cookieValue("_fbc"), fbclid: queryValue("fbclid") };
+    UTM_KEYS.forEach(function (key) { values[key] = queryValue(key); });
+    return values;
+  }
+  function hiddenWithAttribution(existingHidden) {
+    var merged = Object.assign({}, existingHidden || {});
+    UTM_KEYS.forEach(function (key) {
+      var value = queryValue(key);
+      if (value) merged[key] = value;
+    });
+    return merged;
+  }
+  function send(payload) {
+    var serialized = JSON.stringify(payload);
+    if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, serialized)) return;
+    fetch(ENDPOINT, { method: "POST", mode: "no-cors", credentials: "omit", keepalive: true, body: serialized }).catch(function () {});
+  }
+  function signalOptions(requestedFormId, existingHidden) {
+    var config = FORM_CONFIG[requestedFormId];
+    var expectedRef = config ? config.ref : "";
+    var responseId = "";
+    var reachedQualifiedQuestion = false;
+    var sent = false;
+    function trySend() {
+      if (sent || !config || !responseId || !reachedQualifiedQuestion) return;
+      sent = true;
+      send(Object.assign({
+        signal_type: SIGNAL_TYPE,
+        form_id: config.formId,
+        response_id: responseId,
+        question_ref: expectedRef,
+        event_time: Math.floor(Date.now() / 1000),
+        event_source_url: window.location.href
+      }, attribution()));
+    }
+    return {
+      hidden: hiddenWithAttribution(existingHidden),
+      onStarted: function (event) {
+        responseId = event && event.responseId ? String(event.responseId) : "";
+        trySend();
+      },
+      onQuestionChanged: function (event) {
+        if (!event || event.ref !== expectedRef) return;
+        if (event.formId && event.formId !== requestedFormId && event.formId !== config.formId) return;
+        reachedQualifiedQuestion = true;
+        trySend();
+      }
+    };
+  }
+  function composeCallbacks(existingCallback, signalCallback) {
+    return function (event) {
+      try { if (typeof existingCallback === "function") existingCallback(event); }
+      finally { signalCallback(event); }
+    };
+  }
+  function mergeOptions(formId, existingOptions) {
+    var merged = Object.assign({}, existingOptions || {});
+    if (!FORM_CONFIG[formId]) return merged;
+    var signal = signalOptions(formId, merged.hidden);
+    merged.hidden = signal.hidden;
+    merged.onStarted = composeCallbacks(merged.onStarted, signal.onStarted);
+    merged.onQuestionChanged = composeCallbacks(merged.onQuestionChanged, signal.onQuestionChanged);
+    return merged;
+  }
+  function patchTypeform(tf) {
+    if (!tf || typeof tf.createPopup !== "function") return false;
+    if (tf.createPopup.__beforestQualified1on1Patched) return true;
+    var originalCreatePopup = tf.createPopup;
+    function patchedCreatePopup(formId, existingOptions) {
+      return originalCreatePopup.call(this, formId, mergeOptions(formId, existingOptions));
+    }
+    patchedCreatePopup.__beforestQualified1on1Patched = true;
+    tf.createPopup = patchedCreatePopup;
+    return true;
+  }
+  function install() {
+    if (patchTypeform(window.tf)) return;
+    var descriptor = Object.getOwnPropertyDescriptor(window, "tf");
+    if (!window.tf && (!descriptor || descriptor.configurable)) {
+      var tfValue;
+      Object.defineProperty(window, "tf", {
+        configurable: true,
+        enumerable: true,
+        get: function () { return tfValue; },
+        set: function (value) { tfValue = value; patchTypeform(value); }
+      });
+    }
+    var attempts = 0;
+    var patchTimer = window.setInterval(function () {
+      attempts++;
+      if (patchTypeform(window.tf) || attempts >= 200) window.clearInterval(patchTimer);
+    }, 50);
+  }
+  window.BeforestQualified1on1Signal = { mergeOptions: mergeOptions, install: install, supportedForms: Object.keys(FORM_CONFIG) };
+  install();
+})();
+</script>
+<!-- Typeform Embed Script with Time Tracking -->
+<script>
+// Accurate time tracking using setInterval and Page Visibility API
+var timeSpentSeconds = 0;
+var timerInterval = null;
+
+// Start timer when page loads
+function startTimer() {
+    timerInterval = setInterval(function() {
+        if (document.visibilityState === 'visible') {
+            timeSpentSeconds++;
+        }
+    }, 1000);
+}
+
+// Get UTM parameters from current URL
+function getUrlParams() {
+    var params = new URLSearchParams(window.location.search);
+    var utmParams = {};
+    for (var key of params.keys()) {
+        if (key.startsWith('utm_')) {
+            utmParams[key] = params.get(key);
+        }
+    }
+    return utmParams;
+}
+
+// Track page visibility changes
+document.addEventListener('visibilitychange', function() {
+    // Timer automatically handles visibility via document.visibilityState
+});
+
+// Start timer immediately
+startTimer();
+
+// Intercept clicks on Typeform buttons to add time_spent as UTM parameter
+document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-tf-popup]');
+    if (!btn) return;
+
+    var formId = btn.getAttribute('data-tf-popup');
+    var opacity = btn.getAttribute('data-tf-opacity') || 100;
+    var size = btn.getAttribute('data-tf-size') || 100;
+    var iframePropsStr = btn.getAttribute('data-tf-iframe-props') || '';
+    var medium = btn.getAttribute('data-tf-medium') || 'snippet';
+    var transitiveParams = btn.hasAttribute('data-tf-transitive-search-params');
+
+    // Get existing UTM params from URL (preserves Facebook ads UTMs)
+    var utmParams = getUrlParams();
+
+    // Add time_spent to UTM params
+    utmParams['utm_time_spent'] = timeSpentSeconds + 's';
+
+    console.log('Opening Typeform - Active time spent:', timeSpentSeconds, 'seconds');
+
+    // Open as popup via Typeform SDK with hidden fields
+    if (window.tf && window.tf.createPopup) {
+        var options = {
+            hidden: utmParams,
+            opacity: parseInt(opacity),
+            size: parseInt(size),
+            medium: medium,
+            transitiveSearchParams: transitiveParams
+        };
+
+        // Parse iframe props
+        if (iframePropsStr) {
+            var propsParts = iframePropsStr.split('=');
+            if (propsParts.length >= 2 && propsParts[0].trim() === 'title') {
+                options.iframeProps = { title: propsParts.slice(1).join('=') };
+            }
+        }
+
+        window.tf.createPopup(formId, options).open();
+    }
+});
+</script>
+<script src="https://embed.typeform.com/next/embed.js"></script>
+<!-- Floating Request Invite Button -->
+<button id="floating-invite-btn" class="floating-cta-button" data-tf-popup="hbDB2ybS" data-tf-opacity="100" data-tf-size="100" data-tf-iframe-props="title=Co-forest - Concept" data-tf-transitive-search-params="" data-tf-medium="snippet" data-tf-hidden="collective=hammiyala,utm_source=,utm_medium=,utm_campaign=">REQUEST AN INVITE</button>
+
+<style>
+    .floating-cta-button {
+        background: #b8dc99;
+        color: #344736;
+        border: 2px solid #b8dc99;
+        font-family: 'ABC Arizona Flare', Arial, sans-serif;
+        font-weight: 400;
+        text-transform: uppercase;
+        cursor: pointer;
+        z-index: 1000;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        display: none;
+    }
+
+    /* Desktop Styles */
+    @media (min-width: 1024px) {
+        .floating-cta-button {
+            display: block;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            border-radius: 48px;
+            padding: 12px 32px;
+            min-height: 38px;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .floating-cta-button.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 1023px) {
+        .floating-cta-button {
+            display: block;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-radius: 0;
+            border: none;
+            /* Ensure it stands out against content */
+            border-top: 1px solid #2f4835; 
+            padding: 20px 0;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .floating-cta-button.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const floatingBtn = document.getElementById('floating-invite-btn');
+        const section1 = document.querySelector('.section-1');
+
+        if (floatingBtn && section1) {
+            window.addEventListener('scroll', function() {
+                const section1Bottom = section1.getBoundingClientRect().bottom;
+                // Show button when Section 1 is completely scrolled out of view (top of viewport is below bottom of section 1)
+                // actually getBoundingClientRect().bottom <= 0 means the bottom of the section has passed the top of the viewport.
+                if (section1Bottom <= 0) {
+                    floatingBtn.classList.add('visible');
+                } else {
+                    floatingBtn.classList.remove('visible');
+                }
+            });
+        }
+    });
+</script>
+<!-- Beforest application journey: Hammiyala. Audience-facing; place once per page. -->
+<link rel="stylesheet" href="https://embed.typeform.com/next/css/widget.css">
+<style>
+  .bfj-modal[hidden] { display: none !important; }
+  .bfj-modal { --bfj-bg:#344736; --bfj-accent:#b8dc99; --bfj-text:#fff; --bfj-line:rgba(255,255,255,.28); position:fixed; inset:0; z-index:2147483000; display:flex; align-items:center; justify-content:center; padding:24px; font-family:"ABC Arizona Sans",Arial,sans-serif; }
+  .bfj-backdrop { position:absolute; inset:0; background:rgba(8,25,20,.82); backdrop-filter:blur(8px); }
+  .bfj-dialog { position:relative; width:min(860px,100%); max-height:calc(100vh - 48px); overflow:auto; color:var(--bfj-text); background:var(--bfj-bg); box-shadow:0 32px 100px rgba(0,0,0,.4); transform:translateY(14px); opacity:0; transition:transform .24s ease,opacity .24s ease; }
+  .bfj-modal.bfj-open .bfj-dialog { transform:translateY(0); opacity:1; }
+  .bfj-dialog.bfj-form-active { width:min(1040px,100%); height:min(900px,calc(100vh - 48px)); overflow:hidden; }
+  .bfj-close { position:absolute; top:18px; right:18px; z-index:4; box-sizing:border-box!important; display:grid!important; place-items:center; width:42px!important; min-width:42px!important; max-width:42px!important; height:42px!important; min-height:42px!important; padding:0!important; margin:0!important; border:1px solid rgba(255,255,255,.46); border-radius:50%!important; color:var(--bfj-text); background:transparent; font:300 27px/1 "ABC Arizona Sans",Arial,sans-serif!important; appearance:none; cursor:pointer; }
+  .bfj-process { padding:clamp(32px,5vw,54px); }
+  .bfj-eyebrow { margin:0 0 12px; color:var(--bfj-accent); font:400 11px/1.2 "ABC Arizona Sans",Arial,sans-serif; letter-spacing:.2em; text-transform:uppercase; }
+  .bfj-title { max-width:540px; margin:0; padding-right:42px; color:var(--bfj-text); font:300 clamp(36px,5vw,58px)/.98 "ABC Arizona Flare",Arial,sans-serif; letter-spacing:-.035em; }
+  .bfj-intro { max-width:570px; margin:16px 0 26px; color:rgba(255,255,255,.82); font:300 15px/1.55 "ABC Arizona Sans",Arial,sans-serif; }
+  .bfj-steps { display:grid; grid-template-columns:1fr 1fr; margin:0; padding:0; list-style:none; border-top:1px solid var(--bfj-line); border-bottom:1px solid var(--bfj-line); }
+  .bfj-step { display:grid; grid-template-columns:28px 1fr; gap:4px 12px; min-height:100px; padding:17px 18px; border-right:1px solid var(--bfj-line); border-bottom:1px solid var(--bfj-line); }
+  .bfj-step:nth-child(even) { border-right:0; }
+  .bfj-step:nth-last-child(-n+2) { border-bottom:0; }
+  .bfj-number { grid-row:1/3; padding-top:3px; color:var(--bfj-accent); font-size:11px; letter-spacing:.1em; }
+  .bfj-step h3 { margin:0; color:var(--bfj-text); font:300 19px/1.15 "ABC Arizona Flare",Arial,sans-serif; }
+  .bfj-step p { margin:0; color:rgba(255,255,255,.74); font:400 12px/1.45 "ABC Arizona Sans",Arial,sans-serif; }
+  .bfj-note { display:flex; gap:7px; max-width:540px; margin:14px 0 0; padding:0; border:0; color:rgba(255,255,255,.84); font-size:12px; font-weight:300; line-height:1.5; }
+  .bfj-note::before { content:"*"; flex:0 0 auto; color:var(--bfj-accent); }
+  .bfj-actions { display:flex; align-items:center; gap:20px; }
+  .bfj-start { min-height:52px; padding:0 28px; border:1px solid var(--bfj-accent); border-radius:999px; color:var(--bfj-bg); background:var(--bfj-accent); font:400 12px/1 "ABC Arizona Sans",Arial,sans-serif; letter-spacing:.12em; text-transform:uppercase; cursor:pointer; }
+  .bfj-start:hover { color:#fff; background:transparent; }
+  .bfj-later,.bfj-back { padding:10px 2px; border:0; color:var(--bfj-text); background:transparent; font:400 12px/1.3 "ABC Arizona Sans",Arial,sans-serif; text-decoration:underline; text-underline-offset:4px; cursor:pointer; }
+  .bfj-form { display:none; height:100%; min-height:520px; flex-direction:column; background:#fff; }
+  .bfj-dialog.bfj-form-active .bfj-process { display:none; }
+  .bfj-dialog.bfj-form-active .bfj-form { display:flex; }
+  .bfj-formbar { display:flex; align-items:center; gap:24px; min-height:76px; padding:12px 70px 12px 22px; color:#fff; background:var(--bfj-bg); border-bottom:1px solid var(--bfj-line); }
+  .bfj-formbar p { margin:0; padding-left:24px; border-left:1px solid var(--bfj-line); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  .bfj-widget { position:relative; flex:1; min-width:0; min-height:440px; overflow:hidden; background:#fff; }
+  .bfj-loading { position:absolute; inset:0; display:grid; place-items:center; color:#344736; font-size:13px; }
+  .bfj-widget > div,.bfj-widget .tf-v1-widget,.bfj-widget iframe { width:100%!important; height:100%!important; }
+  .bfj-widget iframe { position:relative; z-index:1; display:block; border:0; }
+  body.bfj-body-open { overflow:hidden !important; }
+  @media(max-width:560px){
+    .bfj-modal{align-items:stretch;padding:0}.bfj-dialog,.bfj-dialog.bfj-form-active{width:100%;height:100dvh;max-height:none}.bfj-process{display:flex;flex-direction:column;min-height:100dvh;padding:58px 18px calc(16px + env(safe-area-inset-bottom))}.bfj-title{max-width:11ch;padding-right:24px;font-size:35px}.bfj-intro{margin:11px 0 16px;font-size:13px}.bfj-steps{grid-template-columns:1fr}.bfj-step,.bfj-step:nth-child(even){min-height:0;padding:11px 2px;border-right:0;border-bottom:1px solid var(--bfj-line)}.bfj-step:last-child{border-bottom:0}.bfj-step h3{font-size:17px}.bfj-step p{font-size:11.5px}.bfj-note{margin:10px 0 0;font-size:11px}.bfj-actions{align-items:stretch;flex-direction:column;gap:8px;margin-top:auto}.bfj-start{width:100%}.bfj-formbar{align-items:flex-start;flex-direction:column;gap:6px;min-height:88px;padding:15px 62px 12px 16px}.bfj-formbar p{padding-left:0;border-left:0}.bfj-widget{min-height:0}
+  }
+  @media(prefers-reduced-motion:reduce){.bfj-dialog,.bfj-start{transition:none}}
+</style>
+
+<div class="bfj-modal" id="bfj-application-modal" hidden aria-hidden="true" data-form-id="hbDB2ybS" data-collective="hammiyala" data-form-title="The Hammiyala Collective">
+  <div class="bfj-backdrop" data-bfj-close></div>
+  <section class="bfj-dialog" role="dialog" aria-modal="true" aria-labelledby="bfj-title" tabindex="-1">
+    <button class="bfj-close" type="button" data-bfj-close aria-label="Close application">&times;</button>
+    <div class="bfj-process">
+      <p class="bfj-eyebrow">The invitation</p>
+      <h2 class="bfj-title" id="bfj-title">What happens after you apply?</h2>
+      <p class="bfj-intro">Joining a collective is a considered, mutual journey. We take the time to understand the fit—on both sides.</p>
+      <ol class="bfj-steps">
+        <li class="bfj-step"><span class="bfj-number">01</span><h3>Apply</h3><p>Tell us what draws you here and the life you hope to build.</p></li>
+        <li class="bfj-step"><span class="bfj-number">02</span><h3>We review</h3><p>We consider your responses, readiness and alignment with the collective.</p></li>
+        <li class="bfj-step"><span class="bfj-number">03</span><h3>We meet</h3><p>If there is mutual alignment, we arrange a 1-on-1 in-person conversation.</p></li>
+        <li class="bfj-step"><span class="bfj-number">04</span><h3>Next steps</h3><p>We close the loop with a clear outcome and the way forward.</p></li>
+      </ol>
+      <div class="bfj-actions"><button class="bfj-start" type="button">Start application</button><button class="bfj-later" type="button" data-bfj-close>Not now</button></div>
+      <p class="bfj-note">Your application begins the conversation. It does not confirm membership.</p>
+    </div>
+    <div class="bfj-form" aria-hidden="true">
+      <div class="bfj-formbar"><button class="bfj-back" type="button">&larr; Back</button><p>The Hammiyala Collective application</p></div>
+      <div class="bfj-widget"><div class="bfj-loading" role="status">Loading application…</div></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  if(window.BeforestApplicationJourney)return;
+  var modal=document.getElementById("bfj-application-modal");if(!modal)return;
+  var dialog=modal.querySelector(".bfj-dialog"),processView=modal.querySelector(".bfj-process"),formView=modal.querySelector(".bfj-form"),widget=modal.querySelector(".bfj-widget"),startButton=modal.querySelector(".bfj-start"),backButton=modal.querySelector(".bfj-back");
+  var formId=modal.getAttribute("data-form-id"),collective=modal.getAttribute("data-collective"),formTitle=modal.getAttribute("data-form-title"),lastFocused=null,widgetMounted=false,localStartedAt=Date.now();
+  Array.prototype.forEach.call(document.querySelectorAll('[data-tf-popup="'+formId+'"]'),function(trigger){trigger.setAttribute("data-bfj-trigger","");trigger.removeAttribute("data-tf-popup")});
+  function hiddenValues(){var params=new URLSearchParams(window.location.search),hidden={collective:collective};["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid"].forEach(function(key){var value=params.get(key);if(value)hidden[key]=value});var seconds=typeof window.timeSpentSeconds==="number"?window.timeSpentSeconds:Math.max(0,Math.floor((Date.now()-localStartedAt)/1000));hidden.utm_time_spent=seconds+"s";return hidden}
+  function openModal(){lastFocused=document.activeElement;modal.hidden=false;modal.setAttribute("aria-hidden","false");document.body.classList.add("bfj-body-open");requestAnimationFrame(function(){modal.classList.add("bfj-open");modal.querySelector(".bfj-close").focus()})}
+  function showProcess(){dialog.classList.remove("bfj-form-active");formView.setAttribute("aria-hidden","true");processView.removeAttribute("aria-hidden")}
+  function closeModal(){modal.classList.remove("bfj-open");modal.setAttribute("aria-hidden","true");document.body.classList.remove("bfj-body-open");setTimeout(function(){modal.hidden=true;showProcess();widget.innerHTML='<div class="bfj-loading" role="status">Loading application…</div>';widgetMounted=false;if(lastFocused&&typeof lastFocused.focus==="function")lastFocused.focus()},240)}
+  function renderWidget(){if(widgetMounted||!window.tf||typeof window.tf.createWidget!=="function")return;widgetMounted=true;var options={container:widget,hidden:hiddenValues(),medium:"snippet",transitiveSearchParams:["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid"],iframeProps:{title:formTitle}};if(window.BeforestQualified1on1Signal&&typeof window.BeforestQualified1on1Signal.mergeOptions==="function")options=window.BeforestQualified1on1Signal.mergeOptions(formId,options);window.tf.createWidget(formId,options)}
+  function ensureTypeform(){if(window.tf&&typeof window.tf.createWidget==="function"){renderWidget();return}var sdk=document.getElementById("bfj-typeform-sdk")||document.querySelector('script[src*="embed.typeform.com/next/embed.js"]');if(!sdk){sdk=document.createElement("script");sdk.id="bfj-typeform-sdk";sdk.src="https://embed.typeform.com/next/embed.js";document.head.appendChild(sdk)}sdk.addEventListener("load",renderWidget,{once:true});var attempts=0,loader=window.setInterval(function(){attempts+=1;if(window.tf&&typeof window.tf.createWidget==="function"){window.clearInterval(loader);renderWidget()}else if(attempts>=100){window.clearInterval(loader)}},50)}
+  function showForm(){dialog.classList.add("bfj-form-active");processView.setAttribute("aria-hidden","true");formView.setAttribute("aria-hidden","false");ensureTypeform()}
+  document.addEventListener("click",function(event){var target=event.target instanceof Element?event.target.closest('[data-bfj-trigger], [data-tf-popup="'+formId+'"]'):null;if(!target||modal.contains(target))return;event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();openModal()},true);
+  modal.addEventListener("click",function(event){if(event.target.closest("[data-bfj-close]")){event.preventDefault();closeModal()}});startButton.addEventListener("click",showForm);backButton.addEventListener("click",showProcess);modal.addEventListener("keydown",function(event){if(event.key==="Escape"){event.preventDefault();closeModal()}});window.BeforestApplicationJourney={open:openModal,close:closeModal,formId:formId};
+})();
+</script>
+</body>
+</html>

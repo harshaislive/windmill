@@ -1,0 +1,13 @@
+summary: Verify and bind Mumbai sender inboxes
+description: Run dry_run=true to verify exact Maton Gmail profiles. Only run dry_run=false once all four sender inboxes match; delivery gates remain off.
+lock: '!inline f/old_leads_churn/setup_mumbai_mail_connections.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true
+      description: Preview without writing; turn off only when all four exact mailbox profiles are available.
+  required: []

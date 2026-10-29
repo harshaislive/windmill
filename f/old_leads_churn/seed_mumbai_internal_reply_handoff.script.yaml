@@ -1,0 +1,9 @@
+summary: ''
+description: ''
+lock: '!inline f/old_leads_churn/seed_mumbai_internal_reply_handoff.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties: {}
+  required: []

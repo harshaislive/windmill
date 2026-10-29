@@ -1,0 +1,38 @@
+summary: Sync OPEX dashboard snapshots
+description: Reads OPEX actuals and budgets from Zoho Books using GET-only access and stores timestamped dashboard snapshots in the Windmill main datatable.
+lock: '!inline f/finance/opex/sync_opex_snapshots.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    collectives:
+      type: array
+      description: Optional collective labels. Empty refreshes every available collective.
+      default: []
+      items:
+        type: string
+    from:
+      type: string
+      description: Optional report start date in YYYY-MM-DD format. Empty uses the selected FY start.
+      default: ''
+    to:
+      type: string
+      description: Optional report end date in YYYY-MM-DD format. Empty uses today.
+      default: ''
+    fiscal_year:
+      type: string
+      description: Financial year label such as FY 2026–27.
+      default: ''
+    trigger_mode:
+      type: string
+      enum:
+        - scheduled
+        - manual
+      default: scheduled
+    resume_attempt:
+      type: integer
+      description: Internal retry counter used for resumable rate-limit recovery.
+      default: 0
+      minimum: 0
+  required: []

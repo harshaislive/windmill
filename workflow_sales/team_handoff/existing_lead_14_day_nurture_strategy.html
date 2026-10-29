@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Existing Lead 14-Day Nurture Strategy</title>
+  <style>
+    :root {
+      --ink: #111;
+      --muted: #5c5c5c;
+      --line: #151515;
+      --paper: #fff;
+      --panel: #fbfbfb;
+      --wa: #dff5e7;
+      --email: #e7efff;
+      --sales: #ffe0d4;
+      --story: #e7f7f2;
+      --warn: #fff0ba;
+      --soft: #f1eaff;
+      --shadow: 7px 7px 0 rgba(0,0,0,.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(rgba(0,0,0,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 22px 22px;
+      color: var(--ink);
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      line-height: 1.45;
+    }
+
+    main {
+      width: min(1160px, calc(100vw - 28px));
+      margin: 24px auto 72px;
+    }
+
+    header, section {
+      border: 2px solid var(--line);
+      background: rgba(255,255,255,.96);
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    header {
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "PROPOSED";
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      border: 1.5px solid var(--line);
+      background: var(--warn);
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 5vw, 52px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      border: 1.5px solid var(--line);
+      padding: 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 900;
+      background: var(--panel);
+    }
+
+    .wa { background: var(--wa); }
+    .email { background: var(--email); }
+    .sales { background: var(--sales); }
+    .story { background: var(--story); }
+
+    .terminal .bar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      border-bottom: 2px solid var(--line);
+      padding: 10px 14px;
+      background: var(--panel);
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border: 1.5px solid var(--line);
+      display: inline-block;
+    }
+    .dot:nth-child(1) { background: var(--sales); }
+    .dot:nth-child(2) { background: var(--warn); }
+    .dot:nth-child(3) { background: var(--wa); }
+
+    .content { padding: 18px; }
+
+    .rule-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .rule, .touch {
+      border: 1.5px solid var(--line);
+      padding: 13px;
+      background: var(--panel);
+    }
+
+    .rule h2, .touch h2 {
+      margin: 0 0 7px;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .rule p, .touch p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .touch {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: rise .45s ease forwards;
+      animation-delay: calc(var(--i) * 70ms);
+    }
+
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .day {
+      border: 1.5px solid var(--line);
+      background: var(--warn);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 13px;
+      text-align: center;
+      min-height: 100%;
+    }
+
+    .copy {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .copy-block {
+      border: 1.5px solid var(--line);
+      padding: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      background: white;
+      white-space: pre-wrap;
+    }
+
+    .copy-block strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .manual {
+      background: var(--sales);
+      border: 2px solid var(--line);
+      padding: 14px;
+      margin-top: 12px;
+      box-shadow: 4px 4px 0 rgba(0,0,0,.08);
+    }
+
+    .manual h2 { margin: 0 0 6px; font-size: 17px; }
+    .manual p { margin: 0; color: #47312b; font-size: 13px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: white;
+    }
+    th, td {
+      border: 1.5px solid var(--line);
+      padding: 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th { background: var(--panel); }
+
+    code {
+      background: rgba(0,0,0,.07);
+      padding: 1px 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .touch { animation: none; opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 820px) {
+      main { width: min(100vw - 18px, 1160px); margin-top: 12px; }
+      header { padding-top: 48px; }
+      .legend, .rule-grid, .copy { grid-template-columns: 1fr; }
+      .touch { grid-template-columns: 1fr; }
+      .day { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Existing Lead 14-Day Nurture</h1>
+      <p class="subtitle">
+        Proposed WhatsApp plus email sequence for existing open Pipedrive leads who have not moved to a 1on1. The intent is not to chase; it is to rebuild context, create a reason to re-engage, and move serious leads toward a team-scheduled 1on1.
+      </p>
+      <div class="legend">
+        <div class="tag wa">WHATSAPP</div>
+        <div class="tag email">EMAIL</div>
+        <div class="tag story">CONTEXT</div>
+        <div class="tag sales">SALES ACTION</div>
+      </div>
+    </header>
+
+    <section class="terminal">
+      <div class="bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span>nurture_strategy/existing_open_leads_14d.tui</span>
+      </div>
+      <div class="content">
+        <div class="rule-grid">
+          <div class="rule story">
+            <h2>Audience</h2>
+            <p>Existing open deals that are not in active 1on1 scheduling, have not recently replied, and have enough contact context for WhatsApp or email.</p>
+          </div>
+          <div class="rule wa">
+            <h2>Cadence</h2>
+            <p>7 touchpoints across 14 days. WhatsApp carries the short nudge. Email carries the richer context.</p>
+          </div>
+          <div class="rule sales">
+            <h2>Exit Condition</h2>
+            <p>Stop the sequence when the lead replies, requests a 1on1, opens the Collective Story and submits, or a sales rep marks manual follow-up active.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="content timeline">
+        <div class="touch" style="--i:1">
+          <div class="day">DAY 1</div>
+          <div>
+            <h2>Re-open with context</h2>
+            <p>Remind them why the conversation exists: this is about fit with a collective, not a generic property enquiry.</p>
+            <div class="copy">
+              <div class="copy-block wa"><strong>WhatsApp</strong>Hi {{1}}, picking this up again for {{2}}.\n\nIf the collective is still relevant, the right next step is a short 1on1 with the team. We can help you understand fit, access, and participation clearly.</div>
+              <div class="copy-block email"><strong>Email</strong>Subject: Continuing the conversation on {{2}}\n\nHi {{1}},\n\nReaching out because your interest in {{2}} is still open with us.\n\nThe useful next step is not a sales call. It is a context call: whether the collective, location, access, and participation model actually fit what you are looking for.\n\nIf it still feels relevant, we can schedule a 1on1 with the team.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="touch" style="--i:2">
+          <div class="day">DAY 3</div>
+          <div>
+            <h2>Make the decision smaller</h2>
+            <p>Reduce pressure. The ask is not to commit; it is to clarify whether a 1on1 is worth their time.</p>
+            <div class="copy">
+              <div class="copy-block wa"><strong>WhatsApp</strong>Hi {{1}}, you do not need to decide on {{2}} from messages.\n\nThe first decision is simpler: does it make sense to understand it properly in a 1on1?</div>
+              <div class="copy-block email"><strong>Email</strong>Subject: The first decision is smaller\n\nHi {{1}},\n\nFor {{2}}, the first decision is not whether to participate.\n\nIt is whether the place, the long-term model, and the collective structure are worth understanding properly.\n\nThat is what the 1on1 is for.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="touch" style="--i:3">
+          <div class="day">DAY 5</div>
+          <div>
+            <h2>Bring in the land and access</h2>
+            <p>Shift the lead from abstract interest to grounded evaluation: place, distance, access, and use.</p>
+            <div class="copy">
+              <div class="copy-block wa"><strong>WhatsApp</strong>For {{2}}, most serious questions are about land, access, time, and how often you see yourself engaging with the place.\n\nA 1on1 helps make that practical.</div>
+              <div class="copy-block email"><strong>Email</strong>Subject: Land, access, and actual use\n\nHi {{1}},\n\nThe important questions around {{2}} are usually practical:\n\nHow does the place fit into your life? How often would you engage? What does participation mean beyond ownership language?\n\nA 1on1 is where we can make these questions specific to you.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="touch" style="--i:4">
+          <div class="day">DAY 7</div>
+          <div>
+            <h2>Invite reply, not form fill</h2>
+            <p>This is the midpoint. Ask for a simple response so sales can manually pick up warm leads.</p>
+            <div class="copy">
+              <div class="copy-block wa"><strong>WhatsApp</strong>Hi {{1}}, should we keep {{2}} open for you?\n\nReply with:\n1. Schedule 1on1\n2. Send context first\n3. Not relevant now</div>
+              <div class="copy-block email"><strong>Email</strong>Subject: Should we keep this open?\n\nHi {{1}},\n\nA quick check on {{2}}.\n\nShould we keep this conversation active for you?\n\nYou can reply with one line: schedule a 1on1, send more context first, or not relevant now.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="manual">
+          <h2>Manual sales checkpoint after Day 7</h2>
+          <p>Any reply must create a sales task. If they say “schedule,” sales should message personally and book the 1on1. If they ask for context, send the Collective Story. If they say not relevant, cleanly mark the deal.</p>
+        </div>
+
+        <div class="touch" style="--i:5">
+          <div class="day">DAY 9</div>
+          <div>
+            <h2>Use social proof carefully</h2>
+            <p>Without hype: serious members take time, read context, and ask sharper questions.</p>
+            <div class="copy">
+              <div class="copy-block wa"><strong>WhatsApp</strong>The better 1on1s for {{2}} usually happen when people come in with context and real questions.\n\nIf you are still exploring, we can help you get there.</div>
+              <div class="copy-block email"><strong>Email</strong>Subject: Better questions make better 1on1s\n\nHi {{1}},\n\nThe most useful 1on1 conversations are not rushed.\n\nThey happen when someone has enough context to ask real questions about the place, the collective, and their own role in it.\n\nIf you are still exploring {{2}}, we can help structure that conversation.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="touch" style="--i:6">
+          <div class="day">DAY 11</div>
+          <div>
+            <h2>Offer the Collective Story route</h2>
+            <p>For colder leads, move them into the same Collective Story path before asking for a 1on1.</p>
+            <div class="copy">
+              <div class="copy-block wa"><strong>WhatsApp</strong>If a 1on1 feels premature, start with the Collective Story for {{2}}.\n\nIt gives the land and location context before you speak to the team.</div>
+              <div class="copy-block email"><strong>Email</strong>Subject: Start with the Collective Story\n\nHi {{1}},\n\nIf a 1on1 feels early, the better starting point is the Collective Story for {{2}}.\n\nIt gives you the ground context: location, access, surroundings, and participation structure.\n\nAfter that, you can decide if a 1on1 is worth scheduling.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="touch" style="--i:7">
+          <div class="day">DAY 14</div>
+          <div>
+            <h2>Close the loop with dignity</h2>
+            <p>Final touch. Give them a clean exit while leaving a clear 1on1 path open.</p>
+            <div class="copy">
+              <div class="copy-block wa"><strong>WhatsApp</strong>Closing the loop on {{2}}, {{1}}.\n\nIf this is still alive for you, reply “1on1” and the team will help schedule it.\n\nIf not, we will stop following up for now.</div>
+              <div class="copy-block email"><strong>Email</strong>Subject: Closing the loop on {{2}}\n\nHi {{1}},\n\nClosing the loop on your interest in {{2}}.\n\nIf this is still relevant, reply with “1on1” and the team will help schedule the conversation.\n\nIf the timing is not right, no problem. We will stop following up for now.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="content">
+        <h1 style="font-size:28px;margin:0 0 14px;">Operational Rules</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Rule</th>
+              <th>Why it matters</th>
+              <th>Sales ownership</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Never continue after a reply</td>
+              <td>Automation should not talk over a human conversation.</td>
+              <td>Rep takes over and updates Pipedrive.</td>
+            </tr>
+            <tr>
+              <td>Use both WA and email lightly</td>
+              <td>WhatsApp nudges, email explains. Neither should feel like a chase.</td>
+              <td>Rep reviews replies daily.</td>
+            </tr>
+            <tr>
+              <td>Move cold leads to Collective Story</td>
+              <td>It gives context without forcing a call too early.</td>
+              <td>Rep sends story or lets automation trigger it.</td>
+            </tr>
+            <tr>
+              <td>Mark clear exits</td>
+              <td>Cleaner CRM, better brand experience, no repeated unwanted follow-ups.</td>
+              <td>Rep marks not relevant / nurture later.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

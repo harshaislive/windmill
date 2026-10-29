@@ -1,0 +1,16 @@
+summary: Public Facebook Ads dashboard
+description: Serves the team-gated public Facebook Ads growth dashboard as a
+  self-contained HTML page.
+lock: '!inline f/facebook_ads_dashboard/serve_facebook_ads_dashboard.script.lock'
+has_preprocessor: true
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    query:
+      type: object
+      description: ''
+      default: {}
+      format: resource-record
+  required: []

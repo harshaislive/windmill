@@ -1,0 +1,16 @@
+summary: Public Beforest HO Expenses dashboard
+description: Public no-login route protected by the existing finance dashboard passcode.
+authentication_method: none
+authentication_resource_path: null
+http_method: get
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+route_path: finance/ho-expenses/dashboard
+route_path_key: finance/ho-expenses/dashboard
+script_path: f/finance/ho_expenses/serve_ho_expenses_dashboard
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

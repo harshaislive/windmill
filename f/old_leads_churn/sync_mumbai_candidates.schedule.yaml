@@ -1,0 +1,13 @@
+summary: Mumbai Sheet candidate intake, disabled
+description: Idempotent held-only intake. Keep disabled pending complete CRM and reply gates.
+args:
+  dry_run: false
+cron_version: v2
+email: harsha@beforest.co
+enabled: false
+is_flow: false
+no_flow_overlap: true
+schedule: 0 45 8 * * *
+script_path: f/old_leads_churn/sync_mumbai_candidates
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

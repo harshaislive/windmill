@@ -1,0 +1,78 @@
+{
+  "qualified_embed": {
+    "signal_type": "typeform_embed_question_reached",
+    "form_id": "CYae8hmZ",
+    "response_id": "synthetic-response-token-1",
+    "question_ref": "113a9ad4-4d43-4165-9bf7-62f82b1352ab",
+    "event_time": 1785982800,
+    "event_source_url": "https://beforest.co/the-bhopal-collective/?utm_source=meta",
+    "utm_source": "meta",
+    "utm_medium": "paid_social",
+    "utm_campaign": "synthetic-test",
+    "fbp": "fb.1.1700000000000.synthetic",
+    "fbclid": "synthetic-fbclid"
+  },
+  "non_qualified_embed": {
+    "signal_type": "typeform_embed_question_reached",
+    "form_id": "kfcjiXxR",
+    "response_id": "synthetic-response-token-2",
+    "question_ref": "not-the-qualified-question",
+    "event_time": 1785982800,
+    "event_source_url": "https://beforest.co/the-mumbai-collective/"
+  },
+  "qualified_completed": {
+    "event_id": "synthetic-completed-event-1",
+    "event_type": "form_response",
+    "form_response": {
+      "form_id": "CYae8hmZ",
+      "token": "synthetic-response-token-1",
+      "landed_at": "2026-08-06T05:00:00Z",
+      "submitted_at": "2026-08-06T05:02:00Z",
+      "hidden": {
+        "current_page": "https://beforest.co/the-bhopal-collective/",
+        "utm_source": "meta",
+        "utm_medium": "paid_social",
+        "utm_campaign": "synthetic-test",
+        "fbp": "fb.1.1700000000000.synthetic",
+        "fbclid": "synthetic-fbclid"
+      },
+      "answers": [
+        {
+          "type": "long_text",
+          "text": "Synthetic reason that is never sent to Meta.",
+          "field": {
+            "ref": "113a9ad4-4d43-4165-9bf7-62f82b1352ab",
+            "type": "long_text"
+          }
+        },
+        {
+          "type": "email",
+          "email": "synthetic@example.com",
+          "field": {
+            "ref": "74689ad2-2837-473c-a3d5-52d28f90de51",
+            "type": "email"
+          }
+        },
+        {
+          "type": "phone_number",
+          "phone_number": "+91 90000 00000",
+          "field": {
+            "ref": "1e1c9b87-0f9f-4e42-9852-f62aa18f482d",
+            "type": "phone_number"
+          }
+        }
+      ]
+    }
+  },
+  "non_qualified_completed": {
+    "event_id": "synthetic-completed-event-2",
+    "event_type": "form_response",
+    "form_response": {
+      "form_id": "kfcjiXxR",
+      "token": "synthetic-response-token-2",
+      "submitted_at": "2026-08-06T05:02:00Z",
+      "hidden": {},
+      "answers": []
+    }
+  }
+}

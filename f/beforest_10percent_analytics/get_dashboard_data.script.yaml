@@ -1,0 +1,22 @@
+summary: Get Beforest 10% Life dashboard data
+description: Combines GA4 acquisition/page metrics with Supabase deep engagement
+  and hot lead metrics.
+lock: '!inline f/beforest_10percent_analytics/get_dashboard_data.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dashboard_passcode:
+      type: string
+      description: Dashboard passcode required for public app access.
+      default: ''
+    end_date:
+      type: string
+      description: GA4 end date such as today, yesterday, or YYYY-MM-DD.
+      default: today
+    start_date:
+      type: string
+      description: GA4 start date such as 30daysAgo, 90daysAgo, or YYYY-MM-DD.
+      default: 90daysAgo
+  required: []

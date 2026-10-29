@@ -1,0 +1,9 @@
+summary: Add isolated Mumbai mail-only journal columns
+description: Additive schema migration for mail evidence. No sends, CRM writes or recipient admissions.
+kind: script
+schema:
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      default: true

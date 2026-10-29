@@ -1,0 +1,32 @@
+summary: Typeform qualified 1on1 answer signal to Meta CAPI
+description: Accepts a privacy-safe browser signal when one of the five primary
+  Beforest Typeforms reaches its existing qualified 1on1 destination question.
+  Completed responses provide an idempotent fallback. Atomic claims use the
+  managed main data table; this worker never runs Pipedrive or final-submit side
+  effects.
+lock: '!inline f/sales/handle_typeform_qualified_1on1_signal.script.lock'
+has_preprocessor: true
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    body:
+      type: object
+      description: Browser embed signal or completed Typeform webhook payload.
+      default: null
+    dry_run:
+      type: boolean
+      description: Evaluate and preview without reading credentials, state, or Meta.
+      default: false
+    request_origin:
+      type: string
+      description: HTTPS Origin header supplied by the HTTP preprocessor for browser
+        signals.
+      default: ''
+    use_test_event:
+      type: boolean
+      description: Use the encrypted Meta Test Events code for delivery verification.
+      default: false
+  required:
+    - body

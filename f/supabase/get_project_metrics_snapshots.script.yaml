@@ -1,0 +1,25 @@
+summary: Get Supabase project metrics snapshots
+description: Reads project_metrics_snapshots from Supabase REST using the anon
+  key and returns only metrics that have at least one non-empty value.
+lock: '!inline f/supabase/get_project_metrics_snapshots.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    limit:
+      type: integer
+      description: Maximum number of recent snapshot rows to return.
+      default: 60
+    project_key:
+      type: string
+      description: Supabase project to read.
+      default: 10cent
+      enum:
+        - 10cent
+        - beforest_audience
+        - experiences
+        - dropbox
+        - n8n_workflows
+        - snippets_spaces
+  required: []

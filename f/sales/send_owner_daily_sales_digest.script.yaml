@@ -1,0 +1,43 @@
+summary: 12A Worker - send scoped owner sales digest
+description: Builds a terse owner sales digest from Pipedrive deals created in
+  the latest 6 PM to 6 PM window. Vivek receives only Vivek-owned deals. Rakesh
+  receives only Rakesh-owned deals, and Sravani receives the same Rakesh-owned
+  digest. Manual runs default to dry-run so the digest can be previewed safely
+  before sending.
+lock: '!inline f/sales/send_owner_daily_sales_digest.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    dry_run:
+      type: boolean
+      description: Preview digest plans without sending WhatsApp messages.
+      default: true
+    max_deals:
+      type: integer
+      description: Maximum number of recent Pipedrive deals to scan.
+      default: 1000
+    now_iso:
+      type: string
+      description: Optional ISO timestamp override used to calculate the latest 6 PM
+        IST cutoff.
+      default: ''
+      originalType: string
+    recipient_filter:
+      type: string
+      description: "Optional recipient key for tests: vivek, rakesh, or sravani.
+        Filtering rakesh also includes Sravani's mirror copy."
+      default: ''
+      originalType: string
+    window_end_iso:
+      type: string
+      description: Optional explicit digest window end in ISO format.
+      default: ''
+      originalType: string
+    window_start_iso:
+      type: string
+      description: Optional explicit digest window start in ISO format.
+      default: ''
+      originalType: string
+  required: []

@@ -1,0 +1,55 @@
+.month-chart {
+  height: 260px;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 16px 12px 0;
+  border-bottom: 1px solid #aa9e94;
+  background: repeating-linear-gradient(to top, transparent 0, transparent 63px, #e8e1da 64px);
+}
+.month-group {
+  height: 100%;
+  flex: 1;
+  min-width: 48px;
+  display: grid;
+  grid-template-rows: 1fr 25px;
+  cursor: pointer;
+  padding: 0 5px;
+  border-bottom: 3px solid transparent;
+}
+.month-group:hover,
+.month-group.selected { background: #f7f4ef; border-bottom-color: #1f5949; }
+.month-columns { display: flex; align-items: flex-end; justify-content: center; gap: 5px; min-height: 0; }
+.month-columns i { display: block; width: min(34%, 32px); min-height: 2px; border-radius: 2px 2px 0 0; }
+.month-budget { background: #dfd2c4; }
+.month-actual { background: #1f5949; }
+.month-group > span { text-align: center; font-size: 11px; padding-top: 7px; color: #6f6259; }
+.trend-list { display: grid; gap: 17px; margin: 28px 0; }
+.trend-row { display: grid; grid-template-columns: 28px 1fr 52px; align-items: center; gap: 10px; font-size: 11px; }
+.trend-row > div { height: 8px; background: #e9e2da; }
+.trend-row i { height: 100%; display: block; background: #5f8076; }
+.trend-row strong { text-align: right; }
+.category-chart { margin-bottom: 20px; }
+.monthly-table { margin-top: 20px; }
+.monthly-table tbody tr { cursor: pointer; }
+.monthly-table tbody tr:hover,
+.monthly-table tbody tr.active-row { background: #f2f6f4; }
+.expense-table .budget-col {
+  background: #f5efe8;
+  border-left: 1px solid #d1b99f;
+  border-right: 1px solid #d1b99f;
+}
+.expense-table .actual-col {
+  background: #edf5f2;
+  border-right: 1px solid #c7dcd5;
+}
+.expense-table thead .budget-col { border-top: 4px solid #c3a487; }
+.expense-table thead .actual-col { border-top: 4px solid #1f5949; }
+.expense-table .variance-positive { color: #0f5948; font-weight: 700; }
+.expense-table .variance-negative { color: #a73325; font-weight: 700; }
+@media (max-width: 700px) {
+  .month-chart { gap: 5px; padding-left: 0; padding-right: 0; height: 220px; }
+  .month-group { min-width: 34px; padding: 0 2px; }
+  .month-columns { gap: 2px; }
+  .category-chart { padding: 16px; }
+}

@@ -1,0 +1,42 @@
+summary: Mailchimp fallback after WhatsApp delivery failure
+description: Finds Typeform leads where WhatsApp delivery failed, no inbound
+  WhatsApp was received, and no fallback email was already logged; then batches
+  them into Mailchimp campaigns by route and collective.
+lock: '!inline f/sales/send_mailchimp_fallback_after_whatsapp_failure.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    days:
+      type: integer
+      description: Lookback window for failed WhatsApp activities.
+      default: 7
+    debug_deal_id:
+      type: integer
+      description: Optional Pipedrive deal ID to inspect in dry-run/debug mode.
+      default: 0
+    dry_run:
+      type: boolean
+      description: Preview eligible leads and Mailchimp batch groups without writing
+        to Mailchimp or Pipedrive.
+      default: true
+    max_deals:
+      type: integer
+      description: Maximum recent open Pipedrive deals to scan.
+      default: 500
+    max_emails:
+      type: integer
+      description: Maximum eligible contacts to include in one scheduled run.
+      default: 100
+    retry_failed_fallbacks:
+      type: boolean
+      description: ''
+      default: false
+    send_campaigns:
+      type: boolean
+      description: If true, send the Mailchimp campaigns immediately after creating
+        the batch segment and content.
+      default: true
+  required: []
+tag: sales-webhook

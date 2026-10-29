@@ -6,23 +6,24 @@ This document explains the sales automation flow in business terms. See [02 Auto
 
 | System | Role |
 | --- | --- |
-| Typeform | Intake source for collective leads. User chooses webinar or 1on1 route. |
+| Typeform | Primary collective intake plus the Hammiyala/Poomaale post-brochure conversation-request forms. |
 | Windmill | Automation runtime and orchestrator. |
 | Pipedrive | CRM source of truth for people, deals, labels, stages, notes, and activities. |
-| Azure OpenAI | Fit/unfit classification for 1on1 requests. |
-| Google Calendar | Final calendar booking system for owner 1on1 calls. |
-| Calendly | Source of webinar booking webhooks and Vivek availability lookup. |
+| Azure OpenAI | Fit/unfit classification for 1on1 requests after deterministic fit/unfit guardrails. |
+| Google Calendar | Legacy/internal calendar-prebook tooling and calendar operations for already-booked meetings; it is not the default fit-lead path. |
+| Calendly | Vivek's live booking destination for Bhopal/Mumbai and, after the pending split deployment, Vivek-owned Hammiyala brochure leads; also a gated source for legacy webinar operations. |
 | Zoom | Webinar registration system. |
 | Interakt | WhatsApp templates, buttons, reminders, and inbound message webhooks. |
 
 ## Owner Routing
 
-| Collective | Owner | Pipedrive owner ID | 1on1 slot source | Booking calendar |
+| Collective | Owner | Pipedrive owner ID | Brochure next step | Nurture stops when |
 | --- | --- | --- | --- | --- |
-| Bhopal | Vivekanand | `22251956` | Vivek Calendly availability | `Vivekanand@beforest.co` |
-| Mumbai | Vivekanand | `22251956` | Vivek Calendly availability | `Vivekanand@beforest.co` |
-| Hammiyala | Sai Rakesh | `13490118` | Google Calendar free/busy | `sai@beforest.co` |
-| Poomaale 2.0 | Sai Rakesh | `13490118` | Google Calendar free/busy | `sai@beforest.co` |
+| Bhopal | Vivekanand | `22251956` | Vivek Calendly with `utm_campaign=bhopal` | A confident Calendly booking is synced to the open Bhopal deal |
+| Mumbai | Vivekanand | `22251956` | Vivek Calendly with `utm_campaign=mumbai` | A confident Calendly booking is synced to the open Mumbai deal |
+| Hammiyala — Vivek turn | Vivekanand | `22251956` | Vivek brochure → Calendly with `utm_campaign=hammiyala` | A confident Calendly booking is synced to the open Vivek-owned Hammiyala deal |
+| Hammiyala — Rakesh turn | Sai Rakesh | `13490118` | Rakesh brochure → post-brochure Typeform | The post-brochure Typeform is submitted |
+| Poomaale 2.0 | Sai Rakesh | `13490118` | Rakesh's post-brochure Typeform | The post-brochure Typeform is submitted |
 
 ## Route A: Typeform To Pipedrive
 
@@ -30,23 +31,30 @@ This document explains the sales automation flow in business terms. See [02 Auto
 flowchart TD
   A["Lead submits active Typeform"] --> B["Windmill 01A Typeform HTTP trigger"]
   B --> C["01B Typeform to Pipedrive intake"]
-  C --> D["Find or create Pipedrive person"]
-  D --> E["Create or update Pipedrive deal"]
-  E --> F{"Route selected in Typeform"}
-  F -->|"Webinar"| G["Set webinar stage and label 111 Scheduled Webinar Pending"]
-  F -->|"1on1"| H["Azure OpenAI fit classification"]
+  C --> D["Match existing Pipedrive deal before assigning owner"]
+  D -->|"Existing Hammiyala deal"| E["Preserve current owner"]
+  D -->|"New primary Hammiyala deal"| E2["Locked round-robin: Vivek first, then Rakesh"]
+  D -->|"Other collective"| E3["Use collective owner"]
+  E --> F
+  E2 --> F
+  E3 --> F
+  F["Create or update Pipedrive person/deal"] --> F2{"Route selected in Typeform"}
+  F2 -->|"Brochure / GIS"| G["Set Lead_In and GIS Awaiting"]
+  F2 -->|"1on1"| H["Rule guardrails, then Azure OpenAI fit classification"]
   H -->|"Fit"| I["Set label 115 1on1 TBC and Initial Event Scheduled stage"]
-  H -->|"Unfit"| J["Set Lead_In stage and webinar-awaiting label"]
-  H -->|"Azure failure or bad response"| K["Create open Beforest Admin manual-review activity"]
+  H -->|"Unfit"| J["Set Lead_In and GIS Awaiting"]
+  H -->|"Azure failure or bad response"| K["Set GIS Awaiting and create open manual-review activity"]
   G --> L["Create Beforest Admin audit activity"]
   I --> L
   J --> L
   K --> L
 ```
 
-Important rule: if Azure classification fails, Windmill does not silently prebook the 1on1. It creates a manual-review activity for Beforest Admin.
+Important rule: if Azure classification fails, Windmill does not silently schedule a 1on1. The deal follows the GIS/brochure route.
 
-## Route B: 1on1 Fit To Calendar Prebook
+Important rule: obvious greeting/filler 1on1 reasons such as `Hi` are unfit, while ready/near-ready clarification answers and specific commercial/legal/visit/booking questions are fit before Azure is called.
+
+## Route B: Current Scheduling Paths
 
 ```mermaid
 flowchart TD
@@ -54,22 +62,23 @@ flowchart TD
   B --> C["02B eligibility guard"]
   C --> D{"Eligible?"}
   D -->|"No"| E["Ignored safely"]
-  D -->|"Yes"| F["03A Calendar prebook action"]
-  F --> G{"Deal owner"}
-  G -->|"Vivekanand"| H["Read Vivek available slots from Calendly"]
-  G -->|"Sai Rakesh"| I["Read Google Calendar free/busy"]
-  H --> J{"Slot found?"}
-  I --> J
-  J -->|"Yes"| K["Create Google Calendar event in owner calendar"]
-  K --> L["Write meeting date, URL, and calendar reference to Pipedrive"]
-  L --> M["Create owner-owned open meeting activity"]
-  M --> N["Send Interakt prebooked 1on1 WhatsApp"]
-  N --> O["Create Beforest Admin audit activities"]
-  J -->|"No"| P["Label deal 105 1on1 Awaiting"]
-  P --> Q["Send lead booking-link fallback WhatsApp"]
-  Q --> R["Send owner no-slot alert if template is available"]
-  R --> S["Create Beforest Admin audit activities"]
+  D -->|"Yes"| F["02C sends team scheduling notice"]
+  F --> G["Owner touchbase check is queued for 24 hours"]
+  G --> H{"Owner response"}
+  H -->|"Yes, touched base"| I["Log confirmation and stop"]
+  H -->|"No, pending"| J["Queue next daily check, maximum 3 attempts"]
+
+  K["Bhopal/Mumbai or Vivek-owned Hammiyala lead books Vivek Calendly"] --> L["14B polls four times daily"]
+  L --> M["14A matches exact email and UTM to Vivek-owned open deal"]
+  M --> N["Write meeting datetime, URL, and calendly reference"]
+  N --> O["Create open Vivek meeting activity and done admin audit"]
+  O --> P["Stop that Vivek-path nurture"]
+
+  Q["Rakesh-owned Hammiyala or Poomaale brochure lead"] --> R["Submit Rakesh post-brochure Typeform"]
+  R --> S["Update same deal and stop nurture"]
 ```
+
+`f/sales/calendar_prebook_1on1` remains available for controlled internal/manual use, but `02B` no longer calls it for fit intake leads.
 
 ## Route C: Reschedule Button
 
@@ -94,7 +103,7 @@ flowchart TD
   A["Deal labelled 106 1on1 Pending with future meeting datetime"] --> B["06B schedule every 15 minutes"]
   B --> C["Send due 3d, 24h, or 1h WhatsApp reminder"]
   C --> D["Create done Beforest Admin activity for dedupe"]
-  E["After meeting window passes"] --> F["07B schedule every 30 minutes"]
+  E["After meeting window passes"] --> F["07B schedule every 30 minutes - currently disabled"]
   F --> G["Send owner attendance check WhatsApp"]
   G --> H["Owner clicks Attended or Not Attended"]
   H -->|"Attended"| I["05F labels 107 and moves to Event Attended stage"]
@@ -103,14 +112,12 @@ flowchart TD
   J --> K
 ```
 
-## Route E: Webinar Booking To Zoom And Reminders
+## Route E: Gated Legacy Webinar Booking To Zoom And Reminders
 
 ```mermaid
 flowchart TD
-  A["Calendly webinar booking created"] --> B["04A Calendly HTTP trigger"]
-  B --> C["04B flow waits 5 seconds for Typeform intake/deal creation"]
-  C --> D["04C webinar worker"]
-  D --> E["Find or create Pipedrive person/deal"]
+  A["Approved manual/ops Calendly payload"] --> B["04C webinar worker with feature flag enabled"]
+  B --> E["Find or create Pipedrive person/deal"]
   E --> F["Find matching Zoom webinar by collective and time"]
   F --> G["Register invitee to Zoom if not already registered"]
   G --> H["Create or update owner-owned webinar activity in Pipedrive"]
@@ -128,7 +135,7 @@ flowchart TD
 | `106` | 1on1 Pending | Lead confirmed attendance; reminder and owner-check loop |
 | `107` | 1on1 Attended | Owner marked attended |
 | `108` | 1on1 No Show | Owner marked not attended |
-| `110` | Scheduled Webinar Awaiting | Unfit/manual webinar route |
-| `111` | Scheduled Webinar Pending | Webinar booking/reminder route |
-| `115` | 1on1 TBC | 1on1 fit route and calendar prebook trigger |
+| `110` | Scheduled Webinar Awaiting | Legacy/gated webinar route |
+| `111` | Scheduled Webinar Pending | Legacy/gated webinar booking/reminder route |
+| `115` | 1on1 TBC | Fit lead awaiting team-managed scheduling |
 

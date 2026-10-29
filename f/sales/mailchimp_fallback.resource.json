@@ -1,0 +1,8 @@
+{
+  "value": {
+    "api_key": "$var:f/sales/mailchimp_fallback/api_key",
+    "server": "us14"
+  },
+  "description": "Mailchimp Marketing API credentials for Beforest sales WhatsApp-failure email fallback batches.",
+  "resource_type": "mailchimp"
+}

@@ -1,0 +1,10 @@
+summary: LinkedIn Analytics Dashboard
+data:
+  tables:
+    - main/linkedin_sync_runs
+    - main/linkedin_daily_metrics
+    - main/linkedin_post_metrics
+    - main/linkedin_follower_metrics
+    - main/linkedin_profile_growth
+    - main/linkedin_engagement_trends
+public: true

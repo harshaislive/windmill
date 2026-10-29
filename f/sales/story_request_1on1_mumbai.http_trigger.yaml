@@ -1,0 +1,16 @@
+summary: Trigger - Mumbai Collective Story 1on1 request
+description: Public GET redirect for the Mumbai StoryMap bottom CTA.
+authentication_method: none
+authentication_resource_path: null
+http_method: get
+is_flow: false
+is_static_website: false
+mode: enabled
+raw_string: false
+request_type: sync
+route_path: sales/gis/request-1on1/mumbai
+route_path_key: sales/gis/request-1on1/mumbai
+script_path: f/sales/story_request_1on1_mumbai
+static_asset_config: null
+workspaced_route: false
+wrap_body: false

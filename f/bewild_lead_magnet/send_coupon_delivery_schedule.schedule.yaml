@@ -1,0 +1,18 @@
+summary: Bewild BW10 popup WhatsApp coupon delivery
+description: Polls pending WhatsApp follow-ups created only by the Bewild BW10
+  coupon popup. The worker has a Windmill kill switch at
+  f/bewild_lead_magnet/coupon_delivery_enabled so the schedule can stay harmless
+  until the Interakt template is approved.
+args:
+  debug_followup_id: ''
+  dry_run: false
+  limit: 25
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 */5 * * * *
+script_path: f/bewild_lead_magnet/send_coupon_delivery
+timezone: Asia/Kolkata
+ws_error_handler_muted: false
