@@ -1,0 +1,15 @@
+summary: Supabase self-hosted - hourly incremental encrypted media mirror to Dropbox
+description: Copies new/changed storage objects, age-encrypted, to Dropbox /Backups/supabase/media/<bucket>/. Max 40 min per run at 3 MB/s (server killswitch). Never deletes.
+args:
+  mode: media
+  budget_seconds: 2400
+  rate_mb_s: 3
+cron_version: v2
+email: harsha@beforest.co
+enabled: true
+is_flow: false
+no_flow_overlap: true
+schedule: 0 10 * * * *
+script_path: f/supabase/backup_selfhosted
+timezone: Asia/Kolkata
+ws_error_handler_muted: false

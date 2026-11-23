@@ -107,9 +107,44 @@ describe("Typeform qualified 1on1 Meta signal", () => {
     expect(result).toEqual({
       body,
       request_origin: "https://beforest.co",
+      client_user_agent: "",
+      client_ip_address: "",
       dry_run: true,
       use_test_event: true,
     });
+  });
+
+  test("HTTP preprocessor captures the visitor user agent and first forwarded IP", async () => {
+    const result = await preprocessor({
+      kind: "http",
+      raw_string: JSON.stringify(fixture("qualified_embed")),
+      headers: {
+        Origin: "https://beforest.co",
+        "User-Agent": "Mozilla/5.0 synthetic",
+        "X-Forwarded-For": "203.0.113.7, 10.0.0.2",
+        "X-Real-Ip": "10.0.0.2",
+      },
+    });
+    expect(result.client_user_agent).toBe("Mozilla/5.0 synthetic");
+    expect(result.client_ip_address).toBe("203.0.113.7");
+  });
+
+  test("embed signal sends client UA and IP to Meta (required for website events)", async () => {
+    const result = await main(fixture("qualified_embed"), "https://beforest.co", true, false,
+      "Mozilla/5.0 synthetic", "203.0.113.7");
+    expect(result.meta_event_preview.user_data_keys).toEqual(
+      ["client_ip_address", "client_user_agent", "fbc", "fbp"].filter((k) =>
+        k.startsWith("client") || result.meta_event_preview.user_data_keys.includes(k)),
+    );
+    expect(result.meta_event_preview.user_data_keys).toContain("client_user_agent");
+    expect(result.meta_event_preview.user_data_keys).toContain("client_ip_address");
+  });
+
+  test("completed Typeform webhook never sends Typeform's server UA/IP as the visitor's", async () => {
+    const result = await main(fixture("qualified_completed"), "", true, false,
+      "Typeform-Webhooks/1.0", "198.51.100.1");
+    expect(result.meta_event_preview.user_data_keys).not.toContain("client_user_agent");
+    expect(result.meta_event_preview.user_data_keys).not.toContain("client_ip_address");
   });
 
   test("ignores an embed movement that is not the qualified destination", async () => {

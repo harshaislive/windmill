@@ -28,5 +28,13 @@ schema:
       type: boolean
       description: Use the encrypted Meta Test Events code for delivery verification.
       default: false
+    client_user_agent:
+      type: string
+      description: Visitor browser User-Agent from the HTTP preprocessor (embed signals only; required by Meta for website events).
+      default: ''
+    client_ip_address:
+      type: string
+      description: Visitor IP (first X-Forwarded-For hop) from the HTTP preprocessor (embed signals only).
+      default: ''
   required:
     - body

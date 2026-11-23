@@ -5,7 +5,7 @@
 }
 //bun.lock
 {
-  "lockfileVersion": 1,
+  "lockfileVersion": 2,
   "configVersion": 1,
   "workspaces": {
     "": {
@@ -15,6 +15,6 @@
     },
   },
   "packages": {
-    "windmill-client": ["windmill-client@1.784.0", "", {}, "sha512-5p5+bQ++FmttcOJ2RMtDne03YAHF3pabyselbxz85ZwsrQienKuZ+0vWX2UTv58szgeIx83HQZ1oh3OTtzeSzg=="],
+    "windmill-client": ["windmill-client@1.848.0", "", {}, "sha512-T2/eZLWkhspKG8Z5OdoOiql1pD3AJqfXXAltVqbMymha+Kg4e9qUZHhXDWfsLF7nJWoi7cYGbUR2/ou6wAWTkQ=="],
   }
 }

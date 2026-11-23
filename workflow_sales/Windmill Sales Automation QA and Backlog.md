@@ -739,3 +739,9 @@ Harsha authorized one email test from harish@beforest.co to harsha@beforest.co. 
 - preferred_date2026-10-14, preferred_time14:30, timezoneAsia/Kolkata; preference14October2026 2:30PMIST.
 - context.id matches exact outgoing two-recipient test wamid; flow_token matches first-call-kapso-two-test-20261013-01:918374283166:beforest_first_call_01. End-to-end test correlation verified.
 - Kapso response saved in kapso-call-preferences-readback.json. This is preferred time, not confirmed meeting booking; no calendar/Sheet/CRM updates or automatic replies performed. Continuous Kapso-to-Windmill/Sheet preference synchronization still outstanding.
+
+## 2026-11-17: Hammiyala guided page application (no Typeform)
+- New `f/sales_tracker/guide_application` (bun, tag sales-webhook, hash 36d8a9f31d78c57e) + public route `POST /api/r/guide/hammiyala/apply` (async, auth none; checks Origin = collectives.ops.beforest.co, fields, consent, honeypot, >= 20 s on page, <= 5 per IP per 10 min).
+- Saves every application in datatable `guide_applications` first, then `master_sheet_upsert` as source "Typeform", form_id `web-hammiyala-guide` (same tab, dedupe, WhatsApp #1 / Email #1, Zoho sync). Sheet failure -> alert email (variable `f/sales_tracker/guide_alert_to`, else community inbox) + replay with `replay_id`.
+- QA: preview dry runs (valid -> would_insert_new on the Hammiyala tab; too fast / no consent / honeypot rejected), datatable SQL checked with a deleted test row, wrong Origin rejected on the live route. Not yet: one real end-to-end send (needs Harsha's OK: it messages the contact and creates a Zoho lead).
+- Known gaps: jobs that re-read Typeform's API do not see these leads (lead_fit_assessment, zoho_form_fields, zoho_lead_source, funnel fill counts). Change folder: `~/Work/Sprint_bot/changes/2026-11-17_guide_application/` (`apply.sh [rollback]`, `preview.sh`).

@@ -75,6 +75,8 @@ type SignalContext = {
   attribution: Record<string, string>;
   answers: TypeformAnswer[];
   consented: boolean;
+  clientUserAgent?: string;
+  clientIpAddress?: string;
 };
 
 type Evaluation = {
@@ -131,6 +133,10 @@ const FORM_RULES: Record<string, FormRule> = {
     collective: "Hyderabad",
     qualifiedQuestionRef: "113a9ad4-4d43-4165-9bf7-62f82b1352ab",
   },
+  jfnFyUQF: {
+    collective: "Poomaale 1.0",
+    qualifiedQuestionRef: "113a9ad4-4d43-4165-9bf7-62f82b1352ab",
+  },
 };
 
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
@@ -164,12 +170,29 @@ function lowerCaseHeaders(headers: HttpEvent["headers"]): Record<string, string>
   return normalized;
 }
 
+// Meta requires client_user_agent (and strongly wants client_ip_address) for
+// action_source=website events; without them CAPI accepts the event but cannot
+// credit it to an ad. Only the browser embed request carries the visitor's own
+// UA/IP — never use them for the Typeform webhook (that is Typeform's server).
+export function clientIpFromHeaders(headers: Record<string, string>): string {
+  const candidates = [
+    ...(headers["x-forwarded-for"] || "").split(","),
+    headers["x-real-ip"] || "",
+  ].map((v) => v.trim()).filter(Boolean);
+  for (const ip of candidates) {
+    if (/^\d{1,3}(\.\d{1,3}){3}$/.test(ip) || /^[0-9a-f:]{2,39}$/i.test(ip)) return ip;
+  }
+  return "";
+}
+
 export async function preprocessor(event: HttpEvent) {
   if (!event?.kind || event.kind === "http") {
     const headers = lowerCaseHeaders(event?.headers);
     return {
       body: parseJsonBody(event?.raw_string || event?.body || {}),
       request_origin: headers.origin || "",
+      client_user_agent: safeValue(headers["user-agent"], 1024),
+      client_ip_address: clientIpFromHeaders(headers),
       dry_run: false,
       use_test_event: false,
     };
@@ -193,6 +216,8 @@ export async function preprocessor(event: HttpEvent) {
   return {
     body: directArgs.body ?? {},
     request_origin: asString(directArgs.request_origin),
+    client_user_agent: safeValue(directArgs.client_user_agent, 1024),
+    client_ip_address: asString(directArgs.client_ip_address),
     dry_run: directArgs.dry_run === true,
     use_test_event: directArgs.use_test_event === true,
   };
@@ -428,6 +453,10 @@ async function buildMetaEvent(signal: SignalContext) {
   if (signal.attribution.fbp) userData.fbp = signal.attribution.fbp;
   const fbc = deriveFbc(signal.attribution, signal.eventTime);
   if (fbc) userData.fbc = fbc;
+  if (signal.source === "embed") {
+    if (signal.clientUserAgent) userData.client_user_agent = signal.clientUserAgent;
+    if (signal.clientIpAddress) userData.client_ip_address = signal.clientIpAddress;
+  }
 
   const customData: Record<string, string> = {
     collective: signal.collective,
@@ -630,10 +659,16 @@ export async function main(
   request_origin = "",
   dry_run = false,
   use_test_event = false,
+  client_user_agent = "",
+  client_ip_address = "",
 ) {
   const incoming = unwrapBody(body);
   const evaluation = evaluate(incoming, request_origin);
   const { qualification: result, signal } = evaluation;
+  if (signal && signal.source === "embed") {
+    signal.clientUserAgent = safeValue(client_user_agent, 1024);
+    signal.clientIpAddress = asString(client_ip_address).slice(0, 64);
+  }
   if (!result.supported || !result.complete || !result.qualified || !signal) {
     return {
       status: "ignored",

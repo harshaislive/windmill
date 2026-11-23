@@ -1,0 +1,26 @@
+summary: ''
+description: ''
+lock: '!inline f/supabase/backup_selfhosted.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    budget_seconds:
+      type: integer
+      description: ''
+      default: 2400
+    keep_days:
+      type: integer
+      description: ''
+      default: 30
+    mode:
+      type: string
+      description: ''
+      default: db
+      originalType: string
+    rate_mb_s:
+      type: number
+      description: ''
+      default: 3
+  required: []
